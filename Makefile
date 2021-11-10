@@ -143,7 +143,7 @@ unittest :
 	@${PYTHON} bin/test_lesson_check.py
 
 ## * lesson-files     : show expected names of generated files for debugging
-lesson-files :
+lesson-fxiles :
 	@echo 'RMD_SRC:' ${RMD_SRC}
 	@echo 'RMD_DST:' ${RMD_DST}
 	@echo 'MARKDOWN_SRC:' ${MARKDOWN_SRC}

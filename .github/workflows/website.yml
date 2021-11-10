@@ -84,6 +84,12 @@ jobs:
             eval sudo $cmd
           done < <(Rscript -e 'cat(remotes::system_requirements("ubuntu", "20.04"), sep = "\n")')
 
+      - name: Get/Update git submodules
+        run: |
+          cd _episodes
+          git submodule add https://github.com/Southampton-RSG-Training/shell-novice.git
+          cd ..
+
       - name: Render the markdown and confirm that the site can be built
         run: make site
 

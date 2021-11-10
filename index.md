@@ -215,6 +215,7 @@ special instructions.
   attempt to provide them.
 </p>
 {% else %}
+<p>
   We are dedicated to providing a positive and accessible learning environment for all. Please
   notify the instructors in advance of the workshop if you require any accommodations or if there is
   anything we can do to make this workshop more accessible to you.
@@ -340,39 +341,11 @@ of code below the Schedule `<h2>` header below with
 
 {% if site.carpentry == "swc" %}
 {% include swc/schedule.html %}
-{% elsif site.carpentry == "dc" %}
-{% include dc/schedule.html %}
-{% elsif site.carpentry == "lc" %}
-{% include lc/schedule.html %}
-{% elsif site.carpentry == "incubator" %}
-This workshop is teaching a lesson in [The Carpentries Incubator](https://carpentries-incubator.org/).
-Please check [the lesson homepage]({{ site.incubator_lesson_site }}) for a list of lesson sections and estimated timings.
-{% endif %}
-
-{% comment %}
-Edit/replace the text above if you want to include a schedule table.
-See the contents of the _includes/custom-schedule.html file for an example of
-how one of these schedule tables is constructed.
-{% endcomment %}
-
-{% if site.pilot %}
-The lesson taught in this workshop is being piloted and a precise schedule is yet to be established. The workshop will include regular breaks. Please [contact the workshop organisers](#contact) if you would like more information about the planned schedule.
+{% elsif site.carpentry == "rsg" %}
+{% include rsg/schedule.html %}
 {% endif %}
 
 <hr/>
-
-
-{% comment %}
-SETUP
-
-Delete irrelevant sections from the setup instructions.  Each
-section is inside a 'div' without any classes to make the beginning
-and end easier to find.
-
-This is the other place where people frequently make mistakes, so
-please preview your site before committing, and make sure to run
-'tools/check' as well.
-{% endcomment %}
 
 <h2 id="setup">Setup</h2>
 
@@ -380,10 +353,8 @@ please preview your site before committing, and make sure to run
   To participate in a
   {% if site.carpentry == "swc" %}
   Software Carpentry
-  {% elsif site.carpentry == "dc" %}
-  Data Carpentry
-  {% elsif site.carpentry == "lc" %}
-  Library Carpentry
+  {% elsif site.carpentry == "rsg" %}
+  this training
   {% endif %}
   workshop,
   you will need access to software as described below.
@@ -395,33 +366,15 @@ please preview your site before committing, and make sure to run
   <a href = "{{site.swc_github}}/workshop-template/wiki/Configuration-Problems-and-Solutions">Configuration Problems and Solutions wiki page</a>.
 </p>
 
-{% comment %}
-For online workshops, the section below provides:
-- installation instructions for the Zoom client
-- recommendations for setting up Learners' workspace so they can follow along
-  the instructions and the videoconferencing
 
-If you do not use Zoom for your online workshop, edit the file
-`_includes/install_instructions/videoconferencing.html`
-to include the relevant installation instrucctions.
-{% endcomment %}
-{% if online != "false" %}
-{% include install_instructions/videoconferencing.html %}
-{% endif %}
 
 {% comment %}
 These are the installation instructions for the tools used
 during the workshop.
 {% endcomment %}
 
-{% if site.carpentry == "swc" %}
+{% if site.carpentry == "swc" %}z 
 {% include swc/setup.html %}
-{% elsif site.carpentry == "dc" %}
-{% include dc/setup.html %}
-{% elsif site.carpentry == "lc" %}
-{% include lc/setup.html %}
-{% elsif site.carpentry == "incubator" %}
-Please check the "Setup" page of
-[the lesson site]({{ site.incubator_lesson_site }}) for instructions to follow
-to obtain the software and data you will need to follow the lesson.
+{% elsif site.carpentry == "rsg" %}
+{% include rsg/setup.html %}
 {% endif %}
