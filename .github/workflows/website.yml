@@ -2,8 +2,8 @@ name: Website
 on:
   push:
     branches:
+      - rsg-dev
       - gh-pages
-      - main
   pull_request: []
 jobs:
   build-website:
