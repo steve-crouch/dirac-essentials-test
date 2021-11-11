@@ -10,7 +10,7 @@
 # rsg: Custom Lessons from the Southampton-RSG-Training git-org
 carpentry: "rsg"
 
-curriculum: ['shell-novice', 'git-novice']
+curriculum: ["shell-novice", "git-novice"]
 
 # If there is both an R and python official version of a curriculum
 # (as listed on https://software-carpentry.org/lessons/ and
