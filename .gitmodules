@@ -1,0 +1,8 @@
+[submodule "_episodes/shell-novice"]
+	path = _episodes/shell-novice
+	url = git@github.com:Southampton-RSG-Training/shell-novice.git
+	branch = gh-pages
+[submodule "_episodes/git-novice"]
+	path = _episodes/git-novice
+	url = git@github.com:Southampton-RSG-Training/git-novice.git
+	branch = gh-pages

@@ -17,7 +17,7 @@ jobs:
         shell: bash
     steps:
       - name: Set up Ruby
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7'
 
@@ -35,10 +35,11 @@ jobs:
           python3 -m pip install --upgrade pip setuptools wheel pyyaml==5.3.1 requests
 
       - name: Checkout the lesson
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
         with:
+          path: "workshop-template"
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
+          #ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Look for R-markdown files
         id: check-rmd
@@ -85,17 +86,14 @@ jobs:
           done < <(Rscript -e 'cat(remotes::system_requirements("ubuntu", "20.04"), sep = "\n")')
 
       - name: Get/Update git submodules
-        run: |
-          cd _episodes
-          git submodule add https://github.com/Southampton-RSG-Training/shell-novice.git
-          cd ..
+        run: python ./workshop-template/bin/get_submodules.py
 
       - name: Render the markdown and confirm that the site can be built
         run: make site
 
       - name: Checkout github pages
-        if: ${{ github.event_name == 'push' && steps.check-rmd.outputs.count != 0 && github.ref != 'refs/heads/gh-pages'}}
-        uses: actions/checkout@master
+        if: ${{ github.event_name == 'push' && steps.check-rmd.outputs.count != 0 && github.ref != 'refs/heads/gh-pazges'}}
+        uses: actions/checkout@v2
         with:
           ref: gh-pages
           path: gh-pages
