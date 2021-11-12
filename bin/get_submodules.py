@@ -9,11 +9,11 @@ except ImportError:
 
 os.system('pwd')
 
-with open('./workshop-template/_config.yml') as config:
+with open('_config.yml') as config:
     data = load(config, Loader=Loader)
     for episode_info in data['curriculum']:
         episode_name = data['curriculum'][episode_info].get('name', None)
         gh_branch = data['curriculum'][episode_info].get('branch', 'gh-pages')
-        command = f"git submodule add -b {gh_branch} https://github.com/Southampton-RSG-Training/{episode_name}.git ./workshop-template/_episodes/{episode_name}"
+        command = f"git submodule add -b {gh_branch} https://github.com/Southampton-RSG-Training/{episode_name}.git _episodes/{episode_name}"
         os.system(command)
 
