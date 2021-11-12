@@ -7,6 +7,8 @@ try:
 except ImportError:
     from yaml import Loader, Dumper
 
+os.system('pwd')
+
 with open('./workshop-template/_config.yml') as config:
     data = load(config, Loader=Loader)
     for episode_info in data['curriculum']:
