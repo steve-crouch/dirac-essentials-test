@@ -85,17 +85,17 @@ jobs:
             eval sudo $cmd
           done < <(Rscript -e 'cat(remotes::system_requirements("ubuntu", "20.04"), sep = "\n")')
 
-      - name: Debug
-        run: |
-          pwd
-          ls
-          ls workshop-template
-
       - name: Get/Update git submodules
-        run: python workshop-template/bin/get_submodules.py
+        run: |
+          cd workshop-template/
+          python bin/get_submodules.py
+          cd -
 
       - name: Render the markdown and confirm that the site can be built
-        run: make site
+        run: |
+          cd workshop-template/
+          make site
+          cd -
 
       - name: Checkout github pages
         if: ${{ github.event_name == 'push' && steps.check-rmd.outputs.count != 0 && github.ref != 'refs/heads/gh-pages'}}

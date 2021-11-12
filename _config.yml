@@ -13,11 +13,11 @@ carpentry: "rsg"
 # List Curriculum
 # name is required branch is optional
 curriculum:
-  episode_1:
+  - episode_1:
     name: shell-novice
     branch: gh-pages
-  episode_2:
-    name: git-novice
+  zepisode_2:
+    - name: git-novice
 
 # If there is both an R and python official version of a curriculum
 # (as listed on https://software-carpentry.org/lessons/ and
@@ -104,11 +104,13 @@ start_time: 0
 collections:
   episodes:
     shell-novice:
-      output: true
-      permalink: /:path/index.html
+      episodes:
+        output: true
+        permalink: /:path/index.html
     git-novice:
-      output: true
-      permalink: /:path/index.html
+      episodes:
+        output: true
+        permalink: /:path/index.html
   extras:
     output: true
     permalink: /:path/index.html
