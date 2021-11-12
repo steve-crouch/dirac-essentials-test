@@ -89,9 +89,10 @@ jobs:
         run: |
           pwd
           ls
+          ls workshop-template
 
       - name: Get/Update git submodules
-        run: python ./workshop-template/bin/get_submodules.py
+        run: python workshop-template/bin/get_submodules.py
 
       - name: Render the markdown and confirm that the site can be built
         run: make site
