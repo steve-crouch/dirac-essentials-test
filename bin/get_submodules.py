@@ -8,6 +8,7 @@ except ImportError:
     from yaml import Loader, Dumper
 
 os.system('pwd')
+os.system('ls')
 
 with open('_config.yml') as config:
     data = load(config, Loader=Loader)

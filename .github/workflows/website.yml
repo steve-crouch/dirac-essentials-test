@@ -85,6 +85,11 @@ jobs:
             eval sudo $cmd
           done < <(Rscript -e 'cat(remotes::system_requirements("ubuntu", "20.04"), sep = "\n")')
 
+      - name: Debug
+        run: |
+          pwd
+          ls
+
       - name: Get/Update git submodules
         run: python ./workshop-template/bin/get_submodules.py
 
@@ -92,7 +97,7 @@ jobs:
         run: make site
 
       - name: Checkout github pages
-        if: ${{ github.event_name == 'push' && steps.check-rmd.outputs.count != 0 && github.ref != 'refs/heads/gh-pazges'}}
+        if: ${{ github.event_name == 'push' && steps.check-rmd.outputs.count != 0 && github.ref != 'refs/heads/gh-pages'}}
         uses: actions/checkout@v2
         with:
           ref: gh-pages
