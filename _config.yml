@@ -23,7 +23,7 @@ collections:
     output: true
   git-novice:
     type: episode
-    label: shell-novice
+    label: git-novice
     branch: gh-pages
     episodes:
       output: true
