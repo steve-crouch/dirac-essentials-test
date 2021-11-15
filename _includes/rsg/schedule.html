@@ -2,14 +2,13 @@
 This is a custom schedule for the RSG workshops.
 {% endcomment %}
 <div class="row">
-  {% for episode in site.curriculum %}
-
+  {% for episode in site.collections %}
   <div class="col-md-6">
     {% comment %}
     answer here?
     https://talk.jekyllrb.com/t/looping-through-a-sub-collection-or-sub-directory-in-a-collection/1324/5
     {% endcomment %}
-    <h3>{{ episode }}</h3>
+    <h3>{{ episode.name }}</h3>
     <p>test</p>
   </div>
   {% else %}

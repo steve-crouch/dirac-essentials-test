@@ -130,7 +130,7 @@ install-rmd-deps:
 ## * lesson-md        : convert Rmarkdown files to markdown
 lesson-md : ${RMD_DST}
 
-_episodes/%.md: _episodes_rmd/%.Rmd install-rmd-deps
+_episodes/%.md: collections/_episodes_rmd install-rmd-deps
 	@mkdir -p _episodes
 	@bin/knit_lessons.sh $< $@
 
