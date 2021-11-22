@@ -8,7 +8,7 @@ except ImportError:
     from yaml import Loader, Dumper
 
 os.system('pwd')
-
+os.system('ls')
 os.system("rm -rf submodules")
 
 os.system("mkdir -p submodules")
