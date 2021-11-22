@@ -9,6 +9,8 @@ except ImportError:
 
 os.system('pwd')
 
+os.system("rm -rf submodules")
+
 os.system("mkdir -p submodules")
 
 with open('_data/lessons.yml') as config:
