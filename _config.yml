@@ -10,19 +10,8 @@
 # rsg: Custom Lessons from the Southampton-RSG-Training git-org
 carpentry: "rsg"
 
-# List Curriculum
-# name is required branch is optional
-
 # Specify that things in the episodes collection should be output.
 collections:
-  shell-novice:
-    type: episode
-    label: shell-novice
-    branch: gh-pages
-  git-novice:
-    type: episode
-    label: git-novice
-    branch: gh-pages
   extras:
     output: true
     permalink: /:path/index.html
@@ -138,6 +127,7 @@ exclude:
   - .vendor/
   - vendor/
   - .docker-vendor/
+  - submodules/
 
 # Turn on built-in syntax highlighting.
 highlighter: rouge

@@ -19,7 +19,7 @@ with open('_config.yml') as config:
             # Create the command to pull the subdirectory from GitHub
             episode_name = data['collections'][episode_info].get('label', None)
             gh_branch = data['collections'][episode_info].get('branch', 'gh-pages')
-            command = f"git submodule add -b {gh_branch} https://github.com/Southampton-RSG-Training/{episode_name}.git submodules/{episode_name}"
+            command = f"git submodule add --force -b {gh_branch} https://github.com/Southampton-RSG-Training/{episode_name}.git submodules/{episode_name}"
             os.system(command)
             # move required files from the subdirectories to _includes/rsg/{episode_name}/...
             # make directory
@@ -27,6 +27,6 @@ with open('_config.yml') as config:
             os.system(f"mkdir -p {dest}")
             for directory in ["_episodes", "_episodes_rmd", "fig"]:
                 os.system(f"cp -r submodules/{episode_name}/{directory} {dest}/{directory}")
-            for file in ["index.md", "setup.md"]:
+            for file in ["index.md", "setup.md", "_includes/rsg/schedule.html"]:
                 os.system(f"cp submodules/{episode_name}/{file} {dest}/{file}")
 
