@@ -29,7 +29,7 @@ with open('_data/lessons.yml') as config:
             os.system(f"mkdir -p {dest}")
             for directory in ["_episodes", "_episodes_rmd", "fig"]:
                 os.system(f"cp -r submodules/{episode_name}/{directory} {dest}/{directory}")
-            for file in ["index.md", "setup.md", "_includes/rsg/schedule.html"]:
+            for file in ["index.md", "setup.md", "_includes/rsg/schedule.html", "reference.md"]:
                 os.system(f"cp submodules/{episode_name}/{file} {dest}/{file.split('/')[-1]}")
 
             # Copy the figures from submodule into fig
