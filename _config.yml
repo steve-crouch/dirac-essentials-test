@@ -19,14 +19,10 @@ collections:
     type: episode
     label: shell-novice
     branch: gh-pages
-    relative_directory:
-    output: true
   git-novice:
     type: episode
     label: git-novice
     branch: gh-pages
-    episodes:
-      output: true
   extras:
     output: true
     permalink: /:path/index.html
@@ -83,6 +79,9 @@ repository: <USERNAME>/<PROJECT>
 # (Don't change this -- the contact address for your workshop will be set
 # in the index.md file)
 email: "team@carpentries.org"
+
+#using the new jakyll remote themes
+remote_theme: carpentries/carpentries-theme
 
 # Sites.
 amy_site: "https://amy.carpentries.org/"
