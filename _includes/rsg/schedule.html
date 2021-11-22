@@ -3,10 +3,7 @@ This is a custom schedule for the RSG workshops.
 {% endcomment %}
 <div class="row">
   {% for item in site.data.lessons.lessons %}
-  <div class="col-md-6">
     {% assign schedule = 'rsg/' | append: item.gh-name | append: '/schedule.html' %}
-    <h3>{{ item.title }}</h3>
-    <p>{% include {{ schedule }} %}</p>
-  </div>
+    {% include {{ schedule }} %}
   {% endfor %}
 </div>
