@@ -2,8 +2,8 @@ name: Website
 on:
   push:
     branches:
+      - rsg-dev
       - gh-pages
-      - main
   pull_request: []
 jobs:
   build-website:
@@ -17,7 +17,7 @@ jobs:
         shell: bash
     steps:
       - name: Set up Ruby
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7'
 
@@ -35,10 +35,11 @@ jobs:
           python3 -m pip install --upgrade pip setuptools wheel pyyaml==5.3.1 requests
 
       - name: Checkout the lesson
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
         with:
+          path: "workshop-template"
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
+          #ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Look for R-markdown files
         id: check-rmd
@@ -84,12 +85,21 @@ jobs:
             eval sudo $cmd
           done < <(Rscript -e 'cat(remotes::system_requirements("ubuntu", "20.04"), sep = "\n")')
 
+      - name: Get/Update git submodules
+        run: |
+          cd workshop-template/
+          python bin/get_submodules.py
+          cd -
+
       - name: Render the markdown and confirm that the site can be built
-        run: make site
+        run: |
+          cd workshop-template/
+          make site
+          cd -
 
       - name: Checkout github pages
         if: ${{ github.event_name == 'push' && steps.check-rmd.outputs.count != 0 && github.ref != 'refs/heads/gh-pages'}}
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
         with:
           ref: gh-pages
           path: gh-pages

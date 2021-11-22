@@ -30,7 +30,6 @@ ifeq (,$(PYTHON))
   endif
 endif
 
-
 # Controls
 .PHONY : commands clean files
 
@@ -76,6 +75,11 @@ clean :
 clean-rmd :
 	@rm -rf ${RMD_DST}
 	@rm -rf fig/rmd-*
+
+
+## * get-submodules   : pull episode submodules from github
+get-submodules :
+	@${PYTHON} bin/get_submodules.py .
 
 
 ##
@@ -126,7 +130,7 @@ install-rmd-deps:
 ## * lesson-md        : convert Rmarkdown files to markdown
 lesson-md : ${RMD_DST}
 
-_episodes/%.md: _episodes_rmd/%.Rmd install-rmd-deps
+_episodes/%.md: collections/_episodes_rmd install-rmd-deps
 	@mkdir -p _episodes
 	@bin/knit_lessons.sh $< $@
 
@@ -143,7 +147,7 @@ unittest :
 	@${PYTHON} bin/test_lesson_check.py
 
 ## * lesson-files     : show expected names of generated files for debugging
-lesson-files :
+lesson-fxiles :
 	@echo 'RMD_SRC:' ${RMD_SRC}
 	@echo 'RMD_DST:' ${RMD_DST}
 	@echo 'MARKDOWN_SRC:' ${MARKDOWN_SRC}
