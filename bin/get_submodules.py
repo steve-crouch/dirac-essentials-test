@@ -7,6 +7,8 @@ try:
 except ImportError:
     from yaml import Loader, Dumper
 
+os.system('pwd')
+
 os.system("mkdir -p submodules")
 
 with open('_data/lessons.yml') as config:
