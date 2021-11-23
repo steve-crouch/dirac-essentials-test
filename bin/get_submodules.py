@@ -34,6 +34,7 @@ with open('_data/lessons.yml') as config:
             for directory in ["_episodes", "_episodes_rmd"]:
                 dest = f"collections/{directory}/{lesson_name}"
                 os.system(f"mkdir -p {dest}")
+                print(f"cp -r submodules/{lesson_name}/{directory}/ {dest}/")
                 os.system(f"cp -r submodules/{lesson_name}/{directory}/ {dest}/")
             for file in ["reference.md"]:
                 dest = f"collections/_episodes/{lesson_name}"
