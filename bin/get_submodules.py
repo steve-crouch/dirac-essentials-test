@@ -34,14 +34,14 @@ with open('_data/lessons.yml') as config:
             for directory in ["_episodes", "_episodes_rmd"]:
                 dest = f"collections/{directory}/{lesson_name}"
                 os.system(f"mkdir -p {dest}")
-                print(f"cp -r submodules/{lesson_name}/{directory}/ {dest}/")
-                os.system(f"cp -r submodules/{lesson_name}/{directory}/ {dest}/")
+                print(f"cp -r submodules/{lesson_name}/{directory}/. {dest}/")
+                os.system(f"cp -r submodules/{lesson_name}/{directory}/. {dest}/")
             for file in ["reference.md"]:
                 dest = f"collections/_episodes/{lesson_name}"
                 os.system(f"mkdir -p {dest}")
                 os.system(f"cp submodules/{lesson_name}/{file} {dest}/{file.split('/')[-1]}")
             # Copy the figures from submodule into fig
-            os.system(f"cp -r submodules/{lesson_name}/fig/ fig/")
+            os.system(f"cp -r submodules/{lesson_name}/fig/. fig/")
             # If the lesson has assoiated slides
             try:
                 os.system(f"cp -r submodules/{lesson_name}/slides ./")
