@@ -90,12 +90,6 @@ jobs:
           python bin/get_submodules.py
           cd -
 
-      - name: Render the markdown and confirm that the site can be built
-        run: |
-          cd workshop-template/
-          make site
-          cd -
-
       - name: Commit and Push
         run: |
           # clean up gh-pages
