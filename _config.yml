@@ -12,10 +12,16 @@ carpentry: "rsg"
 
 # Specify that things in the episodes collection should be output.
 collections:
+  episodes:
+    output: true
+    permalink: /:path/index.html
   extras:
     output: true
     permalink: /:path/index.html
 collections_dir: collections
+
+include:
+  - _includes/rsg/
 
 # If there is both an R and python official version of a curriculum
 # (as listed on https://software-carpentry.org/lessons/ and
@@ -128,3 +134,8 @@ exclude:
 
 # Turn on built-in syntax highlighting.
 highlighter: rouge
+
+
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap

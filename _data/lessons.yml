@@ -5,7 +5,7 @@ lessons:
     gh-name: shell-novice
     type: episode
     branch: rsg-dev
-#  - title: Version Control with git
-#    gh-name: git-novice
-#    type: episode
-#    branch: gh-pages
+  - title: Version Control with git
+    gh-name: git-novice
+    type: episode
+    branch: gh-pages
