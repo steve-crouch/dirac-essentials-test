@@ -121,10 +121,10 @@ defaults:
     values:
       root: ..
       layout: page
-  - scope:
-      path: "fig"
-    values:
-      image: true
+#  - scope:
+#      path: "fig"
+#    values:
+#      image: true
 
 
 # Files and directories that are not to be copied.
