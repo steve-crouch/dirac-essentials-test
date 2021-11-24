@@ -41,9 +41,9 @@ with open('_data/lessons.yml') as config:
                 dest = f"collections/_episodes/{lesson_name}-lesson"
                 os.system(f"mkdir -p {dest}")
                 os.system(f"cp submodules/{lesson_name}/{file} {dest}/{file.split('/')[-1]}")
-            # Copy the figures from submodule into fig
+
             os.system(f"cp -r submodules/{lesson_name}/fig/. fig/")
-            # If the lesson has assoiated slides
+            # If the lesson has associated slides
             try:
                 os.system(f"cp -r submodules/{lesson_name}/slides ./")
             except:
