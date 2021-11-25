@@ -14,7 +14,7 @@ carpentry: "rsg"
 collections:
   episodes:
     output: true
-    permalink: /workshop-template/:name.html
+    permalink: /:name.html
   extras:
     output: true
     permalink: /:path/index.html
