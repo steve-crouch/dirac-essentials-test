@@ -14,7 +14,7 @@ carpentry: "rsg"
 collections:
   episodes:
     output: true
-    permalink: /:path-:name.html
+    permalink: /:name-:title.html
   extras:
     output: true
     permalink: /:path/index.html
