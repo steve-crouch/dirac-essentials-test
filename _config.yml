@@ -14,10 +14,10 @@ carpentry: "rsg"
 collections:
   episodes:
     output: true
-    permalink: /:name-:title.html
+    permalink: /:slug
   extras:
     output: true
-    permalink: /:path/index.html
+    permalink: /:path/index
 collections_dir: collections
 
 include:
