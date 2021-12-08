@@ -37,12 +37,11 @@ for lesson in lesson_config["lessons"]:
     with open(f"_includes/rsg/{lesson_name}-lesson/schedule.html", "r") as fp:
         schedule_html = fp.read()
     schedule_tables = pandas.read_html(schedule_html, flavor="bs4")  # reads in multiple tables, for multi-day lessons
-
     html_soup = bs(schedule_html, "html.parser")  # maybe this could be more efficient? :)
-    lesson_permalink = html_soup.find("a", href=True)["href"]
 
-    for schedule_table in schedule_tables:
+    for i, schedule_table in enumerate(schedule_tables):
         schedule_table.columns = ["time", "session"]
+        lesson_permalink = html_soup.find_all("a", href=True)[i]["href"]  # assume each table has a link to the lesson
 
         # There is some sorcery required to mangle start-time into a datetime
         # object, depending on how it is written. Examples of the different
