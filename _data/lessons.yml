@@ -2,57 +2,28 @@
 # name is required branch is optional
 lessons:
 
-# shell-novice:
-  - title: Automating Taks with the Unix Shell  # The title for the lesson (free text)
+  - title: Automating Tasks with the Unix Shell  # The title for the lesson (free text)
     gh-name: shell-novice # The name of the git-hub lesson repository for the lesson at https://github:com/Southampton-RSG-Training:
     type: episode # Currently, only 'episode' is valid this is used in bin/get_submodules.py may be extended for additional forms of content
     branch: gh-pages # Set the branch of the repository to use, useful for lesson customisation
-    date: 31 December 2019
-    times:
-      - 9:30 am
-      - 10:00 am
-      - 11:15 am
-      - 11:30 am
-      - 12:45 am
-      - 11:30 am
-    sessions:
-      - formatting issues
-      - Teaching
-      - Break
-      - Teaching
-      - Wrap up
-      - Finish
-    permalink: shell-novice-introducing-the-shell
-
+    date: 8 January 2022 # The date of the lesson
+    start-time: 2:30 pm # The start time of the lesson
 
 # Use these to add lessons
-# git-novice:
-  # - title: Version Control with git
-  #   gh-name: git-novice
-  #   type: episode
-  #   branch: gh-pages
-  #   date: 7 January 2021
-  #   times:
-  #     - 9:30 am
-  #     - 10:00 am
-  #     - 11:15 am
-  #     - 11:30 am
-  #     - 12:45 am
-  #     - 13:30 pm
-  #   sessions:
-  #     - Registration, questions, and technical help
-  #     - Teaching
-  #     - Break
-  #     - Teaching
-  #     - Wrap up
-  #     - Finish
-  #   permalink: git-novice-what-is-version-control
 
+  - title: Version Control with git
+    gh-name: git-novice
+    type: episode
+    branch: gh-pages
+    date: 9 January 2022
+    start-time: 14:30
 
 #  - title: Building Programs with Python
 #    gh-name: python-novice
 #    type: episode
 #    branch: gh-pages
+#    date: 10 January 2022
+#    start-time: 11:00 am
 
 #  - title: Data Analysis and Visualization in R
 #    gh-name: r-novice

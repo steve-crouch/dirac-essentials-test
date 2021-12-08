@@ -81,6 +81,8 @@ clean-rmd :
 get-submodules :
 	@${PYTHON} bin/get_submodules.py .
 
+get-schedules :
+	@${PYTHON} bin/get_schedules.py .
 
 ##
 ## II. Commands specific to workshop websites
