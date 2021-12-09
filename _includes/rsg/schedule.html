@@ -1,29 +1,64 @@
-{% comment %}
-This is a custom schedule for the RSG workshops.
-
 <div class="row">
-  {% for item in site.data.lessons %}
-    {% assign schedule = 'rsg/' | append: item.gh-name | append: '-lesson/schedule.html' %}
-    {% include {{ schedule }} %}
-  {% endfor %}
+ <div class="row">
+  <div class="col-md-6">
+   <a href="shell-novice-introducing-the-shell">
+    <h3>
+     Automating Tasks with the Unix Shell
+    </h3>
+   </a>
+   <h4>
+    8 January 2022
+   </h4>
+   <table class="table table-striped">
+    <tr>
+     <td>
+      10:30
+     </td>
+     <td>
+      Registration, questions, and technical help
+     </td>
+    </tr>
+    <tr>
+     <td>
+      11:00
+     </td>
+     <td>
+      Teaching
+     </td>
+    </tr>
+    <tr>
+     <td>
+      12:15
+     </td>
+     <td>
+      Break
+     </td>
+    </tr>
+    <tr>
+     <td>
+      12:30
+     </td>
+     <td>
+      Teaching
+     </td>
+    </tr>
+    <tr>
+     <td>
+      13:45
+     </td>
+     <td>
+      Wrap Up
+     </td>
+    </tr>
+    <tr>
+     <td>
+      12:30
+     </td>
+     <td>
+      Finish
+     </td>
+    </tr>
+   </table>
+  </div>
+ </div>
 </div>
-{% endcomment %}
-
-<div class="row">
-  {% for item in site.data.lessons.lessons %}
-    <div class="row">
-      <div class="col-md-6">
-        <a href="{{ item.permalink }}"><h3>{{ item.title }}</h3></a>
-        <h4>{{ item.date }}</h4>
-        <table class="table table-striped" style="text-align: left; padding: 0px;">
-          {% assign count = 0 %}
-          {% for time in item.times %}
-            <tr> <td> {{ time }} </td>     <td> {{ item.sessions[count] }} </td> </tr>
-            {% assign count = count | plus: 1 %}
-          {% endfor %}
-        </table>
-      </div>
-    </div>
-  {% endfor %}
-</div>
-
