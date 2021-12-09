@@ -1,6 +1,5 @@
 ---
 layout: workshop      # DON'T CHANGE THIS.
-title: This is a page title
 ---
 
 <h2 id="general">General Information</h2>
