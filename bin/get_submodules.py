@@ -13,7 +13,7 @@ os.system("rm -rf submodules")
 
 os.system("mkdir -p submodules")
 
-with open('_data/lessons.yml') as config:
+with open('_config.yml') as config:
     data = load(config, Loader=Loader)
     for lesson_info in data['lessons']:
         if lesson_info.get('type', None) == 'episode':

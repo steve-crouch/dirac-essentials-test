@@ -16,7 +16,7 @@ html_template = "<div class=\"row\">"  # Start of the HTML template
 
 # Read the yaml file containing the lesson configuration
 
-with open("_data/lessons.yml", "r") as f:
+with open("_config.yml", "r") as f:
     lesson_config = yaml.load(f, yaml.Loader)
 
 # Go through each lesson to get and update the schedule, depending on start time
