@@ -41,7 +41,32 @@ pilot: false
 # Most workshops don't use extra pages. More information about extra
 # pages are included in the README:
 # https://github.com/carpentries/workshop-template#creating-extra-pages
-title: "Test Workshop Title"
+title: "The Workshop Title"
+
+# Specify the location of the workshop
+venue: "FIXME"
+address: "FIXME"
+country: "FIXME"
+language: "FIXME"
+latitude: "50.909698"
+longitude: "-1.404351"
+
+# Specify the start and end date of the workshop
+humandate: "FIXME"
+humantime: "FIXME"
+startdate: FIXME
+enddate: FIXME
+
+# Specify the details of the instructors and helpers
+instructor:
+  - "Instructor 1"
+  - "Instructor 2"
+instructor-email:
+  - "instructor1@domain.com"
+  - "instructor2@domain.com"
+helper:
+  - "Helper 1"
+  - "Helper 2"
 
 #------------------------------------------------------------
 # Incubator workshop settings (only relevant for workshops teaching a lesson
@@ -142,4 +167,3 @@ highlighter: rouge
 
 plugins:
   - jekyll-sitemap
-
