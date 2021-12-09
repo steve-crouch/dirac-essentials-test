@@ -2,13 +2,82 @@
 # Values for this workshop.
 #------------------------------------------------------------
 
-# More detailed instructions are available at:
-# https://carpentries.github.io/workshop-template/customization/index.html
-
 # Which carpentry is this ("swc", or "rsg")?
 # swc: Software Carpentry, standard bash, python, git using the lessons from the Southampton-RSG-Training git-org
 # rsg: Custom Lessons from the Southampton-RSG-Training git-org
 carpentry: "rsg"
+
+# Overall title for the Workshop.
+# This variable is used to (optionally) add a title in the "jumbotron"
+# (the grey box at the top of the page), and to the extra pages.
+# Most workshops don't use extra pages. More information about extra
+# pages are included in the README:
+# https://github.com/carpentries/workshop-template#creating-extra-pages
+title: "FIXME Workshop Title"
+
+# Specify the location of the workshop
+# TODO: needs documenting a lot better
+venue: "FIXME"           # name of location
+address: "FIXME"         # address of location
+country: "FIXME"         # e.g. gb
+language: "FIXME"        # e.g. en
+latitude: "50.909698"    # latitude of location
+longitude: "-1.404351"   # longitude of location
+
+# Specify the start and end date of the workshop
+humandate: "FIXME"      # e.g. "6th August"
+humantime: "FIXME"      # e.g. "09:00-17:00"
+startdate: FIXME        # e.g. YYYY-MM-DD
+enddate: FIXME
+
+# Specify the details of the instructors and helpers
+# Can be list, or single string
+instructor:
+  - "Instructor 1"
+  - "Instructor 2"
+instructor-email:
+  - "instructor1@domain.com"
+  - "instructor2@domain.com"
+helper:
+  - "Helper 1"
+  - "Helper 2"
+
+# Details about the lessons
+lessons:
+  - title: Automating Tasks with the Unix Shell  # Lesson title
+    gh-name: shell-novice                        # Name of the GitHub repository for the lesson at https://github:com/Southampton-RSG-Training:
+    type: episode                                # Currently only 'episode' only is valid
+    branch: gh-pages                             # Set the branch of the repository to use, useful for lesson customization
+    date: 8 January 2022                         # The date of the lesson
+    start-time: 10:30 am                         # The start time of the lesson
+#  - title: Version Control with git
+#    gh-name: git-novice
+#    type: episode
+#    branch: gh-pages
+#    date: 9 January 2022
+#    start-time: 8:30 am
+#  - title: Building Programs with Python
+#    gh-name: python-novice
+#    type: episode
+#    branch: gh-pages
+#    date:
+#      - 10 January 2022
+#      - 12 January 2022
+#    start-time:
+#      - 15:00
+#      - 2:00 pm
+#  - title: Data Analysis and Visualization in R
+#    gh-name: r-novice
+#    type: episode
+#    branch: gh-pages
+#  - title: Best Practices in Data Organisation Using Spreadsheets
+#    gh-name: spreadsheets
+#    type: episode
+#    branch: gh-pages
+#  - title: Data Cleaning with OpenRefine
+#    gh-name: openrefine-data-cleaning
+#    type: episode
+#    branch: gh-pages
 
 # Specify that things in the episodes collection should be output.
 collections:
@@ -34,76 +103,6 @@ flavor: "python"
 # If the workshop will be a lesson pilot (for a new official lesson or
 # a lesson in The Carpentries Incubator), set pilot to "true".
 pilot: false
-
-# Overall title for the Workshop.
-# This variable is used to (optionally) add a title in the "jumbotron"
-# (the grey box at the top of the page), and to the extra pages.
-# Most workshops don't use extra pages. More information about extra
-# pages are included in the README:
-# https://github.com/carpentries/workshop-template#creating-extra-pages
-title: "FIXME Workshop Title"
-
-# Specify the location of the workshop
-venue: "FIXME"
-address: "FIXME"
-country: "FIXME"
-language: "FIXME"
-latitude: "50.909698"
-longitude: "-1.404351"
-
-# Specify the start and end date of the workshop
-humandate: "FIXME"
-humantime: "FIXME"
-startdate: FIXME
-enddate: FIXME
-
-# Specify the details of the instructors and helpers
-instructor:
-  - "Instructor 1"
-  - "Instructor 2"
-instructor-email:
-  - "instructor1@domain.com"
-  - "instructor2@domain.com"
-helper:
-  - "Helper 1"
-  - "Helper 2"
-
-# Details about the lessons
-lessons:
-  - title: Automating Tasks with the Unix Shell  # Lesson title
-    gh-name: shell-novice                        # Name of the GitHub repository for the lesson at https://github:com/Southampton-RSG-Training:
-    type: episode                                # Currently only 'episode' only is valid
-    branch: gh-pages                             # Set the branch of the repository to use, useful for lesson customization
-    date: 8 January 2022                         # The date of the lesson
-    start-time: 10:30 am                         # The start time of the lesson
-  - title: Version Control with git
-    gh-name: git-novice
-    type: episode
-    branch: gh-pages
-    date: 9 January 2022
-    start-time: 8:30 am
-#  - title: Building Programs with Python
-#    gh-name: python-novice
-#    type: episode
-#    branch: gh-pages
-#    date:
-#      - 10 January 2022
-#      - 12 January 2022
-#    start-time:
-#      - 15:00
-#      - 2:00 pm
-#  - title: Data Analysis and Visualization in R
-#    gh-name: r-novice
-#    type: episode
-#    branch: gh-pages
-#  - title: Best Practices in Data Organisation Using Spreadsheets
-#    gh-name: spreadsheets
-#    type: episode
-#    branch: gh-pages
-#  - title: Data Cleaning with OpenRefine
-#    gh-name: openrefine-data-cleaning
-#    type: episode
-#    branch: gh-pages
 
 #------------------------------------------------------------
 # Incubator workshop settings (only relevant for workshops teaching a lesson
@@ -137,7 +136,7 @@ repository: <USERNAME>/<PROJECT>
 # in the index.md file)
 email: "team@carpentries.org"
 
-#using the new jakyll remote themes
+# Using the new jekyll remote themes
 remote_theme: carpentries/carpentries-theme
 
 # Sites.

@@ -1,5 +1,1 @@
 
-[submodule "submodules/shell-novice"]
-	path = submodules/shell-novice
-	url = https://github.com/Southampton-RSG-Training/shell-novice.git
-	branch = gh-pages

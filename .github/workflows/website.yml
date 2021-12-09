@@ -2,25 +2,24 @@ name: Website
 on:
   push:
     branches:
-      - gh-pages
-  pull_request: []
+      - "main"
+  pull_request: null
 jobs:
   build-website:
-    if: ${{ !endsWith(github.repository, '/styles') }}
-    runs-on: ubuntu-20.04
+    # if: ${{ !endsWith(github.repository, '/styles') }}
+    runs-on: ubuntu-latest
     env:
       RSPM: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-    defaults:
-      run:
-        shell: bash
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # defaults:
+    #   run:
+    #     shell: bash
     steps:
       - name: Checkout the lesson
         uses: actions/checkout@v2
-        with:
-          path: "workshop-template"
-          fetch-depth: 0
-          #ref: ${{ github.event.pull_request.head.sha }}
+        # with:
+        #   path: build
+        #   fetch-depth: 0
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -39,7 +38,7 @@ jobs:
       - name: Install Python modules
         run: |
           python3 -m pip install --upgrade pip setuptools wheel pyyaml==5.3.1 requests
-          python3 -m pip install -r workshop-template/requirements.txt
+          python3 -m pip install -r requirements.txt
 
       - name: Look for R-markdown files
         id: check-rmd
@@ -86,29 +85,20 @@ jobs:
 
       - name: Get/Update git submodules
         run: |
-          cd workshop-template/
+          # cd build/
           python bin/get_submodules.py
-          cd -
+          # cd -
 
       - name: Create schedules
         run: |
-          cd workshop-template/
+          # cd build/
           python bin/get_schedules.py
+          # cd -
+          # ls
 
-      - name: Commit and Push
-        # if: ${{ !env.ACT }}
-        run: |
-          cd workshop-template/
-          # setup git
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add -A ./_includes/ ./collections/ ./fig/ ./slides/
-          git commit --allow-empty -m "[Github Actions] render website (via ${{ github.sha }})"
-          git push origin gh-pages
-          # return
-          cd -
-
-      # waiting for https://github.com/carpentries/styles/issues/551
-      # to be addressed
-      # - run: make lesson-check-all
-      #   if: always()
+      - name: Deploy the website, or something
+        uses: JamesIves/github-pages-deploy-action@4.1.7
+        with:
+          branch: gh-pages
+          folder: "."
+          token: ${{ secrets.GITHUB_TOKEN }}
