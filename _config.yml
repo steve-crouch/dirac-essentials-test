@@ -21,8 +21,8 @@ venue: "FIXME"           # name of location
 address: "FIXME"         # address of location
 country: "FIXME"         # e.g. gb
 language: "FIXME"        # e.g. en
-latitude: "50.909698"    # latitude of location
-longitude: "-1.404351"   # longitude of location
+latitude: "50.909698"    # latitude of location (Soton: 50.909698)
+longitude: "-1.404351"   # longitude of location (Soton: -1.404351)
 
 # Specify the start and end date of the workshop
 humandate: "FIXME"      # e.g. "6th August"

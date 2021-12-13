@@ -1,249 +1,74 @@
-[![Website](https://github.com/carpentries/workshop-template/actions/workflows/website.yml/badge.svg)](https://github.com/carpentries/workshop-template/actions/workflows/website.yml)
+## RSG Training Workshop Template
+
+##### To use this repository please use the template functionality. When you use the template give the new repository a descriptive name as it will become the url base that is provided to learners.
+
+### Setting up a workshop
+
+To configure a workshop please follow the steps below.
+
+1) Create a copy of this workshop using the GitHub (GH) templating function. Note the name of your new workshop will be the website URL so be descriptive and accurate.
+2) Using either the GH online code editor or pulling a local version edit the _config.yml file. This is the only file that needs to be modified.
+3) The fields to change are as follows:
+   1) carpentry: default 'rsg', uses the rsg templating build process.
+   2) title, venue, adress, country, lat/long: Updates the details for location.
+   3) humandate, humantime, startdate, enddate: human and machine readable dates and times to start the lesson.
+   4) instructor, instructor-email: YAML lists of instructor names and associated email addresses.
+   5) helper: Names of helpers.
+   6) **lessons: list of lessons to include in the workshop, each lesson must have.**
+      1) title: Name to give to the lesson.
+      2) gh-name*: Name of a lesson repository in the <https://github.com/Southampton-RSG-Training>  GH organisation e.g. 'git-novice'.
+      3) type: 'episode', only episode is currently valid
+      4) branch: Default: 'gh-pages', to customise one can specify another branch more details below.
+      5) date: Date lesson is to be taught, many date formats accepted (TODO: Ed list the accepted formats). For multi day lessons dates can be given as a list.
+      6) time: Time to start lesson, many time formats accepted (TODO: Ed list the accepted formats). For multi day lessons times can be given as a list.
+4) Commit (and push) changes to the 'main' branch the site is then built and published on the 'gh-pages' branch. The site build is handled by GH Actions, more details in development below.
+
+*Available lesson names are:
+
+- shell-novice <https://github.com/Southampton-RSG-Training/shell-novice>
+- git-novice <https://github.com/Southampton-RSG-Training/git-novice>
+- python-novice <https://github.com/Southampton-RSG-Training/python-novice>
+- spreadsheets <https://github.com/Southampton-RSG-Training/spreadsheets>
+- openrefine-data-cleaning <https://github.com/Southampton-RSG-Training/openrefine-data-cleaning>
+- r-novice <https://github.com/Southampton-RSG-Training/r-novice>
+- project-novice <https://github.com/Southampton-RSG-Training/project-novice>
+
+### Customising Lessons
+
+To customise a lessons content the lesson branch can be changed in the lessons' collection to reflect an alternative 
+branch of a lesson repository. You can then stage (add) and commit '_config.yml', save the push to remote until after 
+the episode branch has been created/edited as the push will then grab the changes.
+
+To make changes to the lessons clone the lesson repository and then checkout (or create) branch for the modified lesson 
+you want. **Note the gh-pages branch is the canonical branch and shouldn't be edited for lesson customisation**. To 
+modify lesson content edit the markdown in _episodes (or _episodes_rmd for courses written in R markdown). Commit and 
+push your changes to the lesson repository on the (new) branch used for the custom material. The workshop repository
+(templated from workshop-template) then needs to be updated use the following commit command to create an empty rebuild 
+push if you have not got a staged commit of '_config.yml' if you do then you only need to push to remote.
+  
+    $ git commit --allow-empty -m "rebuild lesson to (re)add lesson submodules"
+    $ git push origin main
+
+If you think the changes are a universal improvement to the base gh-pages branch please open a pull request for review.
+
+### Development Guide and Build logic
+
+To develop this template requires an understanding of: **jekyll/liquid** used in the deployment of static GitHub pages 
+sites; **GitHub Actions** and **python** used to parse the '_config.yml', clone submodules, and move/generate files; 
+**markdown** and or **Rmarkdown** used to write the lesson material; **GitHub/git (especially branches)** we use 
+branches to manage lesson version, and to separate configuration from deployment.
+
+
+The gh-pages branch of each lesson are kept in a build ready state. Development for these lessons is detailed in each 
+lesson repository. 
+The config file is used by the jekyll build and also parsed to control the GitHub Actions. Firstly, the _config.yml is 
+parsed by 'get_submodules.py' and 'get_schedules.py'. 
+'get_submodules.py' gets each of the lesson repositories and clones them as a submodule, the episode markdown files are 
+moved into collections/_episodes(_rmd)/gh-name-lesson/ then the GH Pages process (Jekyll/Liquid) is instructed to build 
+them via the config.yml as the episodes are specified in the collections as output with the slug acting as a permalink.
+'get_submodules.py' also moves the schedule and setup into _includes/rsg/gh-name-lesson/, from there the GH Pages 
+process (Jekyll/Liquid) includes the setup and schedule on the workshop's homepage.
+Finally, 'get_schedules.py' runs after 'get_submodules.py' but before the GH Pages process (Jekyll/Liquid) it uses the 
+time and date specified in config to update the schedule.
 
-# The Carpentries Workshop Template
 
-This repository is The Carpentries' ([Software Carpentry][swc-site], [Data Carpentry][dc-site], and
-[Library Carpentry][lc-site]'s) template for creating websites for workshops.
-
-1. **Please _do not fork this repository directly on GitHub._** Instead, please use GitHub's
-   "template" function following [the instructions below](#creating-a-repository) to copy this
-   `workshop-template` repository and customize it for your workshop.
-
-2. Please *do your work in your repository's `gh-pages` branch*, since that is what is
-   [automatically published as a website by GitHub][github-project-pages].
-
-3. Once you are done, please also [let us know][email] the workshop URL. If this is a self-organised
-   workshop, you should also [fill in the self-organized workshop
-   form][self-organized-workshop-form] (if you have not already done so), so we can keep track of
-   all workshops. We build the list of workshops on our websites from the data included in your
-   `index.md` page. We can only do that if you [customize][customization] that page correctly *and*
-   let us know the workshop URL.
-
-If you run into problems,
-or have ideas about how to make this process simpler,
-please [get in touch](#getting-and-giving-help).
-The pages on [customizing your website][customization],
-the [FAQ][faq],
-and the [design notes][design] have more detail on what we do and why.
-And please note:
-if you are teaching Git,
-please [create a separate repository](#setting-up-a-separate-repository-for-learners)
-for your learners to practice in.
-
-## Video Tutorial
-
-There is a [YouTube video](https://www.youtube.com/watch?v=_Ag1JiZzyUQ) that demonstrates how to
-create a workshop website.
-
-## Creating a Repository
-
-1.  Log in to GitHub.
-    (If you do not have an account, you can quickly create one for free.)
-    You must be logged in for the remaining steps to work.
-
-2.  On this page (<https://github.com/carpentries/workshop-template>),
-    click on the green "Use this template" button (top right)
-
-    ![screenshot of this repository's GitHub page with an arrow pointing to the the 'use this template' button on the top left](fig/select-github-use-template.png?raw=true)
-
-3.  Select the owner for your new repository.
-    (This will probably be you, but may instead be an organization you belong to.)
-
-4.  Choose a name for your workshop website repository.
-    This name should have the form `YYYY-MM-DD-site`,
-    e.g., `2016-12-01-oomza`,
-    where `YYYY-MM-DD` is the start date of the workshop.
-    If your workshop is held online, then the respository name should have `-online` in the end.
-    e.g., `2016-12-01-oomza-online`
-
-5.  Make sure the repository is public, leave "Include all branches" unchecked, and click
-on "Create repository from template".
-You will be redirected to your new copy of the workshop template respository.
-
-6. Your new website will be rendered at `https://your_username.github.io/YYYY-MM-DD-site`.
-For example, if your username is `gvwilson`, the website's URL will be
-`https://gvwilson.github.io/2016-12-01-oomza`.
-
-If you experience a problem, please [get in touch](#getting-and-giving-help).
-
-## Customizing Your Website (Required Steps)
-
-There are two ways of customizing your website. You can either:
-
-- edit the files directly in GitHub using your web browser
-- clone the repository on your computer and update the files locally
-
-### Updating the files on GitHub in your web browser
-
-1.  Go into your newly-created repository,
-    which will be at `https://github.com/your_username/YYYY-MM-DD-site`.
-    For example,
-    if your username is `gvwilson`,
-    the repository's URL will be `https://github.com/gvwilson/2016-12-01-oomza`.
-
-3.  Ensure you are on the gh-pages branch by clicking on the branch under the drop
-    down in the menu bar (see the note below):
-
-    ![screenshot of this repository's GitHub page showing the "Branch" dropdown menu expanded with the "gh-pages" branch selected](fig/select-gh-pages-branch.png?raw=true)
-
-3.  Edit the header of `index.md` to customize the list of instructors,
-    workshop venue, etc.
-    You can do this in the browser by clicking on it in the file view on GitHub
-    and then selecting the pencil icon in the menu bar:
-
-    ![screenshot of top menu bar for GitHub's file interface with the edit icon highlighted in the top right](fig/edit-index-file-menu-bar.png?raw=true)
-
-    Editing hints are embedded in `index.md`,
-    and full instructions are in [the customization instructions][customization].
-
-4.  Remove the notice about using the workshop template in the `index.md` file. You can safely
-    delete everything between the `{% comment %}` and `{% endcomment %}` (included) as indicated
-    below (about from line 35 to line 51):
-
-    ```jekyll
-    {% comment %} <------------ remove from this line
-    8< ============= For a workshop delete from here =============
-    For a workshop please delete the following block until the next dashed-line
-    {% endcomment %}
-
-    <div class="alert alert-danger">
-      ....
-    </div>
-
-    {% comment %}
-     8< ============================= until here ==================
-    {% endcomment %} <--------- until this line
-    ```
-
-4.  Edit `_config.yml` to customize certain site-wide variables, such as: `carpentry` (to tell your
-    participants the lesson program for your workshop), `curriculum` and `flavor` for the
-    curriculum  taught in your workshop, and `title` (overall title for all pages).
-
-    Editing hints are embedded in `_config.yml`,
-    and full instructions are in [the customization instructions][customization].
-
-5. Edit the `schedule.html` file to edit the schedule for your upcoming workshop. This file is
-   located in the `_includes` directory, make sure to choose the one from the appropriate `dc` (Data
-   Carpentry workshop), `lc` (Library Carpentry), or `swc` (Software Carpentry) subdirectory.
-
-### Working locally
-
-> Note: you don't have to do this, if you have already updated your site using the web interface.
-
-
-If you are already familiar with Git, you can clone the repository to your desktop, edit `index.md`,
-`_config.yml`, and `schedule.html` following the instruction above there, and push your changes back to the repository.
-
-```shell
-git clone https://github.com/your_username/YYYY-MM-DD-site
-```
-
-In order to view your changes once you are done editing, if you have bundler installed (see the
-[installation instructions below](#installing-software)), you can preview your site locally with:
-
-```shell
-make serve
-```
-and go to <http://0.0.0.0:4000> to preview your site.
-
-Before pushing your changes to your repository, we recommend that you also check for any potential
-issues with your site by running:
-
-```shell
-make workshop-check
-```
-
-Once you are satisfied with the edits to your site, commit and push the changes to your repository.
-A few minutes later, you can go to the GitHub Pages URL for your workshop site and preview it. In the example above, this is `https://gvwilson.github.io/2016-12-01-oomza`. [The finished
-page should look something like this](fig/completed-page.png?raw=true).
-
-
-## Optional but Recommended Steps
-
-
-### Update your repository description and link your website
-
-At the top of your repository on GitHub you'll see
-
-~~~
-No description, website, or topics provided. — Edit
-~~~
-
-Click 'Edit' and add:
-
-1.  A very brief description of your workshop in the "Description" box (e.g., "Oomza University workshop, Dec. 2016")
-
-2.  The URL for your workshop in the "Website" box (e.g., `https://gvwilson.github.io/2016-12-01-oomza`)
-
-This will help people find your website if they come to your repository's home page.
-
-### Update the content of the README file
-
-You can change the `README.md` file in your website's repository, which contains these instructions,
-so that it contains a short description of your workshop and a link to the workshop website.
-
-
-## Additional Notes
-
-**Note:**
-please do all of your work in your repository's `gh-pages` branch,
-since [GitHub automatically publishes that as a website][github-project-pages].
-
-**Note:**
-this template includes some files and directories that most workshops do not need,
-but which provide a standard place to put extra content if desired.
-See the [design notes][design] for more information about these.
-
-Further instructions are available in [the customization instructions][customization].
-This [FAQ][faq] includes a few extra tips (additions are always welcome)
-and these notes on [the background and design][design] of this template may help as well.
-
-
-## Creating Extra Pages
-
-In rare cases,
-you may want to add extra pages to your workshop website.
-You can do this by putting either Markdown or HTML pages in the website's root directory
-and styling them according to the instructions give in
-[the lesson template][lesson-example].
-
-
-## Installing Software
-
-If you want to set up Jekyll so that you can preview changes on your own machine before pushing them
-to GitHub, you must install the software described in the lesson example [setup
-instructions](https://carpentries.github.io/lesson-example/setup.html#jekyll-setup-for-lesson-development).
-
-## Setting Up a Separate Repository for Learners
-
-If you are teaching Git,
-you should create a separate repository for learners to use in that lesson.
-You should not have them use the workshop website repository because:
-
-* your workshop website repository contains many files that most learners don't need to see during
-  the lesson, and
-
-* you probably don't want to accidentally merge a damaging pull request from a novice Git user into
-  your workshop's website while you are using it to teach.
-
-You can call this repository whatever you like, and add whatever content you need to it.
-
-## Getting and Giving Help
-
-We are committed to offering a pleasant setup experience for our learners and organizers.
-If you find bugs in our instructions,
-or would like to suggest improvements,
-please [file an issue][issues]
-or [mail us][email].
-
-[email]: mailto:team@carpentries.org
-[customization]: https://carpentries.github.io/workshop-template/customization/index.html
-[dc-site]: https://datacarpentry.org
-[design]: https://carpentries.github.io/workshop-template/design/index.html
-[faq]: https://carpentries.github.io/workshop-template/faq/index.html
-[github-project-pages]: https://help.github.com/en/github/working-with-github-pages/creating-a-github-pages-site
-[issues]: https://github.com/carpentries/workshop-template/issues
-[lesson-example]: https://carpentries.github.io/lesson-example/
-[self-organized-workshop-form]: https://amy.carpentries.org/forms/self-organised/
-[swc-site]: https://software-carpentry.org
-[lc-site]: https://librarycarpentry.org
