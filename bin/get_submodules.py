@@ -10,7 +10,7 @@ except ImportError:
 os.system("rm -rf submodules")
 os.system("mkdir -p submodules")
 
-with open('_data/lessons.yml') as config:
+with open('_config.yml') as config:
     data = load(config, Loader=Loader)
     print(f"Getting submodules specified in {data['lessons']}")
     for lesson_info in data['lessons']:
