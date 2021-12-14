@@ -68,7 +68,7 @@ lessons:
 #      - 2:00 pm
 #  - title: Data Analysis and Visualization in R
 #    gh-name: r-novice
-#    type: episode
+#    type: episode_r
 #    branch: gh-pages
 #  - title: Best Practices in Data Organisation Using Spreadsheets
 #    gh-name: spreadsheets
