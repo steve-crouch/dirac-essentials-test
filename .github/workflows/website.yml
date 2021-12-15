@@ -83,20 +83,13 @@ jobs:
             eval sudo $cmd
           done < <(Rscript -e 'cat(remotes::system_requirements("ubuntu", "20.04"), sep = "\n")')
 
-      - name: Get/Update git submodules
+      - name: Run python build scripts
         run: |
-          # cd build/
           python bin/get_submodules.py
-          # cd -
-
-      - name: Create schedules
-        run: |
-          # cd build/
           python bin/get_schedules.py
-          # cd -
-          # ls
+          python bin/clean-setup-md.py
 
-      - name: Deploy the website, or something
+      - name: Deploy the website to gh-pages
         uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
           branch: gh-pages
