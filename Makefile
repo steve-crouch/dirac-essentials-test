@@ -44,7 +44,7 @@ serve : lesson-md
 	${JEKYLL} serve
 
 ## * site             : build website but do not run a server
-site : lesson-md
+site : lesson-md get-submodules get-schedules clean-setup
 	${JEKYLL} build
 
 ## * docker-serve     : use Docker to serve the site
@@ -83,6 +83,11 @@ get-submodules :
 
 get-schedules :
 	@${PYTHON} bin/get_schedules.py .
+
+
+clean-setup :
+	@${PYTHON} bin/clean-setup-md.py .
+
 
 ##
 ## II. Commands specific to workshop websites
