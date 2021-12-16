@@ -73,7 +73,7 @@ def write_overall_schedule(schedules):
         fp.write(bs(html, "html.parser").prettify())
 
 
-def write_detailed_lesson_schedule(lesson_name):
+def write_detailed_lesson_schedule(lesson_name, start_time):
     """Create a detailed lesson schedule landing page for each lesson.
 
     The schedule is based on a modifed version of syllabus.html to work better
@@ -84,32 +84,29 @@ def write_detailed_lesson_schedule(lesson_name):
     ----------
     lesson_name: str
         The name of the lesson.
+    start_time: str
+        The start time of the lesson.
     """
+    containing_directory = f"collections/_episodes/{lesson_name}-lesson"
+    for i, file in enumerate(sorted(glob.glob(f"{containing_directory}/[0-9]*.md"))):
+        filepath = Path(file)
+        new_file_name = f"{i + 1:02d}{filepath.stem.lstrip(string.digits)}.md"
+        filepath.rename(f"{containing_directory}/{new_file_name}")
+
     schedule_markdown = textwrap.dedent(f"""---
     title: Lesson Schedule
     slug: {lesson_name}-schedule
     layout: schedule
     ---
-    {{% include syllabus.html  gh-name="{lesson_name}" %}}
+    {{% include syllabus.html  name="{lesson_name}" start_time={start_time} %}}
     """)
 
-    schedule = "\n".join([line.lstrip() for line in schedule_markdown.splitlines()])
-
-    location = f"collections/_episodes/{lesson_name}-lesson"
-
-    for i, file in enumerate(sorted(glob.glob(f"{location}/[0-9]*.md"))):
-        filepath = Path(file)
-        new_file_name = f"{i + 1:02d}{filepath.stem.lstrip(string.digits)}.md"
-        filepath.rename(f"{location}/{new_file_name}")
-
-    with open(f"{location}/00-schedule.md", "w") as fp:
-        fp.write(schedule)
+    with open(f"{containing_directory}/00-schedule.md", "w") as fp:
+        fp.write("\n".join([line.lstrip() for line in schedule_markdown.splitlines()]))
 
 
 website_config = get_yaml_config()
 html_schedules = ""  # HTML string containing the tables for each schedule
-
-# Go through each lesson to get and update the schedule, depending on start time
 
 for lesson in website_config["lessons"]:
 
@@ -163,10 +160,10 @@ for lesson in website_config["lessons"]:
             title = lesson_title
 
         table = f"""
-            <div class="col-md-6">
-                <a href="{lesson_name}-schedule"><h3>{title}</h3></a>
-                <h4>{date}</h4>
-                <table class="table table-striped">
+        <div class="col-md-6">
+            <a href="{lesson_name}-schedule"><h3>{title}</h3></a>
+            <h4>{date}</h4>
+            <table class="table table-striped">
         """
 
         for time, session in zip(schedule["time"], schedule["session"]):
@@ -174,12 +171,14 @@ for lesson in website_config["lessons"]:
             table += f"<tr> <td> {actual_time.hour:02d}:{actual_time.minute:02d} </td>    <td> {session} </td> </tr>\n"
 
         table += """
-                </table>
-            </div>
+            </table>
+        </div>
         """
 
         html_schedules += table
 
-    write_detailed_lesson_schedule(lesson_name)
+    start_time = get_time_object(lesson_start[0])
+    start_time_minutes = start_time.hour * 60 + start_time.minute
+    write_detailed_lesson_schedule(lesson_name, start_time_minutes)
 
 write_overall_schedule(html_schedules)
