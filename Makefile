@@ -86,7 +86,7 @@ get-schedules :
 
 
 clean-setup :
-	@${PYTHON} bin/clean-setup-md.py .
+	@${PYTHON} bin/clean_setup_md.py .
 
 
 ##

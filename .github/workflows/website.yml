@@ -87,7 +87,7 @@ jobs:
         run: |
           python bin/get_submodules.py
           python bin/get_schedules.py
-          python bin/clean-setup-md.py
+          python bin/clean_setup_md.py
 
       - name: Deploy the website to gh-pages
         uses: JamesIves/github-pages-deploy-action@4.1.7
