@@ -12,6 +12,8 @@ import pandas
 import glob
 import textwrap
 from bs4 import BeautifulSoup as bs
+from pathlib import Path
+import string
 
 
 def get_yaml_config():
@@ -75,7 +77,8 @@ def write_detailed_lesson_schedule(lesson_name):
     """Create a detailed lesson schedule landing page for each lesson.
 
     The schedule is based on a modifed version of syllabus.html to work better
-    work the workshop format.
+    with the workshop format. This function also renames the ordering of
+    lessons, so the schedule will always be lesson 00.
 
     Parameters
     ----------
@@ -92,12 +95,14 @@ def write_detailed_lesson_schedule(lesson_name):
 
     schedule = "\n".join([line.lstrip() for line in schedule_markdown.splitlines()])
 
-    # Glob all of the markdown files
-    # Remove leading numbers from the file name
-    # Name them all from 01-introduction.md, 02-intro-to-python.md, etc
-    # Write the schedule
+    location = f"collections/_episodes/{lesson_name}-lesson"
 
-    with open(f"collections/_episodes/{lesson_name}-lesson/00-schedule.md", "w") as fp:
+    for i, file in enumerate(sorted(glob.glob(f"{location}/[0-9]*.md"))):
+        filepath = Path(file)
+        new_file_name = f"{i + 1:02d}{filepath.stem.lstrip(string.digits)}.md"
+        filepath.rename(f"{location}/{new_file_name}")
+
+    with open(f"{location}/00-schedule.md", "w") as fp:
         fp.write(schedule)
 
 
