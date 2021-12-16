@@ -9,8 +9,8 @@ start times to what is in the schedule. The schedules are written then in an
 import datetime
 import yaml
 import pandas
+import textwrap
 from bs4 import BeautifulSoup as bs
-
 
 
 def get_yaml_config():
@@ -21,7 +21,6 @@ def get_yaml_config():
     config: dict
         The configuration for the website.
     """
-
     with open("_config.yml", "r") as fp:
         config = yaml.load(fp, yaml.Loader)
 
@@ -55,7 +54,7 @@ def get_time_object(time_string):
     return time
 
 
-def write_new_schedule(html):
+def write_overall_schedule(schedules):
     """Write the new schedule to _includes/rsg/schedule.html.
 
     Parameters
@@ -63,12 +62,45 @@ def write_new_schedule(html):
     html: str
         The HTML code of the schedule.
     """
+    html = "<div class=\"row\">"
+    html += schedules
+    html += "</div>"
+
     with open("_includes/rsg/schedule.html", "w") as fp:
         fp.write(bs(html, "html.parser").prettify())
 
 
+def write_detailed_lesson_schedule(lesson_name):
+    """Create a detailed lesson schedule landing page for each lesson.
+
+    The schedule is based on a modifed version of syllabus.html to work better
+    work the workshop format.
+
+    Parameters
+    ----------
+    lesson_name: str
+        The name of the lesson.
+    """
+    schedule_markdown = textwrap.dedent(f"""---
+    title: Lesson schedule
+    slug: {lesson_name}-schedule
+    layout: page
+    ---
+    {{% include episode_navbar.html episode_navbar_title=true %}}
+    {{% include syllabus.html  gh-name="{lesson_name}" %}}
+    {{% include episode_navbar.html episode_navbar_tile=true %}}
+    """)
+
+    schedule = "\n".join([line.lstrip() for line in schedule_markdown.splitlines()])
+
+    print(schedule)
+
+    with open(f"collections/_episodes/{lesson_name}-lesson/00-schedule.md", "w") as fp:
+        fp.write(schedule)
+
+
 website_config = get_yaml_config()
-html_template = "<div class=\"row\">"  # Start of the HTML template
+html_schedules = ""  # HTML string containing the tables for each schedule
 
 # Go through each lesson to get and update the schedule, depending on start time
 
@@ -125,7 +157,7 @@ for lesson in website_config["lessons"]:
 
         table = f"""
             <div class="col-md-6">
-                <a href="{permalink}"><h3>{title}</h3></a>
+                <a href="{lesson_name}-schedule"><h3>{title}</h3></a>
                 <h4>{date}</h4>
                 <table class="table table-striped">
         """
@@ -139,6 +171,8 @@ for lesson in website_config["lessons"]:
             </div>
         """
 
-        html_template += table
+        html_schedules += table
 
-write_new_schedule(html_template + "</div>")
+    write_detailed_lesson_schedule(lesson_name)
+
+write_overall_schedule(html_schedules)
