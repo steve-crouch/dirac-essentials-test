@@ -18,9 +18,13 @@ Days are displayed if at least one episode has 'start = true'.
         {% else %}
             {% assign episode = lesson_episode %}
         {% endif %}
-        {% if episode.start %}{% assign multiday = true %}{% break %}{% endif %}
+        {% if episode.start %}
+            {% assign multiday = true %}
+            {% break %}
+        {% endif %}
     {% endfor %}
-    {% assign current = site.start_time %}
+
+    {% assign current = include.start_time %}
 
     <table class="table table-striped">
 
@@ -31,7 +35,7 @@ Days are displayed if at least one episode has 'start = true'.
                 {% assign episode = lesson_episode %}
             {% endif %}
 
-            {% unless episode.slug contains include.gh-name %}
+            {% unless episode.slug contains include.name %}
                 {% continue %}
             {% endunless %}
 
@@ -48,7 +52,7 @@ Days are displayed if at least one episode has 'start = true'.
                         <td class="col-md-7"></td>
                     </tr>
                 {% endif %}
-                {% assign current = site.start_time %} {% comment %}Re-set start time of this episode to general daily start time {% endcomment %}
+                {% assign current = include.start_time %} {% comment %}Re-set start time of this episode to general daily start time {% endcomment %}
             {% endif %}
 
             {% assign hours = current | divided_by: 60 %}
