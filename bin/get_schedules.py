@@ -82,18 +82,17 @@ def write_detailed_lesson_schedule(lesson_name):
         The name of the lesson.
     """
     schedule_markdown = textwrap.dedent(f"""---
-    title: Lesson Schedule
+    title: ""
     slug: {lesson_name}-schedule
     layout: page
     ---
     {{% include episode_navbar.html episode_navbar_title=true %}}
+    <div align="center"><h1>Lesson Schedule</h1><br></div>
     {{% include syllabus.html  gh-name="{lesson_name}" %}}
     {{% include episode_navbar.html episode_navbar_tile=true %}}
     """)
 
     schedule = "\n".join([line.lstrip() for line in schedule_markdown.splitlines()])
-
-    print(schedule)
 
     with open(f"collections/_episodes/{lesson_name}-lesson/00-schedule.md", "w") as fp:
         fp.write(schedule)
