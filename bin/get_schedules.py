@@ -82,7 +82,7 @@ def write_detailed_lesson_schedule(lesson_name):
         The name of the lesson.
     """
     schedule_markdown = textwrap.dedent(f"""---
-    title: Lesson schedule
+    title: Lesson Schedule
     slug: {lesson_name}-schedule
     layout: page
     ---
