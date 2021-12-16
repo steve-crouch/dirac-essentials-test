@@ -9,6 +9,7 @@ start times to what is in the schedule. The schedules are written then in an
 import datetime
 import yaml
 import pandas
+import glob
 import textwrap
 from bs4 import BeautifulSoup as bs
 
@@ -82,17 +83,19 @@ def write_detailed_lesson_schedule(lesson_name):
         The name of the lesson.
     """
     schedule_markdown = textwrap.dedent(f"""---
-    title: ""
+    title: Lesson Schedule
     slug: {lesson_name}-schedule
-    layout: page
+    layout: schedule
     ---
-    {{% include episode_navbar.html episode_navbar_title=true %}}
-    <div align="center"><h1>Lesson Schedule</h1><br></div>
     {{% include syllabus.html  gh-name="{lesson_name}" %}}
-    {{% include episode_navbar.html episode_navbar_tile=true %}}
     """)
 
     schedule = "\n".join([line.lstrip() for line in schedule_markdown.splitlines()])
+
+    # Glob all of the markdown files
+    # Remove leading numbers from the file name
+    # Name them all from 01-introduction.md, 02-intro-to-python.md, etc
+    # Write the schedule
 
     with open(f"collections/_episodes/{lesson_name}-lesson/00-schedule.md", "w") as fp:
         fp.write(schedule)
