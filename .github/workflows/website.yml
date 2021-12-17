@@ -49,52 +49,27 @@ jobs:
           python3 -m pip install --upgrade pip setuptools wheel pyyaml==5.3.1 requests
           python3 -m pip install -r requirements.txt
 
-      - name: Look for R-markdown files
-        id: check-rmd
+      - name: Get the submodules using python
         run: |
-          echo "::set-output name=count::$(shopt -s nullglob; files=($(find . -iname '*.Rmd')); echo ${#files[@]})"
+          python bin/get_submodules.py
 
-      - name: Set up R
-        if: steps.check-rmd.outputs.count != 0
-        uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - uses: r-lib/actions/setup-r@v1
         with:
           r-version: 'release'
 
-      - name: Cache R packages
-        if: steps.check-rmd.outputs.count != 0
-        uses: actions/cache@v1
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+      - uses: r-lib/actions/setup-renv@v2
 
-      - name: Install needed packages
-        if: steps.check-rmd.outputs.count != 0
+      - name: Render R markdown
         run: |
-          install.packages(setdiff(c('remotes', 'rprojroot', 'renv', 'desc', 'rmarkdown', 'knitr'), rownames(installed.packages())))
-        shell: Rscript {0}
-
-      - name: Query dependencies
-        if: steps.check-rmd.outputs.count != 0
-        run: |
-          source('bin/dependencies.R')
-          deps <- identify_dependencies()
-          create_description(deps)
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
-        shell: Rscript {0}
-
-      - name: Install system dependencies for R packages
-        if: steps.check-rmd.outputs.count != 0
-        run: |
-          while read -r cmd
-          do
-            eval sudo $cmd
-          done < <(Rscript -e 'cat(remotes::system_requirements("ubuntu", "20.04"), sep = "\n")')
+          RMD_PATH=$(find ./collections/_episodes_rmd -name '*.Rmd')
+          Rscript -e 'for (f in commandArgs(TRUE)) if (file.exists(f)) rmarkdown::render(f, knit_root_dir=getwd())' ${RMD_PATH[*]}
+          git add ${RMD_PATH[*]/.Rmd/.md}
+          git commit ${RMD_PATH[*]/.Rmd/.md} -m 'Re-build Rmarkdown files' || echo "No changes to commit"
 
       - name: Run python build scripts
         run: |
-          python bin/get_submodules.py
           python bin/get_schedules.py
           python bin/clean_setup_md.py
 
