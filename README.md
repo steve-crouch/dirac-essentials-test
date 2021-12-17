@@ -10,18 +10,19 @@ To configure a workshop please follow the steps below.
 2) Using either the GH online code editor or pulling a local version edit the _config.yml file. This is the only file that needs to be modified.
 3) The fields to change are as follows:
    1) carpentry: default 'rsg', uses the rsg templating build process.
-   2) title, venue, adress, country, lat/long: Updates the details for location.
-   3) humandate, humantime, startdate, enddate: human and machine readable dates and times to start the lesson.
+   2) title, venue, address, country, lat/long: Updates the details for location.
+   3) humandate, humantime, startdate, enddate: human and machine-readable dates and times to start the lesson.
    4) instructor, instructor-email: YAML lists of instructor names and associated email addresses.
    5) helper: Names of helpers.
    6) **lessons: list of lessons to include in the workshop, each lesson must have.**
       1) title: Name to give to the lesson.
       2) gh-name*: Name of a lesson repository in the <https://github.com/Southampton-RSG-Training>  GH organisation e.g. 'git-novice'.
-      3) type: choose from 'episode' for standard, 'epidose_r' for rmarkdown 
-      4) branch: Default: 'gh-pages', to customise one can specify another branch more details below.
-      5) date: Date lesson is to be taught, many date formats accepted (TODO: Ed list the accepted formats). For multi day lessons dates can be given as a list.
+      3) type: choose from 'episode' for standard, 'episode_r' for rmarkdown 
+      4) branch: Default: 'gh-pages', to customise, one can specify another branch - more details below.
+      5) date: Date lesson is to be taught, many date formats accepted (TODO: Ed list the accepted formats). For multi day lessons, dates can be given as a list e.g. see python-novice example.
       6) time: Time to start lesson, many time formats accepted (TODO: Ed list the accepted formats). For multi day lessons times can be given as a list.
-4) Commit (and push) changes to the 'main' branch the site is then built and published on the 'gh-pages' bzranch. The site build is handled by GH Actions, more details in development below.
+4) **Commit (and push) changes to the 'main'** branch the site is then built and published on the 'gh-pages' branch. The site build is handled by GH Actions, more details in development below.
+5) **Commit 
 
 *Available lesson names are:
 
