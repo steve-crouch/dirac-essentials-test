@@ -35,24 +35,39 @@ for lesson_info in data['lessons']:
         # move required files from the subdirectories to _includes/rsg/{lesson_name}/...
 
         # lesson destinations need to be appended with -lesson to avoid gh-pages naming conflicts
+
+        # Things to move to ./
+        for file in ["renv.lock", f"{lesson_name}_setup.R", "r-novice.Rproj"]:
+            command = f"cp submodules/{lesson_name}/{file} ./{file.split('/')[-1]}"
+            os.system(f"echo {command}")
+            os.system(command)
+
+
+        # Things to move to ./_includes/rsg
         # make directory
         dest = f"_includes/rsg/{lesson_name}-lesson"
         os.system(f"mkdir -p {dest}")
         for file in ["setup.md", "_includes/rsg/schedule.html"]:
-            os.system(f"cp submodules/{lesson_name}/{file} {dest}/{file.split('/')[-1]}")
+            command = f"cp submodules/{lesson_name}/{file} {dest}/{file.split('/')[-1]}"
+            os.system(f"echo {command}")
+            os.system(command)
 
+        # Things to move to ./collections/...
+        # make directory
         dest = f"collections/{directory}/{lesson_name}-lesson"
         os.system(f"mkdir -p {dest}")
-        print(f"cp -r submodules/{lesson_name}/{directory}/. {dest}/")
         os.system(f"cp -r submodules/{lesson_name}/{directory}/. {dest}/")
-        for file in ["reference.md", "setup.R", "renv.lock"]:
+        for file in ["reference.md"]:
             try:
                 dest = f"collections/{directory}/{lesson_name}-lesson"
                 os.system(f"mkdir -p {dest}")
-                os.system(f"cp submodules/{lesson_name}/{file} {dest}/{file.split('/')[-1]}")
+                command = f"cp submodules/{lesson_name}/{file} {dest}/{file.split('/')[-1]}"
+                os.system(f"echo {command}")
+                os.system(command)
             except:
                 print(f"collections/{directory}/{lesson_name}-lesson/{file}" + ": Cannot be found/moved")
 
+        # Move figures
         os.system(f"cp -r submodules/{lesson_name}/fig/. fig/")
 
 # Now need to do the same for slides, but have to do it afterwards because we
