@@ -83,6 +83,15 @@ lessons:
 #    gh-name: openrefine-data-cleaning
 #    type: episode
 #    branch: gh-pages
+#    date: 13 January 2022
+#    start-time: 15:00
+
+#  - title: Data Analysis and Visualization in R
+#    gh-name: r-novice
+#    type: episode_r
+#    branch: gh-pages
+#    date: 14 January 2022
+#    start-time: 15:00
 
 # Specify that things in the episodes collection should be output.
 collections:

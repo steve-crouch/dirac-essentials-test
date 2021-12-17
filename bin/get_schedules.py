@@ -1,110 +1,184 @@
 """Create schedule for the workshop.
 
-Reads the lessons.yml configuration file to determine the lessons, then parses
-the schedules from each lesson and adds a delta time to the start time of each
-schedule depending on the start time of the lesson. The scheduled for each
-lesson are then put into a single schedule (split by tables) and written to
-the main schedule.html file.
+Determines which lesson schedules are required by reading _config.yml. The
+schedule for each lesson is modified by a delta time to account for different
+start times to what is in the schedule. The schedules are written then in an
+(n x 2) array. This script updates _includes/rsg/schedule.html.
 """
 
 import datetime
 import yaml
 import pandas
+import glob
+import textwrap
 from bs4 import BeautifulSoup as bs
+from pathlib import Path
+import string
 
-html_template = "<div class=\"row\">"  # Start of the HTML template
 
-# Read the yaml file containing the lesson configuration
+def get_yaml_config():
+    """Open the YAML config file for the website.
 
-with open("_config.yml", "r") as f:
-    lesson_config = yaml.load(f, yaml.Loader)
+    Returns
+    -------
+    config: dict
+        The configuration for the website.
+    """
+    with open("_config.yml", "r") as fp:
+        config = yaml.load(fp, yaml.Loader)
 
-# Go through each lesson to get and update the schedule, depending on start time
+    return config
 
-for lesson in lesson_config["lessons"]:
+
+def get_time_object(time_string):
+    """Convert a string into a datetime object.
+
+    Parameters
+    ----------
+    time_string: str
+        The time string to convert.
+
+    Returns
+    -------
+    time_object: datetime.datetime
+        The converted string as a datetime object.
+    """
+    if type(time_string) is str:
+        try:
+            time = datetime.datetime.strptime(time_string, "%I:%M %p")   # start-time: 9:30 am
+        except ValueError:
+            time = datetime.datetime.strptime(time_string, "%H:%M")      # start-time: "9:30"
+    elif type(time_string) is int:
+        hours, minutes = divmod(time_string, 60)
+        time = datetime.datetime.strptime(f"{hours}:{minutes}", "%H:%M") # start-time: 9:30
+    else:
+        raise ValueError(f"start-time {time_string} is an invalid format: accept 24 hr (15:00) or 12 hr with am/pm (3:00 pm)")
+
+    return time
+
+
+def write_overall_schedule(schedules):
+    """Write the new schedule to _includes/rsg/schedule.html.
+
+    Parameters
+    ----------
+    html: str
+        The HTML code of the schedule.
+    """
+    html = "<div class=\"row\">"
+    html += schedules
+    html += "</div>"
+
+    with open("_includes/rsg/schedule.html", "w") as fp:
+        fp.write(bs(html, "html.parser").prettify())
+
+
+def write_detailed_lesson_schedule(lesson_name, start_time):
+    """Create a detailed lesson schedule landing page for each lesson.
+
+    The schedule is based on a modifed version of syllabus.html to work better
+    with the workshop format. This function also renames the ordering of
+    lessons, so the schedule will always be lesson 00.
+
+    Parameters
+    ----------
+    lesson_name: str
+        The name of the lesson.
+    start_time: str
+        The start time of the lesson.
+    """
+    containing_directory = f"collections/_episodes/{lesson_name}-lesson"
+    for i, file in enumerate(sorted(glob.glob(f"{containing_directory}/[0-9]*.md"))):
+        filepath = Path(file)
+        new_file_name = f"{i + 1:02d}{filepath.stem.lstrip(string.digits)}.md"
+        filepath.rename(f"{containing_directory}/{new_file_name}")
+
+    schedule_markdown = textwrap.dedent(f"""---
+    title: Lesson Schedule
+    slug: {lesson_name}-schedule
+    layout: schedule
+    ---
+    {{% include syllabus.html  name="{lesson_name}" start_time={start_time} %}}
+    """)
+
+    with open(f"{containing_directory}/00-schedule.md", "w") as fp:
+        fp.write("\n".join([line.lstrip() for line in schedule_markdown.splitlines()]))
+
+
+website_config = get_yaml_config()
+html_schedules = ""  # HTML string containing the tables for each schedule
+
+for lesson in website_config["lessons"]:
 
     lesson_title = lesson.get("title", None)
     lesson_name = lesson.get("gh-name", None)
     lesson_date = lesson.get("date", None)              # can be a list
-    lesson_start_time = lesson.get("start-time", None)  # can be a list
+    lesson_start = lesson.get("start-time", None)  # can be a list
 
-    if [thing for thing in (lesson_name, lesson_date, lesson_title, lesson_start_time) if thing is None]:
+    if [thing for thing in (lesson_name, lesson_date, lesson_title, lesson_start) if thing is None]:
         raise ValueError(f"gh-name, date, title, and start-time are required for each lesson")
 
-    # Get the schedule for the lesson into a panadas dataframe, and then figure
-    # stuff out
-
-    with open(f"_includes/rsg/{lesson_name}-lesson/schedule.html", "r") as fp:
-        schedule_html = fp.read()
-    schedule_tables = pandas.read_html(schedule_html, flavor="bs4")  # reads in multiple tables, for multi-day lessons
-    html_soup = bs(schedule_html, "html.parser")  # maybe this could be more efficient? :)
-
-    # Change things to a list, if they are not already so we can loop over them
+    # Since we allow multiple dates and start times per lesson, we need to be
+    # able to iterate over even single values so turn into list
 
     if type(lesson_date) is not list:
         lesson_date = [lesson_date]
-    if type(lesson_start_time) is not list:
-        lesson_start_time = [lesson_start_time]
+    if type(lesson_start) is not list:
+        lesson_start = [lesson_start]
 
-    # Loop over each schedule table, if the event is multi-day
+    # Get the schedule(s) for the lesson into a dataframe and also the html
+    # so we can search for the permalinks
 
-    for i, schedule_table in enumerate(schedule_tables):
-        schedule_table.columns = ["time", "session"]
-        lesson_permalink = html_soup.find_all("a", href=True)[i]["href"]  # assume each table has a link to the lesson
+    with open(f"_includes/rsg/{lesson_name}-lesson/schedule.html", "r") as fp:
+        schedule_html = fp.read()
 
-        this_lesson_start_time = lesson_start_time[i]
-        this_lesson_date = lesson_date[i]
+    soup = bs(schedule_html, "html.parser")
+    all_schedules = pandas.read_html(schedule_html, flavor="bs4")
 
-        # There is some sorcery required to mangle start-time into a datetime
-        # object, depending on how it is written. Examples of the different
-        # formats are inline with how we deal with them below.
+    # Loop over each schedule table, if the lesson has multiple schedules
 
-        if type(this_lesson_start_time) is str:
-            try:
-                start_time = datetime.datetime.strptime(this_lesson_start_time, "%I:%M %p")  # start-time: 9:30 am
-            except ValueError:
-                start_time = datetime.datetime.strptime(this_lesson_start_time, "%H:%M")     # start-time: "9:30"
-        elif type(this_lesson_start_time) is int:
-            hours, minutes = divmod(this_lesson_start_time, 60)
-            start_time = datetime.datetime.strptime(f"{hours}:{minutes}", "%H:%M")      # start-time: 9:30
-        else:
-            raise ValueError(f"start-time {this_lesson_start_time} for lesson \"{lesson['title']}\" is invalid format")
+    for i, schedule in enumerate(all_schedules):
 
-        # Calculate the time difference between the start time, and the start
+        schedule.columns = ["time", "session"]
+        permalink = soup.find_all("a", href=True)[i]["href"]  # assume each table has a permalink to a lesson
+        start_time = get_time_object(lesson_start[i])
+        original_start = get_time_object(schedule["time"][0])
+        date = lesson_date[i]
+
+        # Calculate the time difference between the start time and the start
         # time in the original schedule. This delta time (in minutes) is added
         # to each time in the original schedule
 
-        original_start_time = datetime.datetime.strptime(schedule_table["time"][0], "%H:%M")
-        delta_start = start_time - original_start_time
-        delta_minutes = divmod(delta_start.total_seconds(), 60)[0]
+        delta_minutes = divmod((start_time - original_start).total_seconds(), 60)[0]
 
         # Construct the schedule table for this lesson, adding delta_minutes to
         # each original entry, and add the schedule table to the html template
 
+        if len(all_schedules) > 1:
+            title = f"Day {i + 1}: {lesson_title}"
+        else:
+            title = lesson_title
+
         table = f"""
-        <div class="row">
-            <div class="col-md-6">
-                <a href="{lesson_permalink}"><h3>{lesson_title}</h3></a>
-                <h4>{this_lesson_date}</h4>
-                <table class="table table-striped">
+        <div class="col-md-6">
+            <a href="{lesson_name}-schedule"><h3>{title}</h3></a>
+            <h4>{date}</h4>
+            <table class="table table-striped">
         """
 
-        for time, session in zip(schedule_table["time"], schedule_table["session"]):
+        for time, session in zip(schedule["time"], schedule["session"]):
             actual_time = datetime.datetime.strptime(time, "%H:%M") + datetime.timedelta(minutes=delta_minutes)
             table += f"<tr> <td> {actual_time.hour:02d}:{actual_time.minute:02d} </td>    <td> {session} </td> </tr>\n"
 
         table += """
-                </table>
-            </div>
+            </table>
         </div>
         """
 
-        html_template += table
+        html_schedules += table
 
-# Finish off the template and use BeautifulSoup to write a pretty version of
-# the html file (which is not that pretty, actually)
+    start_time = get_time_object(lesson_start[0])
+    start_time_minutes = start_time.hour * 60 + start_time.minute
+    write_detailed_lesson_schedule(lesson_name, start_time_minutes)
 
-html_template += "</div>"
-pretty_table = bs(html_template, "html.parser").prettify()
-with open("_includes/rsg/schedule.html", "w") as fp:
-    fp.write(pretty_table)
+write_overall_schedule(html_schedules)
