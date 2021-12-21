@@ -53,15 +53,20 @@ jobs:
         run: |
           python bin/get_submodules.py
 
+      - name: Check for Rmd
+        id: check_files
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "./collections/_episodes_rmd"
+
       - uses: r-lib/actions/setup-pandoc@v1
 
       - uses: r-lib/actions/setup-r@v1
         with:
           r-version: 'release'
 
-      - uses: r-lib/actions/setup-renv@v2
-
       - name: Render R markdown
+        if: steps.check_files.outputs.files_exists == 'true'
         run: |
           RMD_PATH=$(find ./collections/_episodes_rmd -name '*.Rmd')
           Rscript -e 'for (f in commandArgs(TRUE)) if (file.exists(f)) rmarkdown::render(f, knit_root_dir=getwd())' ${RMD_PATH[*]}
