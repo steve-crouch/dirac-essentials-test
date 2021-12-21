@@ -1,74 +1,97 @@
-""" Parse the curriculum collection and add submodules """
+"""Parse the curriculum collection (from _config.yml) and place the content
+from each lesson into the appropriate directory structure.
+"""
 
 import os
+from enum import Enum
+import logging
 from yaml import load
 try:
     from yaml import CLoader as Loader
 except ImportError:
     from yaml import Loader
+from pathlib import Path
+from distutils.dir_util import copy_tree
+from shutil import copy2 as copy, rmtree
 
-os.system("rm -rf submodules")
-os.system("rm -rf collections")
-os.system("rm -rf slides")
+log = logging.getLogger(__name__)
+
+class LessonType(Enum):
+    """Enum for the different types of lessons.
+    """
+    markdown = "episode"
+    r_markdown = "episode_r"
+
+# Remove previously existing directories, to start fresh
+
+rmtree("submodules", ignore_errors=True)
+rmtree("collections", ignore_errors=True)
+rmtree("slides", ignore_errors=True)
+
+# Open the website config, which contains a list of the lessons we want in the
+# workshop, then create the directory "submodules" which will contain the files
+# for each lesson
 
 with open('_config.yml') as config:
-    data = load(config, Loader=Loader)
+    website_config = load(config, Loader=Loader)
+log.info(f"Getting submodules specified in {website_config['lessons']}")
+Path("submodules").mkdir(parents=True, exist_ok=True)
 
-print(f"Getting submodules specified in {data['lessons']}")
-os.system("mkdir -p submodules")
+# Now process each lesson in the list
 
-for lesson_info in data['lessons']:
+for n, lesson_info in enumerate(website_config['lessons']):
+    #
     if lesson_info.get('type', None) in ["episode", "episode_r"]:
-        if lesson_info.get('type', None) == 'episode':
+        #
+        lesson_type = LessonType(lesson_info.get("type", None))
+        if lesson_type == LessonType.markdown:
             directory = "_episodes"
-        elif lesson_info.get('type', None) == 'episode_r':
-            directory = "_episodes_rmd"
+        elif lesson_type == LessonType.r_markdown:
+            directory = "_episodes_r"
+        else:
+            raise ValueError(f"Unknown lesson type {lesson_type}")
 
         # Create the command to pull the subdirectory from GitHub
+
         lesson_name = lesson_info.get('gh-name', None)
+        if lesson_info is None:
+            raise ValueError(f"No lesson name specified for lesson {n}")
         gh_branch = lesson_info.get('branch', 'gh-pages')
-        print(f"Getting lesson with parameters:\n gh-name: {lesson_name} \n branch: {gh_branch} \n type: {directory}")
-
-        command = f"git submodule add --force -b {gh_branch} https://github.com/Southampton-RSG-Training/{lesson_name}.git submodules/{lesson_name}"
-        os.system(command)
+        log.info(f"Getting lesson with parameters:\n gh-name: {lesson_name} \n branch: {gh_branch} \n type: {lesson_type.value}")
+        os.system(f"git submodule add --force -b {gh_branch} https://github.com/Southampton-RSG-Training/{lesson_name}.git submodules/{lesson_name}")
         os.system("git submodule update --remote --merge")
-        # move required files from the subdirectories to _includes/rsg/{lesson_name}/...
 
+        # move required files from the subdirectories to _includes/rsg/{lesson_name}/...
         # lesson destinations need to be appended with -lesson to avoid gh-pages naming conflicts
 
-        # Things to move to ./
-        for file in ["renv.lock", f"{lesson_name}_setup.R", "r-novice.Rproj"]:
-            command = f"cp submodules/{lesson_name}/{file} ./{file.split('/')[-1]}"
-            os.system(f"echo {command}")
-            os.system(command)
+        # Things to move to ./ -- only for Rmd set up files
+        if lesson_type == LessonType.r_markdown:
+            for file in ["renv.lock", f"{lesson_name}_setup.R", "r-novice.Rproj"]:
+                copy(f"submodules/{lesson_name}/{file}", "./{file.split('/')[-1]}")
+                log.info(f"Copied submodules/{lesson_name}/{file} to ./")
 
-
-        # Things to move to ./_includes/rsg
-        # make directory
+        # Things to move to ./_includes/rsg -- for lesson schedules and setup
         dest = f"_includes/rsg/{lesson_name}-lesson"
-        os.system(f"mkdir -p {dest}")
+        Path(dest).mkdir(parents=True, exist_ok=True)
         for file in ["setup.md", "_includes/rsg/schedule.html"]:
-            command = f"cp submodules/{lesson_name}/{file} {dest}/{file.split('/')[-1]}"
-            os.system(f"echo {command}")
-            os.system(command)
+            copy(f"submodules/{lesson_name}/{file}", f"{dest}/{file.split('/')[-1]}")
+            log.info(f"Copied submodules/{lesson_name}/{file} to {dest}")
 
-        # Things to move to ./collections/...
-        # make directory
+        # Things to move to ./collections/... -- episodes and extras
         dest = f"collections/{directory}/{lesson_name}-lesson"
-        os.system(f"mkdir -p {dest}")
-        os.system(f"cp -r submodules/{lesson_name}/{directory}/. {dest}/")
+        Path(dest).mkdir(parents=True, exist_ok=True)
+        copy_tree(f"submodules/{lesson_name}/{directory}/", dest)
         for file in ["reference.md"]:
             try:
                 dest = f"collections/{directory}/{lesson_name}-lesson"
-                os.system(f"mkdir -p {dest}")
-                command = f"cp submodules/{lesson_name}/{file} {dest}/{file.split('/')[-1]}"
-                os.system(f"echo {command}")
-                os.system(command)
+                Path(dest).mkdir(parents=True, exist_ok=True)
+                copy(f"submodules/{lesson_name}/{file}", f"{dest}/{file.split('/')[-1]}")
+                log.info(f"Copied submodules/{lesson_name}/{file} to {dest}")
             except:
-                print(f"collections/{directory}/{lesson_name}-lesson/{file}" + ": Cannot be found/moved")
+                log.error(f"Cannot find or move submodules/{lesson_name}/{file}, but carrying on anyway")
 
         # Move figures
-        os.system(f"cp -r submodules/{lesson_name}/fig/. fig/")
+        copy_tree(f"submodules/{lesson_name}/fig", "fig/")
 
 # Now need to do the same for slides, but have to do it afterwards because we
 # need a specific version of reveal.js, so we need to avoid the git submodule
@@ -77,12 +100,17 @@ for lesson_info in data['lessons']:
 os.system("git submodule add --force https://github.com/hakimel/reveal.js.git submodules/reveal.js")
 os.system("cd submodules/reveal.js && git checkout 8a54118f43")
 
-for lesson_info in data['lessons']:
-    if lesson_info.get('type', None) in ["episode", "episode_r"]:
-        lesson_name = lesson_info.get('gh-name', None)
-        os.system(f"mkdir -p slides/{lesson_name}-lesson/")
-        os.system(f"cp -r submodules/{lesson_name}/slides/* slides/{lesson_name}-lesson/")
-        # The lesson reveal.js submodule folder is empty, so delete and copy
-        # reveal.js into the folder instead
-        os.system(f"rm -r slides/{lesson_name}-lesson/reveal.js")
-        os.system(f"cp -r submodules/reveal.js slides/{lesson_name}-lesson/")
+for n, lesson_info in enumerate(website_config['lessons']):
+    #
+    lesson_type = LessonType(lesson_info.get("type", None))
+    lesson_name = lesson_info.get('gh-name', None)
+    if lesson_info is None:
+        raise ValueError("No lesson name specified for lesson {n}")
+
+    Path(f"slides/{lesson_name}-lesson").mkdir(parents=True, exist_ok=True)
+    copy_tree(f"submodules/{lesson_name}/slides", f"slides/{lesson_name}-lesson")
+    # The lesson reveal.js folder which gets copied is empty, so delete that
+    # directory and then copy in the reveal.js submodule downloaded earlier
+    rmtree(f"slides/{lesson_name}-lesson/reveal.js", ignore_errors=True)
+    Path(f"slides/{lesson_name}-lesson/reveal.js").mkdir(parents=True, exist_ok=True)
+    copy_tree(f"submodules/reveal.js", f"slides/{lesson_name}-lesson/reveal.js")
