@@ -75,6 +75,26 @@
         {% endif %}
 	{% endif %}
 
+  {% comment %} Add navbar for workshops {% endcomment %}
+  {% if site.kind == "workshop" %}
+        <li class="dropdown">
+          {% comment %} Create the "Lessons" entry in the navbar {% endcomment %}
+          <a href="{{ relative_root_path }}/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lessons<span class="caret"></span></a>
+          {% comment %} Add each lesson into the dropdown on the navbar {% endcomment %}
+          <ul class="dropdown-menu">
+            {% for lesson in site.lessons %}
+              <li><a class=dropdown-item" href="{{ lesson.gh-name}}-schedule">{{ lesson.title }}</a></li>
+              <ul class=dropdown-submenu>
+                {% for episode in lesson.episodes %}
+                  <li><a class=dropdown-item> big nonce </a></li>
+                {% endfor %}
+
+              </ul>
+            {% endfor %}
+          </ul>
+        </li>
+  {% endif %}
+
 	{% comment %} Show extras for lessons or if this is the main workshop-template repo (where they contain documentation). {% endcomment %}
 	{% if site.kind == "lesson" %}
         <li class="dropdown">
