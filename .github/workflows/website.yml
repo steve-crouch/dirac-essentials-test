@@ -65,6 +65,8 @@ jobs:
         with:
           r-version: 'release'
 
+      - uses: r-lib/actions/setup-renv@v2
+
       - name: Render R markdown
         if: steps.check_files.outputs.files_exists == 'true'
         run: |
