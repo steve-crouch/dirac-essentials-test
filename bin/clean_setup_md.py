@@ -1,5 +1,8 @@
 """Clean up the setup.md files for better visual consistency.
 
+The point of this script is to remove the frontmatter, which messes up the page
+when the md is included. This also changes the depth of headings, as we want
+the headings in the md files to be a lower lever than in the html template.
 """
 
 import re
@@ -21,6 +24,22 @@ def get_yaml_config():
 
 
 def get_file_and_head(file, n_head=5):
+    """Get the content of the file, and the head of it.
+
+    Parameters
+    ----------
+    file: str
+        The name of the file.
+    n_head: int
+        The number of lines to be included in the head.
+
+    Returns
+    -------
+    content: str
+        The content of the file.
+    head: str
+        The head of the file.
+    """
 
     with open(file, "r") as fp:
         content = fp.read()
@@ -32,14 +51,17 @@ def get_file_and_head(file, n_head=5):
 
 website_config = get_yaml_config()
 
-
 for lesson in website_config["lessons"]:
 
     file = f"_includes/rsg/{lesson['gh-name']}-lesson/setup.md"
-    content, head = get_file_and_head(file)
+    try:
+        content, head = get_file_and_head(file)
+    except StopIteration:
+        print(f"{file} is empty, skipping clean up")
     content = content.splitlines()
 
-    # Remove the front matter --- stuff
+    # Remove all the front matter (---) stuff, which messes up the page when
+    # included in html
 
     if re.findall("---", "\n".join(head)):
         nfound = 0

@@ -47,7 +47,7 @@ for n, lesson_info in enumerate(website_config['lessons']):
         if lesson_type == LessonType.markdown:
             directory = "_episodes"
         elif lesson_type == LessonType.r_markdown:
-            directory = "_episodes_r"
+            directory = "_episodes_rmd"
         else:
             raise ValueError(f"Unknown lesson type {lesson_type}")
 

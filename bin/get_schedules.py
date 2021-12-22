@@ -14,6 +14,14 @@ import textwrap
 from bs4 import BeautifulSoup as bs
 from pathlib import Path
 import string
+from enum import Enum
+
+
+class LessonType(Enum):
+    """Enum for the different types of lessons.
+    """
+    markdown = "episode"
+    r_markdown = "episode_r"
 
 
 def get_yaml_config():
@@ -112,7 +120,8 @@ for lesson in website_config["lessons"]:
 
     lesson_title = lesson.get("title", None)
     lesson_name = lesson.get("gh-name", None)
-    lesson_date = lesson.get("date", None)              # can be a list
+    lesson_type = LessonType(lesson.get("type", None))
+    lesson_date = lesson.get("date", None)         # can be a list
     lesson_start = lesson.get("start-time", None)  # can be a list
 
     if [thing for thing in (lesson_name, lesson_date, lesson_title, lesson_start) if thing is None]:
@@ -177,8 +186,9 @@ for lesson in website_config["lessons"]:
 
         html_schedules += table
 
-    start_time = get_time_object(lesson_start[0])
-    start_time_minutes = start_time.hour * 60 + start_time.minute
-    write_detailed_lesson_schedule(lesson_name, start_time_minutes)
+    if lesson_type == LessonType.markdown:
+        start_time = get_time_object(lesson_start[0])
+        start_time_minutes = start_time.hour * 60 + start_time.minute
+        write_detailed_lesson_schedule(lesson_name, start_time_minutes)
 
 write_overall_schedule(html_schedules)
