@@ -67,7 +67,7 @@ for n, lesson_info in enumerate(website_config['lessons']):
         # Things to move to ./ -- only for Rmd set up files
         if lesson_type == LessonType.r_markdown:
             for file in ["renv.lock", f"{lesson_name}_setup.R", "r-novice.Rproj"]:
-                copy(f"submodules/{lesson_name}/{file}", "./{file.split('/')[-1]}")
+                copy(f"submodules/{lesson_name}/{file}", f"./{file.split('/')[-1]}")
                 log.info(f"Copied submodules/{lesson_name}/{file} to ./")
 
         # Things to move to ./_includes/rsg -- for lesson schedules and setup
@@ -104,13 +104,14 @@ for n, lesson_info in enumerate(website_config['lessons']):
     #
     lesson_type = LessonType(lesson_info.get("type", None))
     lesson_name = lesson_info.get('gh-name', None)
-    if lesson_info is None:
+    if lesson_name is None:
         raise ValueError("No lesson name specified for lesson {n}")
 
-    Path(f"slides/{lesson_name}-lesson").mkdir(parents=True, exist_ok=True)
-    copy_tree(f"submodules/{lesson_name}/slides", f"slides/{lesson_name}-lesson")
-    # The lesson reveal.js folder which gets copied is empty, so delete that
-    # directory and then copy in the reveal.js submodule downloaded earlier
-    rmtree(f"slides/{lesson_name}-lesson/reveal.js", ignore_errors=True)
-    Path(f"slides/{lesson_name}-lesson/reveal.js").mkdir(parents=True, exist_ok=True)
-    copy_tree(f"submodules/reveal.js", f"slides/{lesson_name}-lesson/reveal.js")
+    if Path(f"submodules/{lesson_name}/slides").is_dir():
+        Path(f"slides/{lesson_name}-lesson").mkdir(parents=True, exist_ok=True)
+        copy_tree(f"submodules/{lesson_name}/slides", f"slides/{lesson_name}-lesson")
+        # The lesson reveal.js folder which gets copied is empty, so delete that
+        # directory and then copy in the reveal.js submodule downloaded earlier
+        rmtree(f"slides/{lesson_name}-lesson/reveal.js", ignore_errors=True)
+        Path(f"slides/{lesson_name}-lesson/reveal.js").mkdir(parents=True, exist_ok=True)
+        copy_tree(f"submodules/reveal.js", f"slides/{lesson_name}-lesson/reveal.js")
