@@ -1,30 +1,30 @@
-## RSG Training Workshop Template
+# RSG Training Workshop Template
 
-##### To use this repository please use the template functionality. When you use the template give the new repository a descriptive name as it will become the url base that is provided to learners.
+**To use this repository please use the template functionality. When you use this template, please include all branches and use a descriptive name as this will become the url that is provided to learners.**
 
-### Setting up a workshop
+## Setting up a workshop
 
 To configure a workshop please follow the steps below.
 
-1) Create a copy of this workshop using the GitHub (GH) templating function. Note the name of your new workshop will be the website URL so be descriptive and accurate.
-2) Using either the GH online code editor or pulling a local version edit the _config.yml file. This is the only file that needs to be modified.
+1) Create a copy of this workshop using the GitHub (GH) templating function. Note the name of your new workshop will be the website URL, so be descriptive, concise as possible and accurate.
+2) Using either the GH online code editor or pulling a local version, edit the _config.yml file. This is the only file that needs to be modified.
 3) The fields to change are as follows:
-   1) carpentry: default 'rsg', uses the rsg templating build process.
-   2) title, venue, address, country, lat/long: Updates the details for location.
-   3) humandate, humantime, startdate, enddate: human and machine-readable dates and times to start the lesson.
-   4) instructor, instructor-email: YAML lists of instructor names and associated email addresses.
-   5) helper: Names of helpers.
-   6) **lessons: list of lessons to include in the workshop, each lesson must have.**
-      1) title: Name to give to the lesson.
-      2) gh-name*: Name of a lesson repository in the <https://github.com/Southampton-RSG-Training>  GH organisation e.g. 'git-novice'.
-      3) type: choose from 'episode' for standard, 'episode_r' for rmarkdown 
-      4) branch: Default: 'gh-pages', to customise, one can specify another branch - more details below.
-      5) date: Date lesson is to be taught, many date formats accepted (TODO: Ed list the accepted formats). For multi day lessons, dates can be given as a list e.g. see python-novice example.
-      6) time: Time to start lesson, many time formats accepted (TODO: Ed list the accepted formats). For multi day lessons times can be given as a list.
-4) **Commit (and push) changes to the 'main'** branch the site is then built and published on the 'gh-pages' branch. The site build is handled by GH Actions, more details in development below.
-5) **Commit 
+   - carpentry: default 'rsg', uses the rsg templating build process.
+   - title: the title of the workshop.
+   - venue, address, country, lat/long: updates the details for the workshop location. You can use, e.g., Google Maps or https://www.latlong.net/convert-address-to-lat-long.html to find the latitude and longitude of the venue.
+   - humandate, humantime, startdate, enddate: human- and machine-readable dates and times, respectively, for the start and end of the workshop. Machine readable dates should be in YYYY-MM-DD format. The human-readable dates are free form.
+   - instructor, instructor-email: YAML lists of instructor names and associated email addresses.
+   - helper: YAML list of the names of the helpers.
+   - **lessons: a YAML list of the lessons to include in the workshop. Each lesson must have:**
+      - title: the name of the lesson.
+      - gh-name*: the name of a lesson repository in the <https://github.com/Southampton-RSG-Training> GH organisation e.g. 'git-novice'.
+      - type: choose from either 'episode' for standard markdown lessons or 'episode_r' for R markdown.
+      - date: the date the lesson is to be taught. Many date formats accepted, more information can be found [here](https://dateutil.readthedocs.io/en/stable/parser.html) about accepted formats. If a date format is not accepted, then the build process will abort. For multi-day lessons, multiple dates can specified in a YAML list.
+      - time: the time to start the lesson, both 12 hour and 24 hour timestamps are accepted. For multi-day lessons, multiple start times must also be specified in a YAML list.
+      - branch: the git branch to generate lessons from. To customise a lesson, one can specify another branch - more details below. The default choice is 'gh-pages'.
+4) **Commit (and push) changes to the 'main' branch**. The site is built, and published to the 'gh-pages' branch. The site build is handled by GH Actions, more details in development below.
 
-*Available lesson names are:
+The currently available lessons are:
 
 - shell-novice <https://github.com/Southampton-RSG-Training/shell-novice>
 - git-novice <https://github.com/Southampton-RSG-Training/git-novice>
@@ -34,42 +34,36 @@ To configure a workshop please follow the steps below.
 - r-novice <https://github.com/Southampton-RSG-Training/r-novice>
 - project-novice <https://github.com/Southampton-RSG-Training/project-novice>
 
-### Customising Lessons
+## Customising Lessons
 
-To customise a lessons content the lesson branch can be changed in the lessons' collection to reflect an alternative 
-branch of a lesson repository. You can then stage (add) and commit '_config.yml', save the push to remote until after 
-the episode branch has been created/edited as the push will then grab the changes.
+To customise a lesson's content, the lesson branch can be changed to use an alternative branch of the lesson repository. You can then stage (add) and commit '_config.yml'. But remember to not push to remote until after the episode branch has been created/edited, as the push will only then grab the changes. It is also possible to force a re-build of the workshop, if you do this in the wrong order.
 
-To make changes to the lessons clone the lesson repository and then checkout (or create) branch for the modified lesson 
-you want. **Note the gh-pages branch is the canonical branch and shouldn't be edited for lesson customisation**. To 
-modify lesson content edit the markdown in _episodes (or _episodes_rmd for courses written in R markdown). Commit and 
-push your changes to the lesson repository on the (new) branch used for the custom material. The workshop repository
-(templated from workshop-template) then needs to be updated use the following commit command to create an empty rebuild 
-push if you have not got a staged commit of '_config.yml' if you do then you only need to push to remote.
-  
-    $ git commit --allow-empty -m "rebuild lesson to (re)add lesson submodules"
-    $ git push origin main
+```bash
+$ git commit --allow-empty -m "rebuild lesson to (re)add lesson submodules"
+$ git push origin main
+```
 
-If you think the changes are a universal improvement to the base gh-pages branch please open a pull request for review.
+To make changes to the lessons, clone the lesson repository and then checkout (or create) branch for the modified lesson
+you want. **Note that the gh-pages branch is the canonical branch and should not be edited for lesson customisation**. To
+modify the lesson content, edit the markdown in `_episodes` (or `_episodes_rmd` for courses written in R markdown). Commit and
+push the changes to the lesson repository on the (new) branch.
 
-### Development Guide and Build logic
+If you think the changes are a universal improvement to the base gh-pages branch, please open a pull request for review.
 
-To develop this template requires an understanding of: **jekyll/liquid** used in the deployment of static GitHub pages 
-sites; **GitHub Actions** and **python** used to parse the '_config.yml', clone submodules, and move/generate files; 
-**markdown** and or **Rmarkdown** used to write the lesson material; **GitHub/git (especially branches)** we use 
-branches to manage lesson version, and to separate configuration from deployment.
+## Development and Build Logic
 
+To develop this template requires an understanding of:
 
-The gh-pages branch of each lesson are kept in a build ready state. Development for these lessons is detailed in each 
-lesson repository. 
-The config file is used by the jekyll build and also parsed to control the GitHub Actions. Firstly, the _config.yml is 
-parsed by 'get_submodules.py' and 'get_schedules.py'. 
-'get_submodules.py' gets each of the lesson repositories and clones them as a submodule, the episode markdown files are 
-moved into collections/_episodes(_rmd)/gh-name-lesson/ then the GH Pages process (Jekyll/Liquid) is instructed to build 
-them via the config.yml as the episodes are specified in the collections as output with the slug acting as a permalink.
-'get_submodules.py' also moves the schedule and setup into _includes/rsg/gh-name-lesson/, from there the GH Pages 
-process (Jekyll/Liquid) includes the setup and schedule on the workshop's homepage.
-Finally, 'get_schedules.py' runs after 'get_submodules.py' but before the GH Pages process (Jekyll/Liquid) it uses the 
-time and date specified in config to update the schedule.
+1) **Jekyll** and **Liquid templating** are used in the deployment of static GitHub pages sites.
+2) **GitHub Actions** and **python** are used to parse the `_config.yml`, clone submodules, and move/generate files to customise the workshop.
+3) **Markdown** and/or **Rmarkdown** used to write the lesson material.
+4)  **GitHub/git (especially branches)** to manage lesson version, and to separate configuration from deployment.
 
 
+The gh-pages branch of each lesson are kept in a build ready state. Development for these lessons is detailed in each
+lesson repository. The config file is used by the jekyll build and also parsed to control the GitHub Actions.
+
+Firstly, the _config.yml is parsed by `bin/get_submodules.py` and `bin/get_schedules.py`. `get_submodules.py` gets each of the lesson repositories and clones them as a submodules. The episode markdown files are
+moved into `collections/_episodes(_rmd)/gh-name-lesson/`, and the various includes and slide files are moved into their appropriate locations. Next, `get_schedules.py` parses _config.yml, and generates the top-level and detailed lesson schedules. Following on, `bin/clean_setup_md.py` is used to stitch together the various setup files into a single markdown file.
+
+Then the GH Pages process (Jekyll/Liquid) is instructed to build the site, where each lesson slug (in a Markdown file) are the permalink for that lesson. The final hosted webpage is stored in the `gh-pages` branch.
