@@ -8,8 +8,10 @@ start times to what is in the schedule. The schedules are written then in an
 
 import datetime
 import yaml
+import math
 import pandas
 import glob
+import numpy
 import textwrap
 from bs4 import BeautifulSoup as bs
 from pathlib import Path
@@ -97,23 +99,40 @@ def get_time_object(time_string):
     return time
 
 
-def write_overall_schedule(schedules):
+def write_top_lesson_schedules_to_file(schedules):
     """Write the new schedule to _includes/rsg/schedule.html.
+
+    The schedules which are passed are ordered by the date of the lessons, and
+    are displayed in a two column format. The first column is filled up first,
+    followed by the second column.
 
     Parameters
     ----------
-    html: str
-        The HTML code of the schedule.
+    schedules: list[dict]
+        The list of schedules to write to the file. Each schedule is a dict
+        with keys "date" which is the date for the lesson and "schedule" which
+        is the html table for the schedule.
     """
     html = "<div class=\"row\">"
-    html += schedules
+    n_lessons = len(schedules)
+    n_rows = math.ceil(n_lessons / 2)
+    ordered_schedules = sorted(schedules, key=lambda x: x["date"])
+
+    for i in range(n_rows):
+        left_idx = i
+        html += ordered_schedules[left_idx]["schedule"]
+        right_idx = i + n_rows
+        if right_idx > n_lessons - 1:
+            continue
+        html += ordered_schedules[right_idx]["schedule"]
+
     html += "</div>"
 
     with open("_includes/rsg/schedule.html", "w") as fp:
         fp.write(bs(html, "html.parser").prettify())
 
 
-def write_detailed_lesson_schedule(lesson_name, start_time):
+def write_detailed_lesson_schedule_to_file(lesson_name, start_time):
     """Create a detailed lesson schedule landing page for each lesson.
 
     The schedule is based on a modifed version of syllabus.html to work better
@@ -157,27 +176,31 @@ workshop_end_date = get_date_object(website_config.get("enddate", None))
 
 # Iterate over each lesson, to add their schedule to the html_schedules string
 
-for lesson in website_config["lessons"]:
+lessons = website_config.get("lessons", None)
+if not lessons:
+    raise ValueError("No lessons found in the workshop configuration file (_config.yml)")
+lesson_schedules = []
 
+for lesson in lessons:
+    lesson_type = LessonType(lesson.get("type", None))  # have to differentiate between markdown and r-markdown lessons
     lesson_title = lesson.get("title", None)
     lesson_name = lesson.get("gh-name", None)
-    lesson_date = lesson.get("date", None)              # can be a list
-    lesson_start = lesson.get("start-time", None)       # can be a list
-    lesson_type = LessonType(lesson.get("type", None))  # have to differentiate between markdown and r-markdown lessons
+    lesson_dates = lesson.get("date", None)             # can be a list
+    lesson_starts = lesson.get("start-time", None)      # can be a list
 
-    if [thing for thing in (lesson_name, lesson_date, lesson_title, lesson_start) if thing is None]:
+    if [thing for thing in (lesson_name, lesson_dates, lesson_title, lesson_starts) if thing is None]:
         raise ValueError(f"gh-name, date, title, and start-time are required for each lesson")
 
     # Since we allow multiple dates and start times per lesson, we need to be
     # able to iterate over even single values so turn into list. When done,
     # convert the dates from str to datetime.date objects.
 
-    if type(lesson_date) is not list:
-        lesson_date = [lesson_date]
-    if type(lesson_start) is not list:
-        lesson_start = [lesson_start]
+    if type(lesson_dates) is not list:
+        lesson_dates = [lesson_dates]
+    if type(lesson_starts) is not list:
+        lesson_starts = [lesson_starts]
 
-    lesson_date = [get_date_object(date) for date in lesson_date]
+    lesson_dates = [get_date_object(date) for date in lesson_dates]
 
     # Get the schedule(s) for the lesson into a dataframe and also the html
     # so we can search for the permalinks
@@ -194,13 +217,13 @@ for lesson in website_config["lessons"]:
 
         schedule.columns = ["time", "session"]
         permalink = soup.find_all("a", href=True)[i]["href"]  # assume each table has a permalink to a lesson
-        start_time = get_time_object(lesson_start[i])
+        start_time = get_time_object(lesson_starts[i])
         original_start = get_time_object(schedule["time"][0])
-        datestr = lesson_date[i].strftime("%d %B %Y")
+        datestr = lesson_dates[i].strftime("%d %B %Y")
 
-        if workshop_start_date and lesson_date[i] < workshop_start_date:
+        if workshop_start_date and lesson_dates[i] < workshop_start_date:
             raise ValueError(f"The date for {lesson_name} day {i + 1} is before the workshop start date")
-        if workshop_end_date and lesson_date[i] > workshop_end_date:
+        if workshop_end_date and lesson_dates[i] > workshop_end_date:
             raise ValueError(f"The date for {lesson_name} day {i + 1} is after the workshop end date")
 
         # Calculate the time difference between the start time and the start
@@ -233,11 +256,11 @@ for lesson in website_config["lessons"]:
         </div>
         """
 
-        html_schedules += table
+        lesson_schedules.append({"date": lesson_dates[i], "schedule": table})
 
     if lesson_type == LessonType.markdown:
-        start_time = get_time_object(lesson_start[0])
+        start_time = get_time_object(lesson_starts[0])
         start_time_minutes = start_time.hour * 60 + start_time.minute
-        write_detailed_lesson_schedule(lesson_name, start_time_minutes)
+        write_detailed_lesson_schedule_to_file(lesson_name, start_time_minutes)
 
-write_overall_schedule(html_schedules)
+write_top_lesson_schedules_to_file(lesson_schedules)

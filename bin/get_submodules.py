@@ -114,4 +114,4 @@ for n, lesson_info in enumerate(website_config['lessons']):
         # directory and then copy in the reveal.js submodule downloaded earlier
         rmtree(f"slides/{lesson_name}-lesson/reveal.js", ignore_errors=True)
         Path(f"slides/{lesson_name}-lesson/reveal.js").mkdir(parents=True, exist_ok=True)
-        copy_tree(f"submodules/reveal.js", f"slides/{lesson_name}-lesson/reveal.js")
+        copy_tree("submodules/reveal.js", f"slides/{lesson_name}-lesson/")
