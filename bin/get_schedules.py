@@ -40,7 +40,9 @@ def get_yaml_config():
 
 
 def get_date_object(datestr):
-    """Convert the
+    """Convert a date string into a datetime object.
+
+    On failure to convert a string, None is returned.
 
     Parameters
     ----------
@@ -50,14 +52,22 @@ def get_date_object(datestr):
     Returns
     -------
     date: datetime.date
-        The date object.
+        The date object. If unable to parse, then None is returned instead.
     """
+    if datestr is None:
+        return None
+
     if isinstance(datestr, datetime.date):
         return datestr
     elif not isinstance(datestr, str):
         raise ValueError(f"datestr is not a string but {type(datestr)}")
 
-    return dateutil.parser.parse(datestr).date()
+    try:
+        date =  dateutil.parser.parse(datestr).date()
+    except dateutil.parser.ParserError:
+        date =  None
+
+    return date
 
 
 def get_time_object(time_string):
@@ -135,18 +145,25 @@ def write_detailed_lesson_schedule(lesson_name, start_time):
         fp.write("\n".join([line.lstrip() for line in schedule_markdown.splitlines()]))
 
 
+html_schedules = ""  # HTML string containing the tables for each schedule
 website_config = get_yaml_config()
+
+# Try to parse the start and end date for the workshop, to check that lessons
+# are in the correct time frame. If the date is not a valid date, i.e. if it
+# still says FIXME, then we do not check the start and end date.
+
 workshop_start_date = get_date_object(website_config.get("startdate", None))
 workshop_end_date = get_date_object(website_config.get("enddate", None))
-html_schedules = ""  # HTML string containing the tables for each schedule
+
+# Iterate over each lesson, to add their schedule to the html_schedules string
 
 for lesson in website_config["lessons"]:
 
     lesson_title = lesson.get("title", None)
     lesson_name = lesson.get("gh-name", None)
-    lesson_date = lesson.get("date", None)         # can be a list
-    lesson_start = lesson.get("start-time", None)  # can be a list
-    lesson_type = LessonType(lesson.get("type", None))
+    lesson_date = lesson.get("date", None)              # can be a list
+    lesson_start = lesson.get("start-time", None)       # can be a list
+    lesson_type = LessonType(lesson.get("type", None))  # have to differentiate between markdown and r-markdown lessons
 
     if [thing for thing in (lesson_name, lesson_date, lesson_title, lesson_start) if thing is None]:
         raise ValueError(f"gh-name, date, title, and start-time are required for each lesson")
@@ -181,9 +198,9 @@ for lesson in website_config["lessons"]:
         original_start = get_time_object(schedule["time"][0])
         datestr = lesson_date[i].strftime("%d %B %Y")
 
-        if lesson_date[i] < workshop_start_date:
+        if workshop_start_date and lesson_date[i] < workshop_start_date:
             raise ValueError(f"The date for {lesson_name} day {i + 1} is before the workshop start date")
-        if lesson_date[i] > workshop_end_date:
+        if workshop_end_date and lesson_date[i] > workshop_end_date:
             raise ValueError(f"The date for {lesson_name} day {i + 1} is after the workshop end date")
 
         # Calculate the time difference between the start time and the start
