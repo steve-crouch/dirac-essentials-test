@@ -132,7 +132,7 @@ def write_top_lesson_schedules_to_file(schedules):
         fp.write(bs(html, "html.parser").prettify())
 
 
-def write_detailed_lesson_schedule_to_file(lesson_name, start_time):
+def write_detailed_lesson_schedule_to_file(lesson_name, lesson_type, start_time):
     """Create a detailed lesson schedule landing page for each lesson.
 
     The schedule is based on a modifed version of syllabus.html to work better
@@ -143,13 +143,21 @@ def write_detailed_lesson_schedule_to_file(lesson_name, start_time):
     ----------
     lesson_name: str
         The name of the lesson.
+    lesson_type: LessonType
+        The type of lesson.
     start_time: str
         The start time of the lesson.
     """
-    containing_directory = f"collections/_episodes/{lesson_name}-lesson"
-    for i, file in enumerate(sorted(glob.glob(f"{containing_directory}/[0-9]*.md"))):
+    if lesson_type == LessonType.markdown:
+        file_ext = "md"
+        containing_directory = f"collections/_episodes/{lesson_name}-lesson"
+    else:
+        containing_directory = f"collections/_episodes_rmd/{lesson_name}-lesson"
+        file_ext = "Rmd"
+
+    for i, file in enumerate(sorted(glob.glob(f"{containing_directory}/[0-9]*.{file_ext}"))):
         filepath = Path(file)
-        new_file_name = f"{i + 1:02d}{filepath.stem.lstrip(string.digits)}.md"
+        new_file_name = f"{i + 1:02d}{filepath.stem.lstrip(string.digits)}.{file_ext}"
         filepath.rename(f"{containing_directory}/{new_file_name}")
 
     schedule_markdown = textwrap.dedent(f"""---
@@ -211,6 +219,11 @@ for lesson in lessons:
     soup = bs(schedule_html, "html.parser")
     all_schedules = pandas.read_html(schedule_html, flavor="bs4")
 
+    if len(all_schedules) != len(lesson_dates):
+        raise ValueError(f"There are not enough start dates for the number of lessons in the schedule for {lesson_name}")
+    if len(all_schedules) != len(lesson_starts):
+        raise ValueError(f"There are not enough start times for the number of lessons in the schedule for {lesson_name}")
+
     # Loop over each schedule table, if the lesson has multiple schedules
 
     for i, schedule in enumerate(all_schedules):
@@ -258,9 +271,8 @@ for lesson in lessons:
 
         lesson_schedules.append({"date": lesson_dates[i], "schedule": table})
 
-    if lesson_type == LessonType.markdown:
-        start_time = get_time_object(lesson_starts[0])
-        start_time_minutes = start_time.hour * 60 + start_time.minute
-        write_detailed_lesson_schedule_to_file(lesson_name, start_time_minutes)
+    start_time = get_time_object(lesson_starts[0])
+    start_time_minutes = start_time.hour * 60 + start_time.minute
+    write_detailed_lesson_schedule_to_file(lesson_name, lesson_type, start_time_minutes)
 
 write_top_lesson_schedules_to_file(lesson_schedules)
