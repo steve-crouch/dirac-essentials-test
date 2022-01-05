@@ -40,7 +40,7 @@ endif
 ## =================================================
 
 ## * serve            : render website and run a local server
-serve : lesson-md
+serve : lesson-md get-submodules get-schedules clean-setup
 	${JEKYLL} serve
 
 ## * site             : build website but do not run a server
@@ -80,24 +80,22 @@ clean :
 	@find . -name '*~' -exec rm {} \;
 	@find . -name '*.pyc' -exec rm {} \;
 
-
 ## * clean-rmd        : clean intermediate R files (that need to be committed to the repo)
 clean-rmd :
 	@rm -rf ${RMD_DST}
 	@rm -rf fig/rmd-*
 
-
 ## * get-submodules   : pull episode submodules from github
 get-submodules :
 	@${PYTHON} bin/get_submodules.py .
 
+## * get-schedules    : create schedules for lessons
 get-schedules :
 	@${PYTHON} bin/get_schedules.py .
 
-
+## * clean-setup	  : clean up the lesson setup markdown files into a uniform format
 clean-setup :
 	@${PYTHON} bin/clean_setup_md.py .
-
 
 ##
 ## II. Commands specific to workshop websites
