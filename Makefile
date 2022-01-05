@@ -67,9 +67,19 @@ clean :
 	@rm -rf ${DST}
 	@rm -rf .sass-cache
 	@rm -rf bin/__pycache__
+	@rm -rf submodules
+	@rm -rf renv
+	@rm -rf collections
+	@rm -rf data
+	@rm -rf data_raw
+	@rm -rf fig
+	@rm -f r-novice_setup.R
+	@rm -f .Rprofile
+	@rm -f renv.lock
 	@find . -name .DS_Store -exec rm {} \;
 	@find . -name '*~' -exec rm {} \;
 	@find . -name '*.pyc' -exec rm {} \;
+
 
 ## * clean-rmd        : clean intermediate R files (that need to be committed to the repo)
 clean-rmd :
