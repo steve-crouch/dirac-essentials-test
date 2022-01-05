@@ -98,6 +98,9 @@ collections:
   episodes:
     output: true
     permalink: /:slug
+  episodes_rmd:
+    output: true
+    permalink: /:slug
   extras:
     output: true
     permalink: /:path/index
