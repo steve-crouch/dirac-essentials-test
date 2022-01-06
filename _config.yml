@@ -51,47 +51,57 @@ lessons:
     date: 8 January 2022                         # The date of the lesson
     start-time: 10:30 am                         # The start time of the lesson
 
-  - title: Version Control with git
-    gh-name: git-novice
-    type: episode
-    branch: gh-pages
-    date: 9 January 2022
-    start-time: 8:30 am
-
-  - title: Managing Academic Software Development
-    gh-name: project-novice
-    type: episode
-    branch: gh-pages
-    date: 10 January 2022
-    start-time: 9:30 am
-
-  # - title: Building Programs with Python
-  #   gh-name: python-novice
+  # - title: Version Control with git
+  #   gh-name: git-novice
   #   type: episode
   #   branch: gh-pages
-  #   date: 11 January 2022
-  #   start-time: 10:00 am
+  #   date: 9 January 2022
+  #   start-time: 8:30 am
+
+  # - title: Managing Academic Software Development
+  #   gh-name: project-novice
+  #   type: episode
+  #   branch: gh-pages
+  #   date: 10 January 2022
+  #   start-time: 9:30 am
+
+  - title: Building Programs with Python
+    gh-name: python-novice
+    type: episode
+    branch: gh-pages
+    date:
+      - 11 January 2022
+      - 12 January 2022
+    start-time:
+     - 10:00 am
+     - 10:00 am
 
   # - title: Best Practices in Data Organisation Using Spreadsheets
   #   gh-name: spreadsheets
   #   type: episode
   #   branch: gh-pages
-  #   date: 12 January 2022
+  #   date: 13 January 2022
   #   start-time: 15:00
 
   # - title: Data Cleaning with OpenRefine
   #   gh-name: openrefine-data-cleaning
   #   type: episode
   #   branch: gh-pages
-  #   date: 13 January 2022
+  #   date: 14 January 2022
   #   start-time: 15:00
 
   # - title: Data Analysis and Visualization in R
   #   gh-name: r-novice
   #   type: episode_r
   #   branch: gh-pages
-  #   date: 14 January 2022
-  #   start-time: 15:00
+  #   date:
+  #     - 15 January 2022
+  #     - 16 January 2022
+  #     - 17 January 2022
+  #   start-time:
+  #     - 15:00
+  #     - 15:00
+  #     - 15:00
 
 # Specify that things in the episodes collection should be output.
 collections:
