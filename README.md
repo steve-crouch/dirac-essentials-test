@@ -17,9 +17,9 @@ To configure a workshop please follow the steps below.
    - helper: YAML list of the names of the helpers.
    - **lessons: a YAML list of the lessons to include in the workshop. Each lesson must have:**
       - title: the name of the lesson.
-      - gh-name*: the name of a lesson repository in the <https://github.com/Southampton-RSG-Training> GH organisation e.g. 'git-novice'.
+      - gh-name: the name of a lesson repository in the <https://github.com/Southampton-RSG-Training> GH organisation e.g. 'git-novice'.
       - type: choose from either 'episode' for standard markdown lessons or 'episode_r' for R markdown.
-      - date: the date the lesson is to be taught. Many date formats accepted, more information can be found [here](https://dateutil.readthedocs.io/en/stable/parser.html) about accepted formats. If a date format is not accepted, then the build process will abort. For multi-day lessons, multiple dates can specified in a YAML list.
+      - date: the date the lesson is to be taught. Many date formats accepted, more information can be found [here](https://dateutil.readthedocs.io/en/stable/parser.html) about accepted formats. If a date format is not accepted, then the build process will abort. For multi-day lessons, multiple dates have to be specified in a YAML list. The number of dates must equal the number of schedule tables in `_includes/rsg/lesson/schedule.html`.
       - time: the time to start the lesson, both 12 hour and 24 hour timestamps are accepted. For multi-day lessons, multiple start times must also be specified in a YAML list.
       - branch: the git branch to generate lessons from. To customise a lesson, one can specify another branch - more details below. The default choice is 'gh-pages'.
 4) **Commit (and push) changes to the 'main' branch**. The site is built, and published to the 'gh-pages' branch. The site build is handled by GH Actions, more details in development below.
