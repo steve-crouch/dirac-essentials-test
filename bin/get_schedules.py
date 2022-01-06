@@ -165,10 +165,10 @@ def create_index_schedules(schedules):
     for i in range(n_rows):
         left_idx = i
         html += ordered_schedules[left_idx]["schedule"]
+
         right_idx = i + n_rows
-        if right_idx > n_lessons - 1:
-            continue
-        html += ordered_schedules[right_idx]["schedule"]
+        if right_idx < n_lessons:
+            html += ordered_schedules[right_idx]["schedule"]
 
     html += "</div>"
 
