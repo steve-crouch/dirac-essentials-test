@@ -91,10 +91,18 @@ for n, lesson_info in enumerate(website_config['lessons']):
                 log.error(f"Cannot find or move submodules/{lesson_name}/{file}, but carrying on anyway")
 
         # Move figures
-        # if Rmarkdown then add fig to the collection as well
-        if lesson_type == LessonType.r_markdown:
-            copy_tree(f"submodules/{lesson_name}/fig", f"{dest}/fig/")
         copy_tree(f"submodules/{lesson_name}/fig", "fig/")
+
+        # Things to move only for Rmd set up files
+        if lesson_type == LessonType.r_markdown:
+            # Set the destination to the lesson collection, R needs these in the 'resource path'
+            dest = f"collections/{directory}/{lesson_name}-lesson"
+            # Move the figures for this lesson
+            #copy_tree(f"submodules/{lesson_name}/fig", f"{dest}/fig/")
+            # Move the footer and navbar
+            #Path(f"{dest}/_includes/").mkdir(parents=True, exist_ok=True)
+            #copy("_includes/workshop_footer.html", f"{dest}/_includes/")
+            #copy("_includes/navbar.html", f"{dest}/_includes/")
 
 # Now need to do the same for slides, but have to do it afterwards because we
 # need a specific version of reveal.js, so we need to avoid the git submodule
