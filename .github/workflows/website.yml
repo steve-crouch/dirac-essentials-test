@@ -77,9 +77,9 @@ jobs:
         if: steps.check_files.outputs.files_exists == 'true'
         run: |
           RMD_PATH=$(find ./collections/_episodes_rmd -name '*.Rmd')
-          Rscript -e 'for (f in commandArgs(TRUE)) if (file.exists(f)) rmarkdown::render(f, knit_root_dir=getwd(), output_dir="./collections/_episodes_rmd/")' ${RMD_PATH[*]}
-          git add ./collections/_episodes_rmd/*.html
-          git commit ./collections/_episodes_rmd/*.html -m 'Re-build Rmarkdown files' || echo "No changes to commit"
+          Rscript -e 'for (f in commandArgs(TRUE)) if (file.exists(f)) rmarkdown::render(f, knit_root_dir=getwd(), output_dir=dirname(sub("./collections/_episodes_rmd/", "./collections/_episodes/", f)))' ${RMD_PATH[*]}
+          git add ./collections/_episodes/**/*.md ./collections/_episodes/**/*.html
+          git commit ./collections/_episodes/**/*.md ./collections/_episodes/**/*.html -m 'Re-build Rmarkdown files' || echo "No changes to commit"
 
       - name: Run python build scripts
         run: |
