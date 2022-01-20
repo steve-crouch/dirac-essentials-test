@@ -44,26 +44,40 @@ helper:
 
 # Details about the lessons
 lessons:
-  - title: Automating Tasks with the Unix Shell  # Lesson title
-    gh-name: shell-novice                        # Name of the GitHub repository for the lesson at https://github:com/Southampton-RSG-Training:
-    type: episode                                # Currently only 'episode' or 'episode_r' is valid
-    branch: gh-pages                             # Set the branch of the repository to use, useful for lesson customization
-    date: 8 January 2022                         # The date of the lesson
-    start-time: 10:30 am                         # The start time of the lesson
+  #  - title: Best Practices in Data Organisation Using Spreadsheets
+  #    gh-name: spreadsheets
+  #    type: episode
+  #    branch: gh-pages
+  #    date: 13 January 2022
+  #    start-time: 15:00
 
-  # - title: Version Control with git
-  #   gh-name: git-novice
-  #   type: episode
-  #   branch: gh-pages
-  #   date: 9 January 2022
-  #   start-time: 8:30 am
+  #  - title: Data Cleaning with OpenRefine
+  #    gh-name: openrefine-data-cleaning
+  #    type: episode
+  #    branch: gh-pages
+  #    date: 14 January 2022
+  #    start-time: 15:00
 
-  # - title: Managing Academic Software Development
-  #   gh-name: project-novice
-  #   type: episode
-  #   branch: gh-pages
-  #   date: 10 January 2022
-  #   start-time: 9:30 am
+  #  - title: Managing Academic Software Development
+  #    gh-name: project-novice
+  #    type: episode
+  #    branch: gh-pages
+  #    date: 10 January 2022
+  #    start-time: 9:30 am
+
+  #  - title: Automating Tasks with the Unix Shell  # Lesson title
+  #    gh-name: shell-novice                        # Name of the GitHub repository for the lesson at https://github:com/Southampton-RSG-Training:
+  #    type: episode                                # Currently only 'episode' or 'episode_r' is valid
+  #    branch: gh-pages                             # Set the branch of the repository to use, useful for lesson customization
+  #    date: 8 January 2022                         # The date of the lesson
+  #    start-time: 10:30 am                         # The start time of the lesson
+
+  - title: Version Control with git
+    gh-name: git-novice
+    type: episode
+    branch: gh-pages
+    date: 9 January 2022
+    start-time: 8:30 am
 
   - title: Building Programs with Python
     gh-name: python-novice
@@ -73,35 +87,21 @@ lessons:
       - 11 January 2022
       - 12 January 2022
     start-time:
-     - 10:00 am
-     - 10:00 am
+      - 10:00 am
+      - 10:00 am
 
-  # - title: Best Practices in Data Organisation Using Spreadsheets
-  #   gh-name: spreadsheets
-  #   type: episode
-  #   branch: gh-pages
-  #   date: 13 January 2022
-  #   start-time: 15:00
-
-  # - title: Data Cleaning with OpenRefine
-  #   gh-name: openrefine-data-cleaning
-  #   type: episode
-  #   branch: gh-pages
-  #   date: 14 January 2022
-  #   start-time: 15:00
-
-  # - title: Data Analysis and Visualization in R
-  #   gh-name: r-novice
-  #   type: episode_r
-  #   branch: gh-pages
-  #   date:
-  #     - 15 January 2022
-  #     - 16 January 2022
-  #     - 17 January 2022
-  #   start-time:
-  #     - 15:00
-  #     - 15:00
-  #     - 15:00
+  - title: Data Analysis and Visualization in R
+    gh-name: r-novice
+    type: episode_r
+    branch: gh-pages
+    date:
+      - 15 January 2022
+      - 16 January 2022
+      - 17 January 2022
+    start-time:
+      - 15:00
+      - 15:00
+      - 15:00
 
 # Specify that things in the episodes collection should be output.
 collections:
