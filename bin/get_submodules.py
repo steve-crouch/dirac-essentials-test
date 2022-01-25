@@ -59,10 +59,10 @@ for n, lesson_info in enumerate(website_config['lessons']):
             raise ValueError(f"No lesson name specified for lesson {n}")
         gh_branch = lesson_info.get('branch', 'gh-pages')
         # Check this repository exists
-        r = requests.get('https://api.github.com/repos/{org_name}/{lesson_name}')
+        r = requests.get(f'https://api.github.com/repos/{org_name}/{lesson_name}')
         if r.status_code != 200:
             log.warning(f'Lesson {lesson_name} does not exist in {org_name} trying in default org')
-            r = requests.get('https://api.github.com/repos/Southampton-RSG-Training/{lesson_name}')
+            r = requests.get(f'https://api.github.com/repos/Southampton-RSG-Training/{lesson_name}')
             if r.status_code == 200:
                 log.warning(f"Lesson {lesson_name} found in 'Southampton-RSG-Training' using as fallback")
                 org_name = "Southampton-RSG-Training"
