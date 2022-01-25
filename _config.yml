@@ -13,22 +13,22 @@ carpentry: "rsg"
 # Most workshops don't use extra pages. More information about extra
 # pages are included in the README:
 # https://github.com/carpentries/workshop-template#creating-extra-pages
-title: "FIXME Workshop Title"
+title: "TBC Workshop Title"
 
 # Specify the location of the workshop
 # TODO: needs documenting a lot better
-venue: "FIXME"           # name of location
-address: "FIXME"         # address of location
-country: "FIXME"         # e.g. gb
-language: "FIXME"        # e.g. en
+venue: "TBC"           # name of location
+address: "TBC"         # address of location
+country: "TBC"         # e.g. gb
+language: "TBC"        # e.g. en
 latitude: "50.909698"    # latitude of location (Soton: 50.909698)
 longitude: "-1.404351"   # longitude of location (Soton: -1.404351)
 
 # Specify the start and end date of the workshop
-humandate: "FIXME"      # e.g. "6th August"
-humantime: "FIXME"      # e.g. "09:00-17:00"
-startdate: FIXME        # e.g. YYYY-MM-DD
-enddate: FIXME          # e.g. YYYY-MM-DD
+humandate: "TBC"      # e.g. "6th August"
+humantime: "TBC"      # e.g. "09:00-17:00"
+startdate: TBC        # e.g. YYYY-MM-DD
+enddate: TBC          # e.g. YYYY-MM-DD
 
 # Specify the details of the instructors and helpers
 # Can be list, or single string
