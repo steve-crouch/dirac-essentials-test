@@ -66,7 +66,8 @@ lessons:
   #    start-time: 9:30 am
 
   #  - title: Automating Tasks with the Unix Shell  # Lesson title
-  #    gh-name: shell-novice                        # Name of the GitHub repository for the lesson at https://github:com/Southampton-RSG-Training:
+  #    org-name: Southampton-RSG-Training           # Name of the GitHub organisation (or individual) the lesson is in defaults to Southampton-RSG-Training
+  #    gh-name: shell-novice                        # Name of the GitHub repository for the lesson at https://github:com/{org-name}:
   #    type: episode                                # Currently only 'episode' or 'episode_r' is valid
   #    branch: gh-pages                             # Set the branch of the repository to use, useful for lesson customization
   #    date: 8 January 2022                         # The date of the lesson
