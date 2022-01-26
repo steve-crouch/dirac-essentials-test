@@ -17,11 +17,11 @@ keypoints:
 - "`git log` lists the commits made to the local repository."
 ---
 
-![Introduction](../fig/slides/04-changes/0_introduction.png){:width="20%"}
+![Introduction](fig/slides/04-changes/0_introduction.png){:width="20%"}
 
 ### Add to Version Control
 
-![Tracking changes to files](../fig/slides/04-changes/1_key.png){:width="20%"}
+![Tracking changes to files](fig/slides/04-changes/1_key.png){:width="20%"}
 
 We can tell Git to track a file using `git add`:
 
@@ -108,7 +108,7 @@ nothing to commit, working directory clean
 
 it tells us everything is up to date.
 
-![Add and Commit](../fig/slides/04-changes/2_adding.png){:width="20%"}
+![Add and Commit](fig/slides/04-changes/2_adding.png){:width="20%"}
 
 Git has a special **staging** area
 where it keeps track of things that have been **added** to
@@ -119,7 +119,7 @@ and `git commit` then copies them to long-term storage (as a commit)
 
 ### Review the Log
 
-![Exploring history #1](../fig/slides/04-changes/3_history.png){:width="20%"}
+![Exploring history #1](fig/slides/04-changes/3_history.png){:width="20%"}
 
 If we want to know what we've done recently,
 we can ask Git to show us the **project's history** using `git log`:
@@ -289,7 +289,7 @@ suppose we might have **fixed a bug** in some existing code, but we might have a
 
 ### One more addition
 
-![Differences](../fig/slides/04-changes/4_differences.png){:width="20%"}
+![Differences](fig/slides/04-changes/4_differences.png){:width="20%"}
 
 Let's add another line to the end of the file:
 
