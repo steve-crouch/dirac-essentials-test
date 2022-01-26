@@ -13,34 +13,34 @@ carpentry: "rsg"
 # Most workshops don't use extra pages. More information about extra
 # pages are included in the README:
 # https://github.com/carpentries/workshop-template#creating-extra-pages
-title: "TBC Workshop Title"
+title: "DiRAC Essentials Workshop (test)"
 
 # Specify the location of the workshop
 # TODO: needs documenting a lot better
-venue: "TBC"           # name of location
-address: "TBC"         # address of location
-country: "TBC"         # e.g. gb
-language: "TBC"        # e.g. en
+venue: "Online Zoom"           # name of location
+address: "Some registration link"         # address of location
+country: "gb"         # e.g. gb
+language: "en"        # e.g. en
 latitude: "50.909698"    # latitude of location (Soton: 50.909698)
 longitude: "-1.404351"   # longitude of location (Soton: -1.404351)
 
 # Specify the start and end date of the workshop
-humandate: "TBC"      # e.g. "6th August"
-humantime: "TBC"      # e.g. "09:00-17:00"
-startdate: TBC        # e.g. YYYY-MM-DD
-enddate: TBC          # e.g. YYYY-MM-DD
+humandate: "14th March 2022"      # e.g. "6th August"
+humantime: "09:00-17:00"      # e.g. "09:00-17:00"
+startdate: 2022-03-14        # e.g. YYYY-MM-DD
+enddate: 2022-03-17          # e.g. YYYY-MM-DD
 
 # Specify the details of the instructors and helpers
 # Can be list, or single string
 instructor:
-  - "Instructor 1"
-  - "Instructor 2"
+  - "A.N.Other"
+  - "J.Bloggs"
 instructor-email:
-  - "instructor1@domain.com"
-  - "instructor2@domain.com"
+  - "a.n.other@domain.com"
+  - "j.bloggs@domain.com"
 helper:
-  - "Helper 1"
-  - "Helper 2"
+  - "A.Helper"
+  - "B.Helper"
 
 # Details about the lessons
 lessons:
@@ -73,36 +73,37 @@ lessons:
   #    date: 8 January 2022                         # The date of the lesson
   #    start-time: 10:30 am                         # The start time of the lesson
 
-  - title: Version Control with git
-    gh-name: git-novice
+  - title: "Bash Shell: Using the Command Line"
+    gh-name: dirac-bash-command-line
     type: episode
     branch: gh-pages
-    date: 9 January 2022
-    start-time: 8:30 am
+    date: 14 March 2022
+    start-time: 9:00 am
 
-  - title: Building Programs with Python
-    gh-name: python-novice
+  - title: "Bash Shell: Writing Basic Scripts"
+    gh-name: dirac-bash-writing-scripts
     type: episode
     branch: gh-pages
-    date:
-      - 11 January 2022
-      - 12 January 2022
-    start-time:
-      - 10:00 am
-      - 10:00 am
+    date: 14 March 2022
+    start-time: 1:00 pm
 
-  - title: Data Analysis and Visualization in R
-    gh-name: r-novice
-    type: episode_r
+  - title: "Version Control with Git"
+    gh-name: dirac-version-control
+    type: episode
     branch: gh-pages
-    date:
-      - 15 January 2022
-      - 16 January 2022
-      - 17 January 2022
-    start-time:
-      - 15:00
-      - 15:00
-      - 15:00
+    date: 15 March 2022
+    start-time: 9:00 am
+
+  #- title: Building Programs with Python
+  #  gh-name: python-novice
+  #  type: episode
+  #  branch: gh-pages
+  #  date:
+  #    - 11 January 2022
+  #    - 12 January 2022
+  #  start-time:
+  #    - 10:00 am
+  #    - 10:00 am
 
 # Specify that things in the episodes collection should be output.
 collections:
