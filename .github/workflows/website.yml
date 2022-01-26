@@ -88,6 +88,7 @@ jobs:
           Rscript -e 'for (f in commandArgs(TRUE)) if (file.exists(f)) rmarkdown::render(f, knit_root_dir=getwd(), output_dir=dirname(sub("./collections/_episodes_rmd/", "./collections/_episodes/", f)))' ${RMD_PATH[*]}
           perl -pi -e "s/([>\s]*)(>\s)(.*?)(\{: \.[a-zA-Z]+\})/\1\2\3\n\1\4\n\1/g" ./collections/_episodes/**/*.md
           perl -0777pi -e "s/(?<!\n){: .challenge}/\n{: .challenge}/g" ./collections/_episodes/**/*.md
+          git add ./fig/*.png
           git add ./collections/_episodes/**/*.md
           git commit ./collections/_episodes/**/*.md -m 'Re-build Rmarkdown files' || echo "No changes to commit"
 
