@@ -1,0 +1,7 @@
+PyYAML
+beautifulsoup4
+git_root
+pandas
+html5lib
+python-dateutil
+lxml
