@@ -239,7 +239,6 @@ def main():
         for i, schedule in enumerate(all_schedules):
 
             schedule.columns = ["time", "session"]
-            permalink = soup.find_all("a", href=True)[i]["href"]  # assume each table has a permalink to a lesson
             start_time = get_time_object(lesson_starts[i])
             original_start = get_time_object(schedule["time"][0])
             datestr = lesson_dates[i].strftime("%d %B %Y")
