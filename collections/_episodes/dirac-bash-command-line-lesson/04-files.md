@@ -1,5 +1,6 @@
 ---
 title: Writing and reading files
+slug: dirac-bash-command-line-writing-reading-files
 teaching: 30
 exercises: 15
 questions:

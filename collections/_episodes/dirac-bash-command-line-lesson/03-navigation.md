@@ -1,5 +1,6 @@
 ---
 title: "Moving around and looking at things"
+slug: dirac-bash-command-line-moving-around-looking-things
 teaching: 15 
 exercises: 5
 questions:

@@ -1,5 +1,6 @@
 ---
 title: "Connecting to the remote HPC system"
+slug: dirac-bash-command-line-connecting-remote-hpc-system
 teaching: 25 
 exercises: 10
 questions:

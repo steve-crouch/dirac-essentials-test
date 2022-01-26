@@ -1,6 +1,6 @@
 ---
 title: "Setting Up Git"
-slug: git-novice-setting-up-git
+slug: dirac-version-control-setting-up-git
 teaching: 5
 exercises: 0
 questions:

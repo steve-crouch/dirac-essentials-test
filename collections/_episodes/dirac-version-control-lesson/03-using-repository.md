@@ -1,5 +1,6 @@
 ---
 title: "Using a Repository"
+slug: dirac-version-control-using-repository
 teaching: 10
 exercises: 0
 questions:

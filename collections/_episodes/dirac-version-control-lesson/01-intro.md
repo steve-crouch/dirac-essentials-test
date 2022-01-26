@@ -1,7 +1,7 @@
 ---
 title: "What is Version Control"
 colour: "#fcffcc"
-slug: git-novice-what-is-version-control
+slug: dirac-version-control-what-is-version-control
 teaching: 5
 exercises: 0
 questions:

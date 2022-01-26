@@ -1,5 +1,6 @@
 ---
 title: "Why Use a Cluster?"
+slug: dirac-bash-command-line-why-use-cluster
 teaching: 25
 exercises: 5
 questions:

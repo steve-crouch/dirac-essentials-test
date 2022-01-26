@@ -94,6 +94,27 @@ lessons:
     date: 15 March 2022
     start-time: 9:00 am
 
+  - title: "Principles of Software Engineering"
+    gh-name: dirac-software-engineering
+    type: episode
+    branch: gh-pages
+    date: 15 March 2022
+    start-time: 1:00 pm
+
+  - title: "Testing, Documenting, and Reviewing Code"
+    gh-name: dirac-test-document-review
+    type: episode
+    branch: gh-pages
+    date: 16 March 2022
+    start-time: 9:00 am
+
+  - title: "Principles of Codes Scaling"
+    gh-name: dirac-code-scaling
+    type: episode
+    branch: gh-pages
+    date: 16 March 2022
+    start-time: 1:00 pm
+
   #- title: Building Programs with Python
   #  gh-name: python-novice
   #  type: episode
@@ -131,7 +152,7 @@ flavor: "python"
 
 # If the workshop will be a lesson pilot (for a new official lesson or
 # a lesson in The Carpentries Incubator), set pilot to "true".
-pilot: false
+pilot: true
 
 #------------------------------------------------------------
 # Incubator workshop settings (only relevant for workshops teaching a lesson

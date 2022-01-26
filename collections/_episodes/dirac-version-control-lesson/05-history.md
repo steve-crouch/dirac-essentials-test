@@ -1,6 +1,6 @@
 ---
 title: "Exploring History"
-slug: git-novice-exploring-history
+slug: dirac-version-control-exploring-history
 teaching: 10
 exercises: 0
 questions:

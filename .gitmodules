@@ -10,6 +10,18 @@
 	path = submodules/dirac-version-control
 	url = https://github.com/Southampton-RSG-Training/dirac-version-control.git
 	branch = gh-pages
+[submodule "submodules/dirac-software-engineering"]
+	path = submodules/dirac-software-engineering
+	url = https://github.com/Southampton-RSG-Training/dirac-software-engineering.git
+	branch = gh-pages
+[submodule "submodules/dirac-test-document-review"]
+	path = submodules/dirac-test-document-review
+	url = https://github.com/Southampton-RSG-Training/dirac-test-document-review.git
+	branch = gh-pages
+[submodule "submodules/dirac-code-scaling"]
+	path = submodules/dirac-code-scaling
+	url = https://github.com/Southampton-RSG-Training/dirac-code-scaling.git
+	branch = gh-pages
 [submodule "submodules/reveal.js"]
 	path = submodules/reveal.js
 	url = https://github.com/hakimel/reveal.js.git

@@ -1,6 +1,6 @@
 ---
 title: "Tracking Changes"
-slug: git-novice-tracking-changes
+slug: dirac-version-control-tracking-changes
 teaching: 20
 exercises: 0
 questions:
