@@ -13,7 +13,7 @@ carpentry: "rsg"
 # Most workshops don't use extra pages. More information about extra
 # pages are included in the README:
 # https://github.com/carpentries/workshop-template#creating-extra-pages
-title: "DiRAC Essentials Workshop (Test)"
+title: "DiRAC Essentials Workshop (test)"
 
 # Specify the location of the workshop
 # TODO: needs documenting a lot better
