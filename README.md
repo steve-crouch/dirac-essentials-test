@@ -34,6 +34,14 @@ The currently available lessons are:
 - r-novice <https://github.com/Southampton-RSG-Training/r-novice>
 - project-novice <https://github.com/Southampton-RSG-Training/project-novice>
 
+5) Optional: To reattach to this template and pull updates and changes the following steps are required.
+   1) Warning: To do this you need to understand both Git Remotes, Git merges (specifically solving conflicts).
+   2) ```git remote add template https://github.com/Southampton-RSG-Training/workshop-template```
+   3) ```git fetch --all```
+   4) ```git merge template/main --allow-unrelated-histories```
+   5) Then fix the conflicts on your branch. (Accept changes everywhere except _config.yml where you have configured your workshop, n.b. if you have made custom changes to other places then this will need to be accounted for).
+   6) Finally, add and commit the changes to the main branch the push to 'origin/main'.
+
 ## Customising Lessons
 
 To customise a lesson's content, the lesson branch can be changed to use an alternative branch of the lesson repository. You can then stage (add) and commit '_config.yml'. But remember to not push to remote until after the episode branch has been created/edited, as the push will only then grab the changes. It is also possible to force a re-build of the workshop, if you do this in the wrong order.
