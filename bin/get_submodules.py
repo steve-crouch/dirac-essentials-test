@@ -116,6 +116,11 @@ for n, lesson_info in enumerate(website_config['lessons']):
 
         # Move figures
         copy_tree(f"submodules/{lesson_name}/fig", "fig/")
+        # Move data
+        try:
+            copy_tree(f"submodules/{lesson_name}/data", "data/")
+        except:
+            log.info(f"No data file to move in {lesson_name}")
 
         # Things to move only for Rmd set up files
         if lesson_type == LessonType.r_markdown:
