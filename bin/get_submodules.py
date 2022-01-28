@@ -12,6 +12,7 @@ except ImportError:
     from yaml import Loader
 from pathlib import Path
 from distutils.dir_util import copy_tree
+import requests
 from shutil import copy2 as copy, rmtree
 
 log = logging.getLogger(__name__)
@@ -52,12 +53,35 @@ for n, lesson_info in enumerate(website_config['lessons']):
             raise ValueError(f"Unknown lesson type {lesson_type}")
 
         # Create the command to pull the subdirectory from GitHub
-
+        org_name = lesson_info.get("org-name", "Southampton-RSG-Training")
         lesson_name = lesson_info.get('gh-name', None)
-        if lesson_info is None:
+        if lesson_name is None:
             raise ValueError(f"No lesson name specified for lesson {n}")
         gh_branch = lesson_info.get('branch', 'gh-pages')
-        log.info(f"Getting lesson with parameters:\n gh-name: {lesson_name} \n branch: {gh_branch} \n type: {lesson_type.value}")
+        # Check this repository exists
+        r = requests.get(f'https://api.github.com/repos/{org_name}/{lesson_name}')
+        if r.status_code != 200:
+            log.warning(f'Lesson {lesson_name} does not exist in {org_name} trying in default org')
+            r = requests.get(f'https://api.github.com/repos/Southampton-RSG-Training/{lesson_name}')
+            if r.status_code == 200:
+                log.warning(f"Lesson {lesson_name} found in 'Southampton-RSG-Training' using as fallback")
+                org_name = "Southampton-RSG-Training"
+            else:
+                raise f"Lesson {lesson_name} does not exist in '{org_name}', or 'Southampton-RSG-Training'"
+        else:
+            r = requests.get(f'https://api.github.com/repos/{org_name}/{lesson_name}/branches/{gh_branch}')
+            if r.status_code != 200:
+                log.warning(f'Branch {gh_branch} does not exist in {org_name}/{lesson_name} trying default branch')
+                r = requests.get(f'https://api.github.com/repos/{org_name}/{lesson_name}/branches/gh-pages')
+                if r.status_code == 200:
+                    log.warning(f'Branch {gh_branch} found in {org_name}/{lesson_name} using as fallback')
+                    gh_branch = "gh-pages"
+                else:
+                    raise f"Branch '{gh_branch}' or 'gh-pages' does not exist in '{org_name}/{lesson_name}', or 'Southampton-RSG-Training'"
+
+
+
+        log.info(f"Getting lesson with parameters:\n org-name: {org_name} \n gh-name: {lesson_name} \n branch: {gh_branch} \n type: {lesson_type.value}")
         os.system(f"git submodule add --force -b {gh_branch} https://github.com/Southampton-RSG-Training/{lesson_name}.git submodules/{lesson_name}")
         os.system("git submodule update --remote --merge")
 

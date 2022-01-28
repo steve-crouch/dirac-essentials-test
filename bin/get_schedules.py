@@ -119,12 +119,8 @@ def create_detailed_lesson_schedules(lesson_name, lesson_type, start_time):
     start_time: str
         The start time of the lesson.
     """
-    if lesson_type == LessonType.markdown:
-        file_ext = "md"
-        containing_directory = f"collections/_episodes/{lesson_name}-lesson"
-    else:
-        containing_directory = f"collections/_episodes_rmd/{lesson_name}-lesson"
-        file_ext = "Rmd"
+    file_ext = "md"
+    containing_directory = f"collections/_episodes/{lesson_name}-lesson"
 
     for i, file in enumerate(sorted(glob.glob(f"{containing_directory}/[0-9]*.{file_ext}"))):
         filepath = Path(file)
@@ -243,7 +239,6 @@ def main():
         for i, schedule in enumerate(all_schedules):
 
             schedule.columns = ["time", "session"]
-            permalink = soup.find_all("a", href=True)[i]["href"]  # assume each table has a permalink to a lesson
             start_time = get_time_object(lesson_starts[i])
             original_start = get_time_object(schedule["time"][0])
             datestr = lesson_dates[i].strftime("%d %B %Y")
