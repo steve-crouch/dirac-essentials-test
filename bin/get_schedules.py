@@ -153,20 +153,20 @@ def create_index_schedules(schedules):
         with keys "date" which is the date for the lesson and "schedule" which
         is the html table for the schedule.
     """
-    html = "<div class=\"row\">"
     n_lessons = len(schedules)
     n_rows = math.ceil(n_lessons / 2)
     ordered_schedules = sorted(schedules, key=lambda x: x["date"])
 
+    left = ordered_schedules[:n_rows]
+    right = ordered_schedules[n_rows:]
+  
+    html = ""
     for i in range(n_rows):
-        left_idx = i
-        html += ordered_schedules[left_idx]["schedule"]
-
-        right_idx = i + n_rows
-        if right_idx < n_lessons:
-            html += ordered_schedules[right_idx]["schedule"]
-
-    html += "</div>"
+        html += "<div class=\"row\">"
+        html += left[i]["schedule"]
+        if i < len(right):
+            html += right[i]["schedule"]
+        html += "</div>"
 
     with open("_includes/rsg/schedule.html", "w") as fp:
         fp.write(bs(html, "html.parser").prettify())
