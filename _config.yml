@@ -33,6 +33,7 @@ enddate: 2022-03-17          # e.g. YYYY-MM-DD
 # Specify the details of the instructors and helpers
 # Can be list, or single string
 instructor:
+<<<<<<< HEAD
   - "A.N.Other"
   - "J.Bloggs"
 instructor-email:
