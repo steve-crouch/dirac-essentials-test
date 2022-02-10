@@ -72,10 +72,6 @@ def main():
     date_sorted_lessons = sorted(lessons, key=lambda x: x["date"])
 
     setup_md_string = """
----
-title: Setup
----
-
 ## Setup
 
 ### Text Editor
