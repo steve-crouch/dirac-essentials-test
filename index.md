@@ -181,5 +181,5 @@ If using RSG these are generated from each individual lesson
 {% if site.carpentry == "swc" %}
 {% include swc/setup.html %}
 {% elsif site.carpentry == "rsg" %}
-{% include setup.md %}
+{% include rsg/setup.html %}
 {% endif %}
