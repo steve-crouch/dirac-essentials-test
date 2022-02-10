@@ -2,28 +2,23 @@
   Advertising box at the top of a workshop website home site.
 {% endcomment %}
 
-{% assign begin_address = site.address | slice: 0, 4 | downcase  %}
-{% if site.address == "online" %}
-{% assign online = "true_private" %}
-{% elsif begin_address contains "http" %}
-{% assign online = "true_public" %}
-{% else %}
-{% assign online = "false" %}
-{% endif %}
-
 <div class="jumbotron">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
       {% unless site.title == "Workshop Title" or site.title == "" %}
       <h1>{{site.title}}</h1>
       {% endunless %}
+      {% if site.venue == "online" %}
+      <h2>Online</h2>
+      {% else %}
       <h2>{{site.venue}}</h2>
+      {% endif %}
       <div class="row">
         <div class="col-md-6">
-          {% if online == "true_public" %}
-          <p>Online (<a href="{{site.address}}">link</a>)</p>
-          {% elsif online == "true_private" %}
-          <p>Online</p>
+          {% if site.venue == "online" %}
+          <p><a href="{{site.address}}">{{site.platform-name}}</a></p>
+          {% else" %}
+          <p>{{site.address}}</p>
           {% endif %}
           <p>{{site.humandate}}</p>
           <p>{% if site.humantime %}{{site.humantime}}{% endif %}</p>
