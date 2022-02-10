@@ -3,44 +3,23 @@ layout: workshop      # DON'T CHANGE THIS.
 ---
 
 <h2 id="general">General Information</h2>
-
-{% comment %}
-LOCATION
-This block displays the address and links to maps showing directions
-if the latitude and longitude of the workshop have been set.  You
-can use https://www.latlong.net/ to find the lat/long of an
-address.
-{% endcomment %}
-{% assign begin_address = site.address | slice: 0, 4 | downcase  %}
-{% if site.address == "online" %}
-{% assign online = "true_private" %}
-{% elsif begin_address contains "http" %}
-{% assign online = "true_public" %}
-{% else %}
-{% assign online = "false" %}
-{% endif %}
-{% if site.latitude and site.longitude and online == "false" %}
-<p id="where">
-  <strong>Where:</strong>
-  {{site.address}}.
-  Get directions with
-  <a href="//www.openstreetmap.org/?mlat={{site.latitude}}&mlon={{site.longitude}}&zoom=16">OpenStreetMap</a>
-  or
-  <a href="//maps.google.com/maps?q={{site.latitude}},{{site.longitude}}">Google Maps</a>.
+{% if site.venue == "TBC" %}
+<p>
+  <strong> Workshop location TBC </strong>
 </p>
-{% elsif online == "true_public" %}
+{% else if site.venue == "online" %}
 <p id="where">
-  <strong>Where:</strong>
-  online at <a href="{{site.address}}">{{site.address}}</a>.
+  Online at <a href="{{site.address}}">{{site.platform-name}}</a>.
   If you need a password or other information to access the training,
   the instructor will pass it on to you before the workshop.
 </p>
-{% elsif online == "true_private" %}
+{% else %}
 <p id="where">
-  <strong>Where:</strong> This training will take place online.
-  The instructors will provide you with the information you will need to connect to this meeting.
+  <strong>Where:{{site.venue}}</strong>
+  <strong>Address:{{site.address}}</strong>
 </p>
 {% endif %}
+
 
 {% comment %}
 DATE

@@ -17,8 +17,9 @@ title: "TBC Workshop Title"
 
 # Specify the location of the workshop
 # TODO: needs documenting a lot better
-venue: "TBC"           # name of location
-address: "TBC"         # address of location
+venue: "TBC"           # name of location use "online" if online
+address: "TBC"         # address of location or url of platform
+platform-name: "TBC"   # name of online platform e.g. Teams, Zoom e.t.c
 country: "TBC"         # e.g. gb
 language: "TBC"        # e.g. en
 latitude: "50.909698"    # latitude of location (Soton: 50.909698)
