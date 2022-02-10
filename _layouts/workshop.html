@@ -53,11 +53,6 @@
       {% include navbar.html %}
       {% include workshop_ad.html %}
       {{ content }}
-      {% if site.carpentry == "swc" %}
-      {% include swc/setup.html %}
-      {% elsif site.carpentry == "rsg" %}
-      {% include rsg/setup.html %}
-      {% endif %}
       {% include workshop_footer.html %}
     </div>
     {% include javascript.html %}

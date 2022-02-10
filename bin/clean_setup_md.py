@@ -75,6 +75,7 @@ def main():
 ---
 title: Setup
 ---
+
 ## Setup
 
 ### Text Editor
