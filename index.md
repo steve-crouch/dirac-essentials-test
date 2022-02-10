@@ -177,9 +177,3 @@ These are the installation instructions for the tools used
 during the workshop.
 If using RSG these are generated from each individual lesson
 {% endcomment %}
-
-{% if site.carpentry == "swc" %}
-{% include swc/setup.html %}
-{% elsif site.carpentry == "rsg" %}
-{% include rsg/setup.html %}
-{% endif %}

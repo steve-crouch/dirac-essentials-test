@@ -3,21 +3,6 @@
 {% include base_path.html %}
 {% include gh_variables.html %}
 
-{% comment %}
-
-If the workshop is online, we add ' (online)' after the name of the venue
-in the metadata so it's easier for Regional Coordinators to identify
-online workshops.
-
-{% endcomment %}
-
-{% assign begin_address = page.address | slice: 0, 4 | downcase  %}
-{% if page.address == "online" or begin_address contains "http" %}
-{% assign online = " (online)" %}
-{% else %}
-{% assign online = "" %}
-{% endif %}
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -67,7 +52,12 @@ online workshops.
     <div class="container">
       {% include navbar.html %}
       {% include workshop_ad.html %}
-{{ content }}
+      {{ content }}
+      {% if site.carpentry == "swc" %}
+      {% include swc/setup.html %}
+      {% elsif site.carpentry == "rsg" %}
+      {% include rsg/setup.html %}
+      {% endif %}
       {% include workshop_footer.html %}
     </div>
     {% include javascript.html %}
