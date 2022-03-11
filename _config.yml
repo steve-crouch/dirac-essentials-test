@@ -1,6 +1,8 @@
 #------------------------------------------------------------
 # Values for this workshop.
 #------------------------------------------------------------
+# What kind of thing is this ("workshop" or "course")?
+kind: "workshop"
 
 # Which carpentry is this ("swc", or "rsg")?
 # swc: Software Carpentry, standard bash, python, git using the lessons from the Southampton-RSG-Training git-org
@@ -149,8 +151,6 @@ pilot: false
 # Generic settings (should not need to change).
 #------------------------------------------------------------
 
-# What kind of thing is this ("workshop" or "lesson")?
-kind: "workshop"
 
 # Magic to make URLs resolve both locally and on GitHub.
 # See https://help.github.com/articles/repository-metadata-on-github-pages/.
