@@ -284,7 +284,7 @@ def main():
                 table += """
                     </table>
                 </div>
-                """
+                """z
 
                 lesson_schedules.append({"order_on": lesson_dates[i], "schedule": table})
 
@@ -295,7 +295,7 @@ def main():
             blurb = 'test, this is a test'
             table = f"""
                 <div class="col-md-6">
-                    <a href="{lesson_name}-schedule"><h3>{title}</h3></a>
+                    <a href="{lesson_name}-schedule"><h3>{lesson_title}</h3></a>
                     {blurb}
                 </div>
                 """
