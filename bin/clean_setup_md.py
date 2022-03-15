@@ -58,18 +58,21 @@ def main():
     the root directory, which is included in _includes/rsg/setup.html.
     """
     website_config = get_yaml_config()
-
     lessons = website_config.get("lessons", None)
-    if not lessons:
-        raise ValueError("There are no lessons specified in _config.yml")
 
-    for lesson in lessons:
-        date = lesson["date"]
-        if isinstance(date, list):
-            date = date[0]
-        lesson["date"] = parser.parse(date)
+    if website_config.get("kind") == "workshop":
+        if not lessons:
+            raise ValueError("There are no lessons specified in _config.yml")
 
-    date_sorted_lessons = sorted(lessons, key=lambda x: x["date"])
+        for lesson in lessons:
+            date = lesson["date"]
+            if isinstance(date, list):
+                date = date[0]
+            lesson["date"] = parser.parse(date)
+
+        sorted_lessons = sorted(lessons, key=lambda x: x["date"])
+    elif website_config.get("kind") == "course":
+        sorted_lessons = sorted(lessons, key=lambda x: x["order"])
 
     setup_md_string = """
 ## Setup
@@ -84,7 +87,7 @@ more features specifically for coding such as VS Code; there are also IDEs
 specific to languages will be listed in the appropriate section(s) below.
 """
 
-    for lesson in date_sorted_lessons:
+    for lesson in sorted_lessons:
 
         filename = f"_includes/rsg/{lesson['gh-name']}-lesson/setup.md"
         content, head = get_file_and_head(filename)
