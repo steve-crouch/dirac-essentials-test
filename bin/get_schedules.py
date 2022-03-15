@@ -108,7 +108,7 @@ def create_detailed_lesson_schedules(lesson_name, lesson_type, start_time):
 
     The schedule is based on a modifed version of syllabus.html to work better
     with the workshop format. This function also renames the ordering of
-    lessons, so the schedule will always be lesson 00.
+    lessons.
 
     Parameters
     ----------

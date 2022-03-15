@@ -2,7 +2,7 @@
 # Values for this workshop.
 #------------------------------------------------------------
 # What kind of thing is this ("workshop" or "course")?
-kind: "workshop"
+kind: "course"
 
 # Overall title for the Workshop.
 # This variable is used to (optionally) add a title in the "jumbotron"
