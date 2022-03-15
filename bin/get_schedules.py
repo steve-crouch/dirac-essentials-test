@@ -284,7 +284,7 @@ def main():
                 table += """
                     </table>
                 </div>
-                """z
+                """
 
                 lesson_schedules.append({"order_on": lesson_dates[i], "schedule": table})
 
