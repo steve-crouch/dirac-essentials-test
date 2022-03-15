@@ -155,7 +155,7 @@ def create_index_schedules(schedules):
     """
     n_lessons = len(schedules)
     n_rows = math.ceil(n_lessons / 2)
-    ordered_schedules = sorted(schedules, key=lambda x: x["date"])
+    ordered_schedules = sorted(schedules, key=lambda x: x["order_on"])
 
     left = ordered_schedules[:n_rows]
     right = ordered_schedules[n_rows:]
@@ -205,11 +205,12 @@ def main():
         lesson_name = lesson.get("gh-name", None)
         lesson_dates = lesson.get("date", None)             # can be a list
         lesson_starts = lesson.get("start-time", None)      # can be a list
+        lesson_order = lesson.get("order", None)
 
         if website_kind == 'workshop':
             assrt_opts = (lesson_name, lesson_dates, lesson_title, lesson_starts)
         if website_kind == 'course':
-            assrt_opts = (lesson_name, lesson_title)
+            assrt_opts = (lesson_name, lesson_title, lesson_order)
         if [thing for thing in assrt_opts if thing is None]:
             raise ValueError(f"gh-name, title, date, and start-time are required for workshop")
 
@@ -285,12 +286,22 @@ def main():
                 </div>
                 """
 
-                lesson_schedules.append({"date": lesson_dates[i], "schedule": table})
+                lesson_schedules.append({"order_on": lesson_dates[i], "schedule": table})
 
             start_time = get_time_object(lesson_starts[0])
             start_time_minutes = start_time.hour * 60 + start_time.minute
             create_detailed_lesson_schedules(lesson_name, lesson_type, start_time_minutes)
         elif website_kind == 'course':
+            blurb = 'test, this is a test'
+            table = f"""
+                <div class="col-md-6">
+                    <a href="{lesson_name}-schedule"><h3>{title}</h3></a>
+                    {blurb}
+                </div>
+                """
+
+            lesson_schedules.append({"order_on": lesson_order, "schedule": table})
+
             create_detailed_lesson_schedules(lesson_name, lesson_type, 0)
             # make some untimed schedules
 
