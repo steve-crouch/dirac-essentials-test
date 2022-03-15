@@ -291,11 +291,10 @@ def main():
             start_time_minutes = start_time.hour * 60 + start_time.minute
             create_detailed_lesson_schedules(lesson_name, lesson_type, start_time_minutes)
         elif website_kind == 'course':
-            create_detailed_lesson_schedules(lesson_name, lesson_type, start_time_minutes)
+            create_detailed_lesson_schedules(lesson_name, lesson_type, 0)
             # make some untimed schedules
 
     create_index_schedules(lesson_schedules)
-
 
 if __name__ == "__main__":
     main()
