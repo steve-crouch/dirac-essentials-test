@@ -292,7 +292,14 @@ def main():
             start_time_minutes = start_time.hour * 60 + start_time.minute
             create_detailed_lesson_schedules(lesson_name, lesson_type, start_time_minutes)
         elif website_kind == 'course':
-            blurb = 'test, this is a test'
+            path = Path(f"_includes/rsg/{lesson_name}-lesson/blurb.txt")
+
+            if path.is_file():
+                with open(f"_includes/rsg/{lesson_name}-lesson/blurb.txt", "r") as fp:
+                    blurb = fp.read()
+            else:
+                blurb = "See course schedule for lesson details"
+
             table = f"""
                 <div class="col-md-6">
                     <a href="{lesson_name}-schedule"><h3>{lesson_title}</h3></a>
