@@ -2,7 +2,7 @@ name: Website
 on:
   push:
     branches:
-      - "main"
+      - "static-course"
   pull_request: null
 jobs:
   build-website:
@@ -94,6 +94,7 @@ jobs:
 
       - name: Run python build scripts
         run: |
+          python bin/make_favicons.py
           python bin/get_schedules.py
           python bin/clean_setup_md.py
 

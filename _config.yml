@@ -1,11 +1,8 @@
 #------------------------------------------------------------
 # Values for this workshop.
 #------------------------------------------------------------
-
-# Which carpentry is this ("swc", or "rsg")?
-# swc: Software Carpentry, standard bash, python, git using the lessons from the Southampton-RSG-Training git-org
-# rsg: Custom Lessons from the Southampton-RSG-Training git-org
-carpentry: "rsg"
+# What kind of thing is this ("workshop" or "course")?
+kind: "course"
 
 # Overall title for the Workshop.
 # This variable is used to (optionally) add a title in the "jumbotron"
@@ -28,8 +25,8 @@ longitude: "-1.404351"   # longitude of location (Soton: -1.404351)
 # Specify the start and end date of the workshop
 humandate: "TBC"      # e.g. "6th August"
 humantime: "TBC"      # e.g. "09:00-17:00"
-startdate: TBC        # e.g. YYYY-MM-DD
-enddate: TBC          # e.g. YYYY-MM-DD
+startdate: "TBC"        # e.g. YYYY-MM-DD
+enddate: "TBC"          # e.g. YYYY-MM-DD
 
 # Specify the details of the instructors and helpers
 # Can be list, or single string
@@ -45,34 +42,38 @@ helper:
 
 # Details about the lessons
 lessons:
-  #  - title: Best Practices in Data Organisation Using Spreadsheets
-  #    gh-name: spreadsheets
-  #    type: episode
-  #    branch: gh-pages
-  #    date: 13 January 2022
-  #    start-time: 15:00
+  - title: Best Practices in Data Organisation Using Spreadsheets
+    gh-name: spreadsheets
+    type: episode
+    branch: gh-pages
+    date: 13 January 2022
+    start-time: 15:00
+    order: 1
 
-  #  - title: Data Cleaning with OpenRefine
-  #    gh-name: openrefine-data-cleaning
-  #    type: episode
-  #    branch: gh-pages
-  #    date: 14 January 2022
-  #    start-time: 15:00
+  - title: Data Cleaning with OpenRefine
+    gh-name: openrefine-data-cleaning
+    type: episode
+    branch: gh-pages
+    date: 14 January 2022
+    start-time: 15:00
+    order: 2
 
-  #  - title: Managing Academic Software Development
-  #    gh-name: project-novice
-  #    type: episode
-  #    branch: gh-pages
-  #    date: 10 January 2022
-  #    start-time: 9:30 am
+  - title: Managing Academic Software Development
+    gh-name: project-novice
+    type: episode
+    branch: gh-pages
+    date: 10 January 2022
+    start-time: 9:30 am
+    order: 3
 
-  #  - title: Automating Tasks with the Unix Shell  # Lesson title
-  #    org-name: Southampton-RSG-Training           # Name of the GitHub organisation (or individual) the lesson is in defaults to Southampton-RSG-Training
-  #    gh-name: shell-novice                        # Name of the GitHub repository for the lesson at https://github:com/{org-name}:
-  #    type: episode                                # Currently only 'episode' or 'episode_r' is valid
-  #    branch: gh-pages                             # Set the branch of the repository to use, useful for lesson customization
-  #    date: 8 January 2022                         # The date of the lesson
-  #    start-time: 10:30 am                         # The start time of the lesson
+  - title: Automating Tasks with the Unix Shell  # Lesson title
+    org-name: Southampton-RSG-Training           # Name of the GitHub organisation (or individual) the lesson is in defaults to Southampton-RSG-Training
+    gh-name: shell-novice                        # Name of the GitHub repository for the lesson at https://github:com/{org-name}:
+    type: episode                                # Currently only 'episode' or 'episode_r' is valid
+    branch: gh-pages                             # Set the branch of the repository to use, useful for lesson customization
+    date: 8 January 2022                         # The date of the lesson                   # date and start-time are required for z
+    start-time: 10:30 am                         # The start time of the lesson             # 'kind: workshop'
+    order: 4                                     # The position of the lesson in the course # order is required for 'kind: course'
 
   - title: Version Control with git
     gh-name: git-novice
@@ -80,6 +81,7 @@ lessons:
     branch: gh-pages
     date: 9 January 2022
     start-time: 8:30 am
+    order: 5
 
   - title: Building Programs with Python
     gh-name: python-novice
@@ -91,6 +93,7 @@ lessons:
     start-time:
       - 10:00 am
       - 10:00 am
+    order: 6
 
   - title: Data Analysis and Visualization in R
     gh-name: r-novice
@@ -104,6 +107,7 @@ lessons:
       - 15:00
       - 15:00
       - 15:00
+    order: 7
 
 # Specify that things in the episodes collection should be output.
 collections:
@@ -149,8 +153,8 @@ pilot: false
 # Generic settings (should not need to change).
 #------------------------------------------------------------
 
-# What kind of thing is this ("workshop" or "lesson")?
-kind: "workshop"
+# rsg: Custom Lessons from the Southampton-RSG-Training git-org
+carpentry: "rsg"
 
 # Magic to make URLs resolve both locally and on GitHub.
 # See https://help.github.com/articles/repository-metadata-on-github-pages/.
