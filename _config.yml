@@ -16,6 +16,7 @@ title: "DiRAC Essentials Course (pre-alpha)"
 # TODO: needs documenting a lot better
 venue: "Online Zoom"           # name of location
 address: "Some registration link"         # address of location
+platform-name: "Zoom videoconference"
 country: "gb"         # e.g. gb
 language: "en"        # e.g. en
 latitude: "50.909698"    # latitude of location (Soton: 50.909698)
