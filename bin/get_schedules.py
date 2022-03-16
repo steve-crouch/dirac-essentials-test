@@ -108,7 +108,7 @@ def create_detailed_lesson_schedules(lesson_name, lesson_type, start_time):
 
     The schedule is based on a modifed version of syllabus.html to work better
     with the workshop format. This function also renames the ordering of
-    lessons, so the schedule will always be lesson 00.
+    lessons.
 
     Parameters
     ----------
@@ -155,7 +155,7 @@ def create_index_schedules(schedules):
     """
     n_lessons = len(schedules)
     n_rows = math.ceil(n_lessons / 2)
-    ordered_schedules = sorted(schedules, key=lambda x: x["date"])
+    ordered_schedules = sorted(schedules, key=lambda x: x["order_on"])
 
     left = ordered_schedules[:n_rows]
     right = ordered_schedules[n_rows:]
@@ -183,6 +183,8 @@ def main():
     """
     website_config = get_yaml_config()
 
+    website_kind = website_config.get('kind')
+
     # Try to parse the start and end date for the workshop, to check that lessons
     # are in the correct time frame. If the date is not a valid date, i.e. if it
     # still says FIXME, then we do not check the start and end date.
@@ -203,23 +205,29 @@ def main():
         lesson_name = lesson.get("gh-name", None)
         lesson_dates = lesson.get("date", None)             # can be a list
         lesson_starts = lesson.get("start-time", None)      # can be a list
+        lesson_order = lesson.get("order", None)
 
-        if [thing for thing in (lesson_name, lesson_dates, lesson_title, lesson_starts) if thing is None]:
-            raise ValueError(f"gh-name, date, title, and start-time are required for each lesson")
+        if website_kind == 'workshop':
+            assrt_opts = (lesson_name, lesson_dates, lesson_title, lesson_starts)
+        if website_kind == 'course':
+            assrt_opts = (lesson_name, lesson_title, lesson_order)
+        if [thing for thing in assrt_opts if thing is None]:
+            raise ValueError(f"gh-name, title, date, and start-time are required for workshop")
 
         # Since we allow multiple dates and start times per lesson, we need to be
         # able to iterate over even single values so turn into list. When done,
         # convert the dates from str to datetime.date objects.
 
-        if type(lesson_dates) is not list:
-            lesson_dates = [lesson_dates]
-        if type(lesson_starts) is not list:
-            lesson_starts = [lesson_starts]
+        if website_kind == 'workshop':
+            if type(lesson_dates) is not list:
+                lesson_dates = [lesson_dates]
+            if type(lesson_starts) is not list:
+                lesson_starts = [lesson_starts]
 
-        lesson_dates = [get_date_object(date) for date in lesson_dates]
+            lesson_dates = [get_date_object(date) for date in lesson_dates]
 
         # Get the schedule(s) for the lesson into a dataframe and also the html
-        # so we can search for the permalinks
+        # so we can search for the permalinks.
 
         with open(f"_includes/rsg/{lesson_name}-lesson/schedule.html", "r") as fp:
             schedule_html = fp.read()
@@ -227,65 +235,84 @@ def main():
         soup = bs(schedule_html, "html.parser")
         all_schedules = pandas.read_html(schedule_html, flavor="lxml")
 
-        if len(all_schedules) != len(lesson_dates):
-            raise ValueError(f"There are not the same number of lesson dates for the number of schedules for"
-                              " {lesson_name} lesson")
-        if len(all_schedules) != len(lesson_starts):
-            raise ValueError(f"There are not the same number of lesson start times for the number of schedules for"
-                              " {lesson_name} lesson")
+        if website_kind == 'workshop':
+            if len(all_schedules) != len(lesson_dates):
+                raise ValueError(f"There are not the same number of lesson dates for the number of schedules for"
+                                  " {lesson_name} lesson")
+            if len(all_schedules) != len(lesson_starts):
+                raise ValueError(f"There are not the same number of lesson start times for the number of schedules for"
+                                  " {lesson_name} lesson")
 
-        # Loop over each schedule table, if the lesson has multiple schedules
+            # Loop over each schedule table, if the lesson has multiple schedules
 
-        for i, schedule in enumerate(all_schedules):
+            for i, schedule in enumerate(all_schedules):
+                schedule.columns = ["time", "session"]
+                start_time = get_time_object(lesson_starts[i])
+                original_start = get_time_object(schedule["time"][0])
+                datestr = lesson_dates[i].strftime("%d %B %Y")
 
-            schedule.columns = ["time", "session"]
-            start_time = get_time_object(lesson_starts[i])
-            original_start = get_time_object(schedule["time"][0])
-            datestr = lesson_dates[i].strftime("%d %B %Y")
+                if workshop_start_date and lesson_dates[i] < workshop_start_date:
+                    raise ValueError(f"The date for {lesson_name} day {i + 1} is before the workshop start date")
+                if workshop_end_date and lesson_dates[i] > workshop_end_date:
+                    raise ValueError(f"The date for {lesson_name} day {i + 1} is after the workshop end date")
 
-            if workshop_start_date and lesson_dates[i] < workshop_start_date:
-                raise ValueError(f"The date for {lesson_name} day {i + 1} is before the workshop start date")
-            if workshop_end_date and lesson_dates[i] > workshop_end_date:
-                raise ValueError(f"The date for {lesson_name} day {i + 1} is after the workshop end date")
+                # Calculate the time difference between the start time and the start
+                # time in the original schedule. This delta time (in minutes) is added
+                # to each time in the original schedule
 
-            # Calculate the time difference between the start time and the start
-            # time in the original schedule. This delta time (in minutes) is added
-            # to each time in the original schedule
+                delta_minutes = divmod((start_time - original_start).total_seconds(), 60)[0]
 
-            delta_minutes = divmod((start_time - original_start).total_seconds(), 60)[0]
+                # Construct the schedule table for this lesson, adding delta_minutes to
+                # each original entry, and add the schedule table to the html template
 
-            # Construct the schedule table for this lesson, adding delta_minutes to
-            # each original entry, and add the schedule table to the html template
+                if len(all_schedules) > 1:
+                    title = f"Day {i + 1}: {lesson_title}"
+                else:
+                    title = lesson_title
 
-            if len(all_schedules) > 1:
-                title = f"Day {i + 1}: {lesson_title}"
+                table = f"""
+                <div class="col-md-6">
+                    <a href="{lesson_name}-schedule"><h3>{title}</h3></a>
+                    <h4>{datestr}</h4>
+                    <table class="table table-striped">
+                """
+
+                for time, session in zip(schedule["time"], schedule["session"]):
+                    actual_time = datetime.datetime.strptime(time, "%H:%M") + datetime.timedelta(minutes=delta_minutes)
+                    table += f"<tr> <td> {actual_time.hour:02d}:{actual_time.minute:02d} </td>    <td> {session} </td> </tr>\n"
+
+                table += """
+                    </table>
+                </div>
+                """
+
+                lesson_schedules.append({"order_on": lesson_dates[i], "schedule": table})
+
+            start_time = get_time_object(lesson_starts[0])
+            start_time_minutes = start_time.hour * 60 + start_time.minute
+            create_detailed_lesson_schedules(lesson_name, lesson_type, start_time_minutes)
+        elif website_kind == 'course':
+            path = Path(f"_includes/rsg/{lesson_name}-lesson/blurb.txt")
+
+            if path.is_file():
+                with open(f"_includes/rsg/{lesson_name}-lesson/blurb.txt", "r") as fp:
+                    blurb = fp.read()
             else:
-                title = lesson_title
+                blurb = "See course schedule for lesson details"
 
             table = f"""
-            <div class="col-md-6">
-                <a href="{lesson_name}-schedule"><h3>{title}</h3></a>
-                <h4>{datestr}</h4>
-                <table class="table table-striped">
-            """
+                <div class="col-md-6">
+                    <a href="{lesson_name}-schedule"><h3>{lesson_title}</h3></a>
+                    {blurb}
+                </div>
+                """
 
-            for time, session in zip(schedule["time"], schedule["session"]):
-                actual_time = datetime.datetime.strptime(time, "%H:%M") + datetime.timedelta(minutes=delta_minutes)
-                table += f"<tr> <td> {actual_time.hour:02d}:{actual_time.minute:02d} </td>    <td> {session} </td> </tr>\n"
+            lesson_schedules.append({"order_on": lesson_order, "schedule": table})
 
-            table += """
-                </table>
-            </div>
-            """
-
-            lesson_schedules.append({"date": lesson_dates[i], "schedule": table})
-
-        start_time = get_time_object(lesson_starts[0])
-        start_time_minutes = start_time.hour * 60 + start_time.minute
-        create_detailed_lesson_schedules(lesson_name, lesson_type, start_time_minutes)
+            create_detailed_lesson_schedules(lesson_name, lesson_type, 0)
+            # make some untimed schedules
 
     create_index_schedules(lesson_schedules)
-
 
 if __name__ == "__main__":
     main()
