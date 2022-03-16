@@ -97,9 +97,12 @@ for n, lesson_info in enumerate(website_config['lessons']):
         # Things to move to ./_includes/rsg -- for lesson schedules and setup
         dest = f"_includes/rsg/{lesson_name}-lesson"
         Path(dest).mkdir(parents=True, exist_ok=True)
-        for file in ["setup.md", "_includes/rsg/schedule.html"]:
-            copy(f"submodules/{lesson_name}/{file}", f"{dest}/{file.split('/')[-1]}")
-            log.info(f"Copied submodules/{lesson_name}/{file} to {dest}")
+        for file in ["setup.md", "_includes/rsg/schedule.html", "blurb.txt"]:
+            try:
+                copy(f"submodules/{lesson_name}/{file}", f"{dest}/{file.split('/')[-1]}")
+                log.info(f"Copied submodules/{lesson_name}/{file} to {dest}")
+            except:
+                log.error(f"Cannot find or move submodules/{lesson_name}/{file}, but carrying on anyway")
 
         # Things to move to ./collections/... -- episodes and extras
         dest = f"collections/{directory}/{lesson_name}-lesson"
