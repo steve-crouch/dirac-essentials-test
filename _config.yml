@@ -45,54 +45,37 @@ lessons:
     gh-name: dirac-bash-command-line
     type: episode
     branch: gh-pages
-    date: 14 March 2022
-    start-time: 9:00 am
+    order: 1
 
   - title: "Bash Shell: Writing Basic Scripts"
     gh-name: dirac-bash-writing-scripts
     type: episode
     branch: gh-pages
-    date: 14 March 2022
-    start-time: 1:00 pm
+    order: 2
 
   - title: "Version Control with Git"
     gh-name: dirac-version-control
     type: episode
     branch: gh-pages
-    date: 15 March 2022
-    start-time: 9:00 am
+    order: 3
 
   - title: "Principles of Software Engineering"
     gh-name: dirac-software-engineering
     type: episode
     branch: gh-pages
-    date: 15 March 2022
-    start-time: 1:00 pm
+    order: 4
 
   - title: "Testing, Documenting, and Reviewing Code"
     gh-name: dirac-test-document-review
     type: episode
     branch: gh-pages
-    date: 16 March 2022
-    start-time: 9:00 am
+    order: 5
 
   - title: "Principles of Codes Scaling"
     gh-name: dirac-code-scaling
     type: episode
     branch: gh-pages
-    date: 16 March 2022
-    start-time: 1:00 pm
-
-  #- title: Building Programs with Python
-  #  gh-name: python-novice
-  #  type: episode
-  #  branch: gh-pages
-  #  date:
-  #    - 11 January 2022
-  #    - 12 January 2022
-  #  start-time:
-  #    - 10:00 am
-  #    - 10:00 am
+    order: 6
 
 # Specify that things in the episodes collection should be output.
 collections:
