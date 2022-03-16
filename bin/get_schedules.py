@@ -212,7 +212,11 @@ def main():
         if website_kind == 'course':
             assrt_opts = (lesson_name, lesson_title, lesson_order)
         if [thing for thing in assrt_opts if thing is None]:
-            raise ValueError(f"gh-name, title, date, and start-time are required for workshop")
+            if website_kind == 'workshop':
+                raise ValueError(f"gh-name, title, date, and start-time are required for workshop")
+            if website_kind == 'course':
+                raise ValueError(f"lesson_name, lesson_title, lesson_order are required for course")
+            
 
         # Since we allow multiple dates and start times per lesson, we need to be
         # able to iterate over even single values so turn into list. When done,
