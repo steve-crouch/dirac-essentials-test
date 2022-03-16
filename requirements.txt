@@ -5,3 +5,4 @@ pandas
 html5lib
 python-dateutil
 lxml
+favicons
