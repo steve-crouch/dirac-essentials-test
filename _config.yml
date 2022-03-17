@@ -19,26 +19,30 @@ address: "Some registration link"         # address of location
 platform-name: "Zoom videoconference"
 country: "gb"         # e.g. gb
 language: "en"        # e.g. en
-latitude: "50.909698"    # latitude of location (Soton: 50.909698)
-longitude: "-1.404351"   # longitude of location (Soton: -1.404351)
+latitude:
+longitude:
 
 # Specify the start and end date of the workshop
-humandate: "14th March 2022"      # e.g. "6th August"
-humantime: "09:00-17:00"      # e.g. "09:00-17:00"
-startdate: 2022-03-14        # e.g. YYYY-MM-DD
-enddate: 2022-03-17          # e.g. YYYY-MM-DD
+#humandate: "14th March 2022"      # e.g. "6th August"
+humandate:
+humantime:
+startdate:
+enddate:
 
 # Specify the details of the instructors and helpers
 # Can be list, or single string
+#instructor:
+#  - "A.N.Other"
+#  - "J.Bloggs"
+#instructor-email:
+#  - "a.n.other@domain.com"
+#  - "j.bloggs@domain.com"
+#helper:
+#  - "A.Helper"
+#  - "B.Helper"
 instructor:
-  - "A.N.Other"
-  - "J.Bloggs"
 instructor-email:
-  - "a.n.other@domain.com"
-  - "j.bloggs@domain.com"
 helper:
-  - "A.Helper"
-  - "B.Helper"
 
 # Details about the lessons
 lessons:
@@ -131,7 +135,7 @@ carpentry: "rsg"
 repository: <USERNAME>/<PROJECT>
 
 # Email address, no mailto:
-email: "rsginfo@soton.ac.uk"
+email: "someone@dirac.ed.ac.uk"
 
 # Using the new jekyll remote themes
 remote_theme: carpentries/carpentries-theme
