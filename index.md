@@ -7,13 +7,13 @@ layout: workshop      # DON'T CHANGE THIS.
 <p>
   <strong> Workshop location TBC </strong>
 </p>
-{% else if site.venue == "online" %}
+{% elsif site.venue == "online" %}
 <p id="where">
   Online at <a href="{{site.address}}">{{site.platform-name}}</a>.
   If you need a password or other information to access the training,
   the instructor will pass it on to you before the workshop.
 </p>
-{% else %}
+{% elsif site.kind != "course" %}
 <p id="where">
   <strong>Where:{{site.venue}}</strong>
   <strong>Address:{{site.address}}</strong>
@@ -159,12 +159,13 @@ and pulled from the lessons individually
 
 <p>
   To participate in
-  {% if site.carpentry == "swc" %}
-  a Software Carpentry
+  {% if site.kind == "course" %}
+  this online self-learning
+  {% elsif site.carpentry == "swc" %}
+  a Software Carpentry workshop
   {% elsif site.carpentry == "rsg" %}
-  this training
+  this training workshop
   {% endif %}
-  workshop,
   you will need access to software as described below.
   In addition, you will need an up-to-date web browser.
 </p>
