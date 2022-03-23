@@ -9,7 +9,10 @@ questions:
 objectives:
 - Learn to use the `nano` text editor.
 - Understand how to move, create, and delete files.
+- Learn to copy files to/from a remote DiRAC resource.
+- Use and create archival collections of files for efficient file transfer.
 keypoints:
+- There are many different text editors available on DiRAC.
 - Use `nano` to create or edit text files from a terminal.
 - Use `cat file1 [file2 ...]` to print the contents of one or more files to
   the terminal.
@@ -19,6 +22,8 @@ keypoints:
 - Use `cp old dir` copies a file `old` into a directory `dir`.
 - Use `rm old` to delete (remove) a file.
 - File extensions are entirely arbitrary on UNIX systems.
+- Use `scp` to transfer files from and to a remote DiRAC resource.
+- Use `tar` to de-archive and archive sets of numerous and/or large files.
 ---
 
 Now that we know how to move around and look at things, let's learn how to
@@ -40,8 +45,20 @@ files. Text is one of the simplest computer file formats, defined as a simple
 sequence of text lines.
 
 What if we want to make a file? There are a few ways of doing this, the easiest
-of which is simply using a text editor. For this lesson, we are going to us
-`nano`, since it's more intuitive than many other terminal text editors.
+of which is simply using a text editor. DiRAC systems are based on Linux, which
+fortunately comes with a number of editors pre-installed. Some of the more common
+ones are:
+
+- `vi`: a very basic text editor developed during the 1970's/80's. It differs from most editors - and is commonly found to be confusing because of it - in that it has two modes of operation: command and insert. In command mode, you are able to pass instructions to the editor, such as dealing with files (save, load, or insert a file), and editing (cut, copy, and paste text). However, you can't insert new characters. For that the editor needs to be in insert mode, which allows you to type into a text document. You can enter insert mode by typing <kbd>i</kbd>. To return to the command mode, you can use <kbd>Escape</kbd>.
+- `vim`: built on `vi`, `vim` goes much further, adding features like undo/redo, autocompletion, search and replace, and syntax highlighting (which uses different coloured text to distinguish different programming language text). It mainly uses the same command/insert modes as `vi` which can take some getting used to, but is developed as a power-users editing tool that is highly configurable.
+- `emacs`: also highly configurable and extensible, `emacs` has a less steep learning curve than `vim` but offers features common to many modern code editors. It readily integrates with debuggers, which is great if you need to find problems in your code as it runs.
+- `nano`: a lightweight editor that also uses the more common way of allowing the editing of text by default, but allows you to access extra editor functionality such as search/replace or saving files by using <kbd>Ctrl</kbd> with other keys.
+
+These are all text-based editors, in that they do not use a graphical user interface like Windows. They simply appear in the terminal, which has a key advantage, particularly for HPC systems like DiRAC: they can be used everywhere there is a terminal, such as via an SSH connection.
+
+One of the common pitfalls of using Linux is that the `vi` editor is commonly set as the default editor. If you find yourself in `vi`, you can exit using <kbd>Escape</kbd> to get into command mode, and then <kbd>:</kbd> to enter a new command followed by <kbd>q</kbd> + <kbd>!</kbd>, which means quit `vi` without saving the file.
+
+For this lesson, we are going to us `nano`, since it's more intuitive than many other terminal text editors.
 
 To create or edit a file, type `nano <filename>`, on the terminal, where
 `<filename>` is the name of the file. If the file does not already exist, it
@@ -441,3 +458,205 @@ out and see which ones you like best!
 
 Out of `cat`, `head`, `tail`, and `less`, which method of reading files is your
 favourite? Why?
+
+
+## Copying files between your local system and DiRAC
+
+Computing with a remote computer offers very limited use if we cannot get files
+to or from the remote resource.
+
+To copy a single file to or from the cluster, we can use `scp` ("secure copy"). `scp` is like `cp`, but makes use of a secure SSH connection to perform the copy. The syntax can be a little complex for new users, but we'll break it down.
+
+To *upload to* another computer we can use something like:
+
+```
+$ scp path/to/local/file.txt yourUsername@dirac-resource.ac.uk:/path/on/dirac-resource
+```
+{: .language-bash}
+
+To *download from* another computer:
+
+```
+$ scp yourUsername@dirac-resource.ac.uk:/path/on/dirac-resource/file.txt path/to/local/
+```
+{: .language-bash}
+
+Note that everything after the `:` is relative to our home directory on the
+remote computer. We can leave it at that if we don't care where the file goes, e.g.
+
+```
+$ scp local-file.txt yourUsername@dirac-resource.ac.uk:
+```
+{: .language-bash}
+
+> ## Upload a File
+>
+> Copy the `bash-lesson.tar.gz` file you downloaded from the Internet to your home directory on
+> dirac-resource.
+>
+> > ## Solution
+> >
+> > ```
+> > $ scp bash-lesson.tar.gz yourUsername@dirac-resource.ac.uk:~/
+> > ```
+> > {: .language-bash}
+> {: .solution}
+{: .challenge}
+
+To copy a whole directory, we add the `-r` flag, for "**r**ecursive": copy the
+item specified, and every item below it, and every item below those... until it
+reaches the bottom of the directory tree rooted at the folder name you
+provided. For example:
+
+```
+$ scp -r some-local-folder yourUsername@dirac-resource.ac.uk:
+```
+{: .language-bash}
+
+> ## Caution
+>
+> For a large directory -- either in size or number of files --
+> copying with `-r` can take a long time to complete.
+{: .callout}
+
+
+## Archiving Files
+
+One of the biggest challenges we often face when transferring data between
+remote HPC systems is that of large numbers of files. There is an overhead to
+transferring each individual file and when we are transferring large numbers of
+files these overheads combine to slow down our transfers to a large degree.
+
+This is where using `.tar.gz` files is really useful.
+By *archiving* multiple files into smaller
+numbers of larger files before we transfer the data to improve our transfer
+efficiency. Plus, these types of file are also *compressed* to reduce
+the amount of data we have to transfer and so speed up the transfer.
+
+The most common archiving command you will use on a (Linux) HPC cluster is
+`tar`. `tar` can be used to combine files into a single archive file and,
+optionally, compress it.
+
+Let's start with the file we downloaded from the lesson site,
+`bash-lesson.tar.gz`. The "gz" part stands for *gzip*, which is a
+compression library. Reading this file name, it appears somebody took a folder
+named "lesson-data", wrapped up all its contents in a single file with
+`tar`, then compressed that archive with `gzip` to save space. Let's check
+using `tar` with the `-t` flag, which prints the "**t**able of contents"
+without unpacking the file, specified by `-f <filename>`, on the remote
+computer. Note that you can concatenate the two flags, instead of writing
+`-t -f` separately.
+
+```
+$ ssh yourUsername@dirac-resource.ac.uk
+$ tar -tf bash-lesson.tar.gz
+dmel-all-r6.19.gtf
+dmel_unique_protein_isoforms_fb_2016_01.tsv
+gene_association.fb
+SRR307023_1.fastq
+SRR307023_2.fastq
+SRR307024_1.fastq
+SRR307024_2.fastq
+SRR307025_1.fastq
+SRR307025_2.fastq
+SRR307026_1.fastq
+SRR307026_2.fastq
+SRR307027_1.fastq
+SRR307027_2.fastq
+SRR307028_1.fastq
+SRR307028_2.fastq
+SRR307029_1.fastq
+SRR307029_2.fastq
+SRR307030_1.fastq
+SRR307030_2.fastq
+```
+{: .language-bash}
+
+This shows a folder containing another folder, which contains a bunch of files.
+Let's see about that compression, using `du` for "**d**isk
+**u**sage".
+
+```
+{{ site.remote.prompt }} du -sh hpc-lesson-data.tar.gz
+12M     bash-lesson.tar.gz
+```
+{: .language-bash}
+
+Now let's unpack the archive. We'll run `tar` with a few common flags:
+
+* `-x` to e**x**tract the archive
+* `-v` for **v**erbose output
+* `-z` for g**z**ip compression
+* `-f` for the file to be unpacked
+
+When it's done, check the directory size with `du` and compare.
+
+> ## Extract the Archive
+>
+> Create a new directory called `bash-lesson` using `mkdir`.
+> Next, `cd` into that directory.
+> Using the four flags above, unpack the lesson data using `tar`.
+> Then, check the size of the whole unpacked directory using `du`.
+>
+> Hint: `tar` lets you concatenate flags.
+>
+> > ## Commands
+> >
+> > ```
+> > $ mkdir bash-lesson
+> > $ cd bash-lesson
+> > $ tar -xvzf ../bash-lesson.tar.gz
+> > ```
+> > {: .language-bash}
+> >
+> > ```
+> > x dmel-all-r6.19.gtf
+> > x dmel_unique_protein_isoforms_fb_2016_01.tsv
+> > x gene_association.fb
+> > x SRR307023_1.fastq
+> > x SRR307023_2.fastq
+> > x SRR307024_1.fastq
+> > x SRR307024_2.fastq
+> > x SRR307025_1.fastq
+> > x SRR307025_2.fastq
+> > x SRR307026_1.fastq
+> > x SRR307026_2.fastq
+> > x SRR307027_1.fastq
+> > x SRR307027_2.fastq
+> > x SRR307028_1.fastq
+> > x SRR307028_2.fastq
+> > x SRR307029_1.fastq
+> > x SRR307029_2.fastq
+> > x SRR307030_1.fastq
+> > x SRR307030_2.fastq
+> > ```
+> > {: .output}
+> >
+> > Note that we did not type out `-x -v -z -f`, thanks to the flag
+> > concatenation, though the command works identically either way.
+> >
+> > Whilst still in the `bash-lesson` directory:
+> >
+> > ```
+> > $ du -sh .
+> > 123M    .
+> > ```
+> > {: .language-bash}
+> {: .solution}
+>
+> > ## Was the Data Compressed?
+> >
+> > Text files compress nicely: the "tarball" is one-quarter the total size of
+> > the raw data!
+> {: .discussion}
+{: .challenge}
+
+If you want to reverse the process -- compressing raw data instead of
+extracting it -- set a `c` flag instead of `x`, set the archive filename,
+then provide a directory to compress. Make sure you're in the directory
+that contains the `bash-lesson` directory first, then:
+
+```
+$ tar -cvzf compressed_data.tar.gz bash-lesson
+```
+{: .language-bash}

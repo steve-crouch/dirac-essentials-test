@@ -22,7 +22,7 @@ keypoints:
 
 > ## What do you need?
 >
-> Talk to your neighbor about your research. How does computing help you do
+> How does computing help you do
 > your research? How could more computing help you do more or better research?
 {: .challenge}
 
@@ -30,8 +30,8 @@ Frequently, research problems that use computing can outgrow the desktop or
 laptop computer where they started:
 
 * A statistics student wants to do cross-validate their model. This involves
-  running the model 1000 times &mdash; but each run takes an hour. Running on
-  their laptop will take over a month!
+  running the model thousands of times &mdash; but each run takes an hour.
+  Running on their laptop will take over a month!
 * A genomics researcher has been using small datasets of sequence data, but
   soon will be receiving a new type of sequencing data that is 10 times as
   large. It's already challenging to open the datasets on their computer &mdash;
@@ -41,11 +41,11 @@ laptop computer where they started:
   going from 2D to 3D simulations, simulation time has more than tripled and it
   might be useful to take advantage of that feature.
 
-In all these cases, what is needed is access to more computers than can be used
+In all these cases, what is needed is access to more computers that can be used
 at the same time. Luckily, large scale computing systems &mdash; shared
 computing resources with lots of computers &mdash; are available at many
 universities, labs, or through national networks. These resources usually have
-more central processing units(CPUs), CPUs that operate at higher speeds, more
+more central processing units (CPUs), CPUs that operate at higher speeds, more
 memory, more storage, and faster connections with other computer systems. They
 are frequently called "clusters", "supercomputers" or resources for "high
 performance computing" or HPC. In this lesson, we will usually use the
@@ -53,7 +53,7 @@ terminology of HPC and HPC cluster.
 
 Using a cluster often has the following advantages for researchers:
 
-* **Speed.** With many more CPU cores, often with higher performance specs,
+* **Speed.** With many more CPU cores, often with higher performance specs
   than a typical laptop or desktop, HPC systems can offer significant speed up.
 * **Volume.** Many HPC systems have both the processing memory (RAM) and disk
   storage to handle very large amounts of data. Terabytes of RAM and petabytes
@@ -74,12 +74,12 @@ like those listed at the start of the lesson.
 > ## Thinking ahead
 >
 > How do you think using a large-scale computing system will be different from
-> using your laptop? Talk to your neighbor about some differences you may
+> using your laptop? Think about some differences you may
 > already know about, and some differences/difficulties you imagine you may run
 > into.
 {: .challenge}
 
-## On Command Line
+## The Command Line
 
 Using HPC systems often involves the use of a shell through a command line
 interface (CLI) and either specialized software or programming techniques. The
@@ -94,14 +94,14 @@ written by Stephen Bourne). Bash is the default shell on most modern
 implementations of Unix and in most packages that provide Unix-like tools for
 Windows.
 
-Interacting with the shell is done via a command line interface (CLI) on most
-HPC systems. In the earliest days of computers, the only way to interact with
+Interacting with the shell is done via a CLI on most
+HPC systems. In the earliest days of computing, the only way to interact with
 early computers was to rewire them. From the 1950s to the 1980s most people
 used line printers. These devices only allowed input and output of the letters,
 numbers, and punctuation found on a standard keyboard, so programming languages
 and software interfaces had to be designed around that constraint and
 text-based interfaces were the way to do this. A typing-based interface is
-often called a **command-line interface**, or CLI, to distinguish it from a
+often called a **command-line interface** to distinguish it from a
 **graphical user interface**, or GUI, which most people now use. The heart of a
 CLI is a **read-evaluate-print loop**, or REPL: when the user types a command
 and then presses the Enter (or Return) key, the computer reads it, executes it,
@@ -117,12 +117,11 @@ to reap the benefits described above.
 
 ## The rest of this lesson
 
-The only way to use these types of resources is by learning to use the command
+The only way to use HPC resources like DiRAC is by learning to use the command
 line. This introduction to HPC systems has two parts:
 
-* We will learn to use the UNIX command line (also known as Bash).
-* We will use our new Bash skills to connect to and operate a high-performance
-  computing supercomputer.
+* We will learn to use the UNIX command line (by using Bash).
+* We will use our new Bash skills to connect to and operate a supercomputer.
 
 The skills we learn here have other uses beyond just HPC: Bash and UNIX skills
 are used everywhere, be it for web development, running software, or operating
