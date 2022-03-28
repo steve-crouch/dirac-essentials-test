@@ -33,6 +33,36 @@ This block displays the date.
 </p>
 {% endif %}
 
+<p id="overview">
+  <strong>Course Aims:</strong>
+
+  Introduce the student to Unix environment and its computing tools, including file management systems and editors.                           	                                                                       
+</p>
+
+<ul>
+  <li>Introduce basic scripting ideas
+  <li>Introduce version control
+  <li>Introduce the basics of good software engineering practise
+  <li>Introduce the principles of code scaling
+  <li>Introduce good networking practise
+  <li>Provide the opportunity to develop independent learning skills
+</ul>
+
+<p id="overview">
+  <strong>Learning Outcomes:</strong>
+  The learner will be able to:
+</p>
+
+<ul>
+  <li>Use the tools of the Unix environment, file management, and common editors
+  <li>Implement a command script
+  <li>Use version control tools
+  <li>Understand the principles of software design
+  <li>Understand the principles of software testing
+  <li>Describe the principles of code scaling
+  <li>Use tools to demonstrate good networking practise
+</ul>
+
 {% comment %}
 SPECIAL REQUIREMENTS
 
