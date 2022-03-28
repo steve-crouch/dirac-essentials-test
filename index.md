@@ -40,12 +40,12 @@ This block displays the date.
 </p>
 
 <ul>
-  <li>Introduce basic scripting ideas
-  <li>Introduce version control
-  <li>Introduce the basics of good software engineering practise
-  <li>Introduce the principles of code scaling
-  <li>Introduce good networking practise
-  <li>Provide the opportunity to develop independent learning skills
+  <li>Introduce basic scripting ideas</li>
+  <li>Introduce version control</li>
+  <li>Introduce the basics of good software engineering practise</li>
+  <li>Introduce the principles of code scaling</li>
+  <li>Introduce good networking practise</li>
+  <li>Provide the opportunity to develop independent learning skills</li>
 </ul>
 
 <p id="overview">
@@ -54,13 +54,13 @@ This block displays the date.
 </p>
 
 <ul>
-  <li>Use the tools of the Unix environment, file management, and common editors
-  <li>Implement a command script
-  <li>Use version control tools
-  <li>Understand the principles of software design
-  <li>Understand the principles of software testing
-  <li>Describe the principles of code scaling
-  <li>Use tools to demonstrate good networking practise
+  <li>Use the tools of the Unix environment, file management, and common editors</li>
+  <li>Implement a command script</li>
+  <li>Use version control tools</li>
+  <li>Understand the principles of software design</li>
+  <li>Understand the principles of software testing</li>
+  <li>Describe the principles of code scaling</li>
+  <li>Use tools to demonstrate good networking practise</li>
 </ul>
 
 {% comment %}
