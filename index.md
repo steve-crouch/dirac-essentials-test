@@ -3,36 +3,6 @@ layout: workshop      # DON'T CHANGE THIS.
 ---
 
 <h2 id="general">General Information</h2>
-{% if site.venue == "TBC" %}
-<p>
-  <strong> Workshop location TBC </strong>
-</p>
-{% elsif site.venue == "online" %}
-<p id="where">
-  Online at <a href="{{site.address}}">{{site.platform-name}}</a>.
-  If you need a password or other information to access the training,
-  the instructor will pass it on to you before the workshop.
-</p>
-{% elsif site.kind != "course" %}
-<p id="where">
-  <strong>Where:{{site.venue}}</strong>
-  <strong>Address:{{site.address}}</strong>
-</p>
-{% endif %}
-
-
-{% comment %}
-DATE
-
-This block displays the date.
-{% endcomment %}
-{% if site.humandate %}
-<p id="when">
-  <strong>When:</strong>
-  {{site.humandate}}.
-</p>
-{% endif %}
-
 <p id="overview">
   <strong>Course Aims:</strong>
 
@@ -62,6 +32,36 @@ This block displays the date.
   <li>Describe the principles of code scaling</li>
   <li>Use tools to demonstrate good networking practise</li>
 </ul>
+
+{% if site.venue == "TBC" %}
+<p>
+  <strong> Workshop location TBC </strong>
+</p>
+{% elsif site.venue == "online" %}
+<p id="where">
+  Online at <a href="{{site.address}}">{{site.platform-name}}</a>.
+  If you need a password or other information to access the training,
+  the instructor will pass it on to you before the workshop.
+</p>
+{% elsif site.kind != "course" %}
+<p id="where">
+  <strong>Where:{{site.venue}}</strong>
+  <strong>Address:{{site.address}}</strong>
+</p>
+{% endif %}
+
+
+{% comment %}
+DATE
+
+This block displays the date.
+{% endcomment %}
+{% if site.humandate %}
+<p id="when">
+  <strong>When:</strong>
+  {{site.humandate}}.
+</p>
+{% endif %}
 
 {% comment %}
 SPECIAL REQUIREMENTS
