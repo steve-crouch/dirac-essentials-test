@@ -49,7 +49,7 @@ You see that we can reduce the run time of our code by using more cores without 
 
 When these results are plotted we see the following graph:
 
-<img alt="Time vs Cores for an implementation of Pi" src="../fig/scalability-pi-time-vs-cores.png" width="600" />
+![Time vs Cores for an implementation of Pi]({{ site.url }}{{ site.baseurl }}/fig/scalability-pi-time-vs-cores.png){: width="650px"}
 
 This gives us a good indication of the code's strong scaling profile. As you can see, the benefit of using cores reduces as they increase, which is due to the serial portion of our code. Our example code it is made up mostly of computation that is parallelised, but we still have and require sections of code to declare variables, initialise various aspects of our code and environment which includes MPI, and gather the results.
 
@@ -187,17 +187,17 @@ The problem with strong scaling is as we increase the number of cores then the r
 | 8         | 4.356564 | 3.141592654  | 0.00000000397 | 87.52%           | 
 | 16        | 4.643724 | 3.141592654  | 0.00000000198 | 93.78%           |
 
-<img alt="%Improved Error vs Cores" src="../fig/scalability-improved-error-vs-cores.png" width="600" />
+![Improved Error vs Cores]({{ site.url }}{{ site.baseurl }}/fig/scalability-improved-error-vs-cores.png){: width="650px"}
 
 As you can see, the time to complete is similar, just slightly increasing. However, the accuracy to calculate Pi has increased. In fact our % improvement is nearly in step with the number of cores.
 
 When presenting your weak scaling it is common to show how well it scales, this is shown below:
 
-<img alt="Weak Scaling - Cores vs Time" src="../fig/scalability-weak-scaling-time.png" width="600" />
+![Weak Scaling - Cores vs Time]({{ site.url }}{{ site.baseurl }}/fig/scalability-weak-scaling-time.png){: width="650px"}
 
 We can also plot the scaling factor. This is the percentage increase in run time compared to base run time for a normal run. In this case we are just using *T<sub>1</sub>*:
 
-<img alt="Weak Scaling - Cores vs Scaling Factor" src="../fig/scalability-weak-scaling-factor.png" width="600" />
+![Weak Scaling - Cores vs Scaling Factor]({{ site.url }}{{ site.baseurl }}/fig/scalability-weak-scaling-factor.png){: width="650px"}
 
 As you can see from our plot, the code is highly scalable. We do have an anomaly with our 4 core run, however. It would be good to rerun this to get a more representative sample, but this result is a common occurence when using shared systems. In this example we only did a single run, but when compiling your data for presentation or submitting applications it would be better to do many runs and exclude outlining data samples or provide an uncertainty estimate.
 

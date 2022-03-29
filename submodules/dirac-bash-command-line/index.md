@@ -6,13 +6,15 @@ permalink: index.html  # Is the only page that doesn't follow the pattern /:path
 
 {% include gh_variables.html %}
 
-This lesson will cover:
+<p>This lesson will cover:</p>
 
-<li>The benefits to using HPC resources like DiRAC and the means by which you access them.</li>
-<li>How to connect to DiRAC resources using properly managed security credentials.</li>
-<li>Navigating and inspecting files on DiRAC using the Bash shell.</li>
-<li>Creating and managing files using the Bash shell, and how to transfer files to/from DiRAC resources.</li>
-<li>How to use Bash shell commands efficiently over many files and to capture program output.</li>
+<ul>
+  <li>The benefits to using HPC resources like DiRAC and the means by which you access them.</li>
+  <li>How to connect to DiRAC resources using properly managed security credentials.</li>
+  <li>Navigating and inspecting files on DiRAC using the Bash shell.</li>
+  <li>Creating and managing files using the Bash shell, and how to transfer files to/from DiRAC resources.</li>
+  <li>How to use Bash shell commands efficiently over many files and to capture program output.</li>
+</ul>
 
 > ## Prerequisites
 >

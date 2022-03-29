@@ -3,7 +3,13 @@ layout: workshop      # DON'T CHANGE THIS.
 ---
 
 <h2 id="general">General Information</h2>
-<p id="overview">
+<p id="overview-general">
+The DiRAC Essentials Level Training is a basic introduction to the principles of HPC and the tools needed to work on an HPC system. Once you have completed the course you will be able to do more science of higher impact (and we hope you will have more fun as well!). And if we have a well-trained cohort we can invest in much more powerful equipment that is much closer to the bleeding edge and so allow you to generate the new high impact results that will let you and your group to be seen as leaders in your field.
+
+It will also make you much more employable. Real programming and IT skills are making a big comeback both in Academia and Industry. We need to equip you with these skills to improve your career progression. In short, we are trying to create a virtuous circle that will benefit both you, your science and your group’s scientific reputation.
+</p>
+
+<p id="overview-aims">
   <strong>Course Aims:</strong>
 
   Introduce the student to Unix environment and its computing tools, including file management systems and editors.                           	                                                                       
@@ -18,7 +24,7 @@ layout: workshop      # DON'T CHANGE THIS.
   <li>Provide the opportunity to develop independent learning skills</li>
 </ul>
 
-<p id="overview">
+<p id="overview-outcomes">
   <strong>Learning Outcomes:</strong>
   The learner will be able to:
 </p>

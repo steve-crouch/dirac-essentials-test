@@ -1,0 +1,5 @@
+<ul>
+  <li>How to write and run a Bash script that executes commands over many input files.</li>
+  <li>Modularising Bash scripts using functions.</li>
+  <li>Combining Bash scripts with other commands using pipes.</li>
+</ul>

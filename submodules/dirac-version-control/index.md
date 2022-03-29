@@ -6,7 +6,14 @@ permalink: index.html  # Is the only page that doesn't follow the pattern /:path
 
 {% include gh_variables.html %}
 
-FIXME: intro text
+<p>This lesson will cover:</p>
+
+<ul>
+  <li>Benefits to using version control to manage code and how they work.</li>
+  <li>How to configure Git and get help using the commands.</li>
+  <li>Using a Git source code repository, reviewing changes to files and committing them back to a repository.</li>
+  <li>Exploring repository change history and how to roll back to a previous version of a repository's contents.</li>
+</ul>
 
 > ## Prerequisites
 >
