@@ -43,10 +43,12 @@ There are two key aspects to consider before we start thinking about actual test
 
 ### The Test Case
 
-The fundamental building block of testing itself is a *test case*, with test cases being run following the test plan. Each test case covers the following information:
+The fundamental building block of testing itself is a *test case*, with test cases being run following the test plan. A project's test cases are typically derived from the project's specified requirements, so that if the software passes these tests it is said to fulfil those requirements.
+
+Each test case covers the following information:
 
 - A unique name or number to identify it
-- The software feature(e) covered by the test case
+- The software feature(e) covered by the test case (specifying any specific requirements from which this feature is derived, e.g. SR1 or SR2)
 - The input data to use for this test
 - What needs to be done to ensure the software is in the correct state for the test
 - How exactly to run the test with the input data
@@ -60,6 +62,12 @@ When the test is run, the following are also noted (perhaps as an instance of th
 - Which (if any) errors were discovered
 
 When followed, testing enables those within any software development effort to verify the software is behaving correctly. Software, particularly within academic research, is prone to the need for change during its development, so a successfully executed test plan and set of test cases provides assurance that the software's functionality continues to behave as intended despite these changes.
+
+> ## Design Tests for a New Feature
+> 
+> Look back at the Solution Requirements (SR1 or SR2) covered in the [Principles of Software Engineering Lesson](https://southampton-rsg-training.github.io/dirac-essentials-test/dirac-software-engineering-software-development-lifecycle#the-importance-of-getting-requirements-right). Write a couple of test cases that verify that the feature behaves as specified in the requirements.
+{: .challenge}
+
 
 ## Manual vs Automated Testing
 

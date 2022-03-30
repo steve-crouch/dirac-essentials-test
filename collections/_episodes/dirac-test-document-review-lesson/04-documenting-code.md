@@ -167,6 +167,10 @@ Within the open source licences, there are two categories, **copyleft** and **pe
 
 Which of these types of licence you prefer is up to you and those you develop code with. If you want more information, or help choosing a licence, the [Choose An Open-Source Licence](https://choosealicense.com/) or [tl;dr Legal](https://tldrlegal.com/) sites can help.
 
+> ## What if software doesn't have a licence?
+> 
+> It's a common misconception, but if a piece of software does not have a licence, it generally means others have no permissions from the software's creators to use, modify, or share the software. Simply that the code is freely and openly available is not enough - [without a license](https://choosealicense.com/no-permission/), the software is not (in a legal sense) usable by others.
+{: .callout}
 
 ## What is a Version Number Anyway?
 
