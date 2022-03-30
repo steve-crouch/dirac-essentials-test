@@ -10,7 +10,7 @@ kind: "course"
 # Most workshops don't use extra pages. More information about extra
 # pages are included in the README:
 # https://github.com/carpentries/workshop-template#creating-extra-pages
-title: "DiRAC Essentials Course (pre-alpha)"
+title: "DiRAC Essentials Course (Pre-alpha)"
 
 # Specify the location of the workshop
 # TODO: needs documenting a lot better
