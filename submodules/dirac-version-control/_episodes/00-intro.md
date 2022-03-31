@@ -16,21 +16,19 @@ keypoints:
 
 ## What is Version Control? ##
 
-![Introduction](fig/slides/01-background/0_introduction.png){:width="20%"}
-![What is Version Control?](fig/slides/01-background/1_what_does_it_do.png){:width="20%"}
+Version control (or **VC** for short ) can also be called **revision control** or **source control**. The simplest description is that VC is a tool that tracks **changes** to files.
 
-Also called **revision control** or **source control**.  At their simplest these are tools which track **changes** to files.
 ## Why should I use it? - Three reasons ##
 
 ### 1. A More Efficient Backup ###
 
-![Why Use Version Control? #1](fig/slides/01-background/2_why_use.png){:width="20%"}
+![Manual version control]({{ site.url }}{{ site.baseurl }}/fig/00-intro/revisions.gif){:width="25%"}
 
-We've **all** been in this situation before -  **multiple nearly-identical** versions of the same file with no meaningful **explanation** of what the differences are.
+We've **all** been in this situation before - having **multiple nearly-identical** versions of the same file with no meaningful **explanation** of what the differences are, just incremental changes in filename (`thesis.doc`, `thesis_final.doc`, `thesis_final2.doc`...).
 
-If we're just dealing with Docs, some word processors let us deal with this a little better, like Microsoft Word ("Track Changes") or Google Docs version history. BUT **research isn't just Words docs**, it's code and data and diagrams too.
+If we're just dealing with text documents, some word processors let us deal with this a little better, like Microsoft Word's "Track Changes" or Google Docs' version history. However, **research isn't just Word docs**, it's code and data and diagrams too, and a single paper or project can involve a whole constellation of files, all of which need backing up!
 
-Using **version control** means **we don't keep dozens of different versions** of our files hanging about taking up **space**, and when we store a **revision**, we store an **explanation** of what changed.
+Using **version control** means **we don't keep dozens of different versions** of our files hanging about taking up space, and when we store a **revision**, we store an **explanation** of what changed.
 
 ### 2. Reproducibility ###
 
@@ -41,11 +39,9 @@ Version control makes **reproducibility** simpler. Without using version control
 
 ### 3. To Aid Collaboration ###
 
-![Why Use Version Control? #2](fig/slides/01-background/4_why_teamwork.png){:width="20%"}
-
 As well as maintaining a revison history, VC tools also help multiple authors **collaborate** on the **same file** or set of files.
 
- **Professional software developers** use VC work in large **teams** and to keep track of what they've done.  They know who has changed what and when.  And who to **blame** when things break!
+ **Professional software developers** use VC to work in large **teams** and to keep track of what they've done. If you know what changes have been made to each file, you can easily combine multiple people's changes to a single file. You can also track down where and when (and by who!) bugs in the code were introduced.
 
 **Every** large software development project relies on VC, and most programmers use it for their small jobs as well.
 
@@ -55,32 +51,27 @@ We'll look at both the backup and collaboration scenarios, but first it's useful
 
 ## How do Version Control Tools Work? ##
 
-![Changes are tracked sequentially](fig/slides/01-background/5_track_changes.png){:width="20%"}
+![Changes are tracked sequentially]({{ site.url }}{{ site.baseurl }}/fig/00-intro/track_changes.svg){:width="45%"}
 
-**Version control systems start by storing the base version** of the file that you save and then **store just the changes** you made at each step on the way. You can think of it as a tape: if you rewind the tape and **start** at the base document, then you can **play back** each change and end up with your latest version.
+**Version control systems start by storing the base version** of the file that you save and then **store just the changes** you made at each step on the way. You can think of it like storing Lego bricks and the instructions for putting them together - if you start with the first piece, then add each other in turn, you end up with your final document.
 
+![Different versions can be saved]({{ site.url }}{{ site.baseurl }}/fig/00-intro/versions.svg){:width="30%"}
 
-![Different versions can be saved](fig/slides/01-background/6_different_versions.png){:width="20%"}
+Once you think of **changes as separate from the document** itself, you can then think about taking the same document and adding different changes to it, getting different versions of the document. For example, **two users can make independent sets of changes** based on the same document.
 
-Once you think of **changes as separate from the document** itself, you can then think about "playing back" different sets of changes onto the base document and getting different versions of the document. For example, **two users can make independent sets of changes** based on the same document.
+![Multiple versions can be merged]({{ site.url }}{{ site.baseurl }}/fig/00-intro/merge.svg){:width="30%"}
 
-![Multiple versions can be merged](fig/slides/01-background/7_merge.png){:width="20%"}
-
-If there aren't conflicts, you can even try to play two sets of changes onto the same base document.  A process call **merging**.
+If there aren't conflicts, you can even try to combine two different sets of changes together onto the same base document, a process called **merging**.
 
 
 ## Version Control Alternatives ##
-
-![Version Control Alternatives](fig/slides/01-background/8_alternatives.png){:width="20%"}
-
-**These are the most popular current Version Control systems**:
 
 **Git** is overwhelmingly the most popular version control system in academia, and beyond.
 It's a **distributed** version control system, where every developer in a team has their own **full copy** of a repository, and can synchronise between them.
 
 It's partly become such a success thanks to sites like **GitHub** and **GitLab**, which make it easy to collaborate on a Git repository,
 and provide all kinds of extra tools to manage software projects.
-Plus, GitHub offers free upgraded membership to academics, students and educators-
+Plus, GitHub offers free upgraded membership to academics, students and educators -
 you can apply [here](https://docs.github.com/en/education/explore-the-benefits-of-teaching-and-learning-with-github-education/apply-for-an-educator-or-researcher-discount).
 
 If you're working on old projects, or ones with very specific needs, you might use **Mercurial**, another distributed system,
@@ -90,15 +81,13 @@ Because Git is so popular, and making a GitHub account is so easy, we're going t
 
 ## Graphical User Interfaces ##
 
-![Graphical User Interfaces](fig/slides/01-background/9_guis.png){:width="20%"}
+We're going to teach you how to use Git on the *command line*, as that's the only version that will be available on most HPC resources. This isn't the only way to use it, however- there are many different graphical user interfaces for Git, like:
 
-We're going to teach you how to use Git on the *command line*. This isn't the only way to use it, however- there are many different graphical user interfaces for Git, like:
-
-* [SourceTree](https://www.sourcetreeapp.com/)
-* [Git Kraken](https://www.gitkraken.com/)
-* [Github Desktop](https://desktop.github.com/)
+| [SourceTree](https://www.sourcetreeapp.com/) | [Git Kraken](https://www.gitkraken.com/) | [GitHub Desktop](https://desktop.github.com/) |
+| ---------- | ---------- | -------------- |
+| ![SourceTree]({{ site.url }}{{ site.baseurl }}/fig/00-intro/sourcetree.png){:width="100%"} | ![Git Kraken]({{ site.url }}{{ site.baseurl }}/fig/00-intro/kraken.png){:width="100%"} | ![GitHub Desktop]({{ site.url }}{{ site.baseurl }}/fig/00-intro/desktop.png){:width="100%"} |
 
 Fundamentally, though, these are all just 'wrappers' around the command line version of Git.
-If you understand what they're doing under the hood, you can easily switch between versions.
+If you understand what they're doing under the hood, you can easily switch between versions. You can, for example, manage your code on DIRAC using command-line git and GitHub Desktop on your desktop workstation.
 
 {% include links.md %}

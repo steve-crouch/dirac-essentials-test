@@ -32,7 +32,8 @@ scripts that most people use (you may also see ".bash" used).
 
 Our shell script will have two parts:
 
-* On the very first line, add `#!/bin/bash`. The `#!` (pronounced "hash-bang")
+* On the very first line, add `#!/bin/bash`. The `#!` (pronounced
+  ["hash-bang"](https://en.wikipedia.org/wiki/Shebang_(Unix)))
   tells our computer what program to run our script with. In this case, we are
   telling it to run our script with our command-line shell (what we've been
   doing everything in so far). If we wanted our script to be run with something
@@ -49,11 +50,11 @@ echo "Our script worked!"
 ```
 {: .language-bash}
 
-Ready to run our program? 
+Ready to run our program?
 Let's try running it:
 
 ```
-$ demo.sh 
+$ demo.sh
 ```
 {: .language-bash}
 
@@ -155,7 +156,7 @@ drwxrwxr-x 2 yourUsername tc001     4096 Jan 16 19:16 fastq
 ```
 {: .output}
 
-Now that we have executable permissions for that file, we can run it. 
+Now that we have executable permissions for that file, we can run it.
 
 ```
 $ ./demo.sh
@@ -200,14 +201,18 @@ anything you can think of. In the shell, they usually just store text. The best
 way to understand how they work is to see them in action.
 
 To set a variable, simply type in a name containing only letters, numbers, and
-underscores, followed by an `=` and whatever you want to put in the variable.
-Shell variable names are often uppercase by convention (but do not have to be).
+underscores, followed by an `=` sign and whatever you want to put in the
+variable. Shell variable names are often uppercase by convention (but do not
+have to be).
 
 ```
 $ VAR="This is our variable"
 ```
 {: .language-bash}
 
+Note that syntax used here. There is no whitespace between the variable name,
+the `=` and the content of the variable. This is just the syntax Bash uses.
+Adding white space is a common mistake, which people make all the time!
 To use a variable, prefix its name with a `$` sign. Note that if we want to
 simply check what a variable is, we should use echo (or else the shell will try
 to run the contents of a variable).
@@ -256,8 +261,8 @@ the `-l` in `wc -l`).
 
 To use the first argument to a script, use `$1` (the second argument is `$2`,
 and so on). Let's change our script to run `wc -l` on `$1` instead of `$FILE`.
-Note that we can also pass all of the arguments using `$@` (not going to use it
-in this lesson, but it's something to be aware of).
+Note that we can also pass all of the arguments using `$@` (we are not going to
+use it in this lesson, but it's something worth being aware of).
 
 Our script:
 
@@ -293,7 +298,7 @@ $ TEST=ls -l
 ```
 {: .error}
 
-What does work (we need to surround any command with `$(command)`):
+We need to surround any command with `$(command)`:
 ```
 $ TEST=$(ls -l)
 $ echo $TEST
@@ -312,10 +317,10 @@ prematurely).
 ## Loops
 
 To end our lesson on scripts, we are going to learn how to write a for-loop to
-execute a lot of commands at once. This will let us do the same string of
+execute a lot of commands at once. This will let us do the same collection of
 commands on every file in a directory (or other stuff of that nature).
 
-for-loops generally have the following syntax:
+For-loops generally have the following syntax:
 
 ```
 #!/bin/bash
@@ -379,8 +384,8 @@ word_counts.txt
 ```
 {: .output}
 
-There's a shortcut to run on all files of a particular type, say all `.gz`
-files:
+There's also a shortcut to run on all files of a particular type. For example,
+for all `.gz` files:
 
 ```
 #!/bin/bash
@@ -405,11 +410,11 @@ gene_association.fb.gz
 > Is there a way to only run the loop on fastq files ending in `_1.fastq`?
 >
 > > ## Solution
-> > 
+> >
 > > Create the following script in a file called `head_all.sh`
 > > ```
 > > #!/bin/bash
-> > 
+> >
 > > for FILE in *.fastq
 > > do
 > >    echo $FILE
@@ -443,11 +448,11 @@ gene_association.fb.gz
 > with ".processed" added to it?
 >
 > > ## Solution
-> > 
+> >
 > > Create the following script in a file called `process.sh`
 > > ```
 > > #!/bin/bash
-> > 
+> >
 > > for FILE in *
 > > do
 > >    echo ${FILE}.processed
@@ -461,7 +466,7 @@ gene_association.fb.gz
 > >
 > > ```
 > > #!/bin/bash
-> > 
+> >
 > > for FILE in $(find . -max-depth 1 -type f)
 > > do
 > >    echo ${FILE}.processed
@@ -474,12 +479,12 @@ gene_association.fb.gz
 {: .challenge}
 
 
-> ## Special permissions 
+> ## Special permissions
 >
 > What if we want to give different sets of users different permissions.
 > `chmod` actually accepts special numeric codes instead of stuff like `chmod
 > +x`. The numeric codes are as follows: read = 4, write = 2, execute = 1. For
-> each user we will assign permissions based on the sum of these permissions
+> each user we will assign permissions **based on the sum of these permissions**
 > (must be between 7 and 0).
 >
 > Let's make an example file and give everyone permission to do everything with
@@ -494,7 +499,8 @@ gene_association.fb.gz
 > {: .language-bash}
 >
 > How might we give ourselves permission to do everything with a file, but
-> allow no one else to do anything with it.
+> allow no one else to do anything with it? It might be useful to remind
+> yourself with the syntax `chmod` expects.
 >
 > > ## Solution
 > >

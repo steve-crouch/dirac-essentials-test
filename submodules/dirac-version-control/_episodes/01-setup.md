@@ -1,17 +1,19 @@
 ---
-title: "Setting Up Git"
+title: "Setting Up"
 slug: dirac-version-control-setting-up-git
 teaching: 5
 exercises: 0
 questions:
 - "How do I get set up to use Git?"
+- "How do I set up my account on GitHub?"
 objectives:
 - "Configure `git` the first time it is used on a computer"
 - "Understand the meaning of the `--global` configuration flag"
+- "Add an SSH key to a GitHub account"
 keypoints:
 - "Use `git config` with the `--global` option to configure a user name, email address, editor, and other preferences once per machine."
+- "GitHub needs an SSH key to allow access"
 ---
-
 
 > ## Prerequisites
 >
@@ -20,45 +22,26 @@ keypoints:
 > *but isn't mandatory*.
 {: .prereq}
 
-## Get Started
+## Setting Up Git
 
 **Linux and Mac** users should open a **terminal**, Windows users to should go to the Start Menu open GitBash from the Git group.
 
-**[Post-Its Reminder]** / **[Switch out of fullscreen]**
-
-**[Open Terminal]** / **[Use other projector]**
-
-
-
-Follow along with the [slides](slides/index.html) located here.
-![Introduction](fig/slides/02-setup/0_introduction.png){:width="20%"}
-
-
-**Working individually**, we’ll start by exploring how version control can be used to keep track of what **one person** did and when.
-
-## Setting Up ##
-
-The first time we use Git on a new machine,
-we need to configure a few things.
-
-Make sure you're in your **home directory** (not another repository).
+The first time we use Git on a new machine, we need to configure a few things.
 
 ~~~
 $ cd
 ~~~
 {: .language-bash}
 
-![Key commands](fig/slides/02-setup/1_key.png){:width="20%"}
-
 Now we're going to set some global options, so when Git starts tracking changes to files it records who made them and how to contact them.
 
 ~~~
-$ git config --global user.name "Norbert Nodinkle"
-$ git config --global user.email "norbert@nodinkle.com"
+$ git config --global user.name "Firstname Surname"
+$ git config --global user.email "fsurname@university.ac.uk"
 ~~~
 {: .language-bash}
 
-(Please use your own name and email address instead of Norbert's.)
+(Please use your own name and the email address you used to sign up to GitHub earlier!)
 
 You can set your favourite text editor, following this table:
 
@@ -68,10 +51,8 @@ You can set your favourite text editor, following this table:
 | Notepad++ (Win)    | `$ git config --global core.editor "'c:/program files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"`|
 
 
-Git commands are written `git action`,
-where `action` is what we actually want it to do.
-In this case,
-we're telling Git:
+Git commands are written `git action`, where `action` is what we actually want it to do.
+In this case, we're telling Git:
 
 *   our **name** and **email address**,
 *   what our favorite **text editor** is, and

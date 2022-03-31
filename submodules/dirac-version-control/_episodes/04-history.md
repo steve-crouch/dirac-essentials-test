@@ -15,24 +15,49 @@ keypoints:
 - "`git checkout` recovers old versions of files."
 ---
 
-![Introduction](fig/slides/05-history/0_introduction.png){:width="20%"}
-
 ### Relative History
 
-![Tracking changes to files](fig/slides/05-history/1_differences.png){:width="20%"}
+We've seen that `git log` gives us some information on what commits were made when, but let's look a bit deeper at the specifics:
 
-Let's look a bit deeper at how we can see **what we changed when**
+~~~
+$ git log
+~~~
+{: .language-bash}
 
-**HEAD** is the conventional name used to refer to the **most recent** end of the chain of revisions.
+~~~
+commit f15ad111042cee7492f40ad6ff0ec18588fce753 (HEAD -> main)
+Author: Sam Mangham <mangham@gmail.com>
+Date:   Wed Mar 30 17:15:47 2022 +0100
 
-We use `git diff` again,
-but refer to old versions
-using the notation `HEAD~1`, `HEAD~2`, and so on.
+    Add rainfall processing placeholder
 
-We can refer to previous revisions using the `~` notation,
+commit 6aeaf44173344939e9994d7ccb5512fc5b26c211
+Author: Sam Mangham <mangham@gmail.com>
+Date:   Wed Mar 30 17:14:14 2022 +0100
+
+    Add Docstring
+
+commit 503f02b5f51d5622121e204494dfabc9b2ae7410
+Author: Sam Mangham <mangham@gmail.com>
+Date:   Wed Mar 30 17:12:02 2022 +0100
+
+    Added a basic readme file
+
+commit 499b6d18b36a25d3f5ab9be1b708ea48fef1dd65 (origin/main, origin/HEAD)
+Author: Sam Mangham <mangham@gmail.com>
+Date:   Wed Mar 16 14:19:13 2022 +0000
+~~~
+{: .output}
+
+We can see commits identified by long IDs, but also **HEAD** at the top of the log. **HEAD** is the name used to refer to the **most recent** end of the chain of commits to our **local repository**.
+
+What if somehow we've introduced a bug, and we want to see what's changed between our latest version of the code and the copy that was working last commit, or a few commits ago? Which lines did we edit, and what did we add?
+
+We can use `git diff` again to look for differences between files, but refer to the versions of the files **as saved in older commits** using the notation `HEAD~1`, `HEAD~2`, and so on to refer to the commits.
+We can refer to previous commits using the `~` notation,
 so `HEAD~1` (pronounced "head minus one")
-means "the previous revision",
-while `HEAD~123` goes back 123 revisions from where we are now.
+means "the previous commit",
+while `HEAD~123` goes back 123 commits from the latest one.
 
 ~~~
 $ git diff HEAD~1 climate_analysis.py
@@ -49,11 +74,11 @@ index d5b442d..c463f71 100644
 
              print(str(celsius)+", "+str(kelvin))
 +
-+# TODO(me): Add call to process rainfall
++# TODO(smangham): Add call to process rainfall
 ~~~
 {: .output}
 
-So we see the difference between the file as it is now, and as it was **before the last commit**
+So we see the difference between the file as it is now, and as it was **the commit before before the latest one**.
 
 ~~~
 $ git diff HEAD~2 climate_analysis.py
@@ -75,7 +100,7 @@ index 277d6c7..c463f71 100644
 
              print(str(celsius)+", "+str(kelvin))
 +
-+# TODO(me): Add call to process rainfall
++# TODO(smangham): Add call to process rainfall
 ~~~
 {: .output}
 
@@ -83,28 +108,25 @@ And here we see the state **before the last two commits**, HEAD minus 2.
 
 ### Absolute History
 
-So, that's useful as far as it goes, but we can also refer to **specific revisions** using
-those long strings of digits and letters
-that `git log` displays.
+What about if we want to compare our version of the code to the version from last month, or from the version we used to make a paper last year? 
+Calculating the number of commits is wildly impractical. 
+Instead, we can refer to **specific revisions** using those long strings of digits and letters that `git log` displays.
 
 These are unique IDs for the changes,
 and "unique" really does mean unique:
 every change to any set of files on any machine
 has a unique 40-character identifier. (A SHA-1 hash of the new, post-commit state of the repository).
 
-Our first commit was given the ID: **[bottom ID from git log]**
-
-a10bd8f6192f9ab29b1821d7d7929fbf6484686a,
-so let's try this:
+If we scroll down to the bottom of the `git log` output, we can see the ID for our first commit - in the example above, it's `499b6d18b36a25d3f5ab9be1b708ea48fef1dd65` (but **yours will be different!**). Try this, substituting your first commit's ID:
 
 ~~~
-$ git diff a10bd8f6192f9ab29b1821d7d7929fbf6484686a climate_analysis.py
+$ git diff 499b6d18b36a25d3f5ab9be1b708ea48fef1dd65 climate_analysis.py
 ~~~
 {: .language-bash}
 
 ~~~
 diff --git a/climate_analysis.py b/climate_analysis.py
-index 277d6c7..c463f71 100644
+index 277d6c7..6f8ed8a 100644
 --- a/climate_analysis.py
 +++ b/climate_analysis.py
 @@ -1,3 +1,4 @@
@@ -114,25 +136,24 @@ index 277d6c7..c463f71 100644
  import signal
 @@ -25,3 +26,5 @@ for line in climate_data:
              kelvin = temp_conversion.fahr_to_kelvin(fahr)
-
+ 
              print(str(celsius)+", "+str(kelvin))
 +
-+# TODO(me): Add call to process rainfall
++# TODO(smangham): Add call to process rainfall
 ~~~
 {: .output}
 
-So that's all the changes since our first commit.
-That's the right answer,but typing random 40-character strings is annoying,
+We can now see all the changes since a specific commit! However, typing random 40-character strings is annoying and incredibly easy to typo,
 so Git lets us use just the first **seven**:
 
 ~~~
-$ git diff a10bd8f climate_analysis.py
+$ git diff 499b6d1 climate_analysis.py
 ~~~
 {: .language-bash}
 
 ~~~
 diff --git a/climate_analysis.py b/climate_analysis.py
-index 277d6c7..c463f71 100644
+index 277d6c7..6f8ed8a 100644
 --- a/climate_analysis.py
 +++ b/climate_analysis.py
 @@ -1,3 +1,4 @@
@@ -142,13 +163,14 @@ index 277d6c7..c463f71 100644
  import signal
 @@ -25,3 +26,5 @@ for line in climate_data:
              kelvin = temp_conversion.fahr_to_kelvin(fahr)
-
+ 
              print(str(celsius)+", "+str(kelvin))
 +
-+# TODO(me): Add call to process rainfall
++# TODO(smangham): Add call to process rainfall
 ~~~
 {: .output}
 
+This is particularly handy as you can **exactly identify specific versions of the code**, for example the one you used to write your first paper, and the different, newer version you used to write your second paper.
 
 > ## Other Ways To Reference Commits
 >
@@ -171,6 +193,7 @@ $ ls
 {: .language-bash}
 
 ~~~
+README.md
 temp_conversion.py
 ~~~
 {: .output}
@@ -186,24 +209,24 @@ $ git status
 {: .language-bash}
 
 ~~~
-On branch master
+On branch main
+Your branch is ahead of 'origin/main' by 3 commits.
+  (use "git push" to publish your local commits)
+
 Changes not staged for commit:
   (use "git add/rm <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
-
-        deleted:    climate_analysis.py
+  (use "git restore <file>..." to discard changes in working directory)
+	deleted:    climate_analysis.py
 
 no changes added to commit (use "git add" and/or "git commit -a")
 ~~~
 {: .output}
 
-![Restoring Files](fig/slides/05-history/2_restore.png){:width="20%"}
-
 Following the helpful hint in that output, we can put things back the way they were
-by using `git checkout`:
+by using `git restore`:
 
 ~~~
-$ git checkout HEAD climate_analysis.py
+$ git restore climate_analysis.py
 $ cat climate_analysis.py
 ~~~
 {: .language-bash}
@@ -213,30 +236,17 @@ $ cat climate_analysis.py
 ~~~
 {: .output}
 
-As you might guess from its name,
-`git checkout` checks out (i.e., restores) an old version of a file.
+As you might guess from its name, `git restore` restores an old version of a file. But what if the version in our last commit was wrong or broken, or we accidentally made a commit after deleting the file?
 
-In this case,
-we're telling Git that we want to recover the version of the file recorded in `HEAD`,
-which is the last saved revision.
-
-![Restoring Files](fig/slides/05-history/3_restore_commit.png){:width="20%"}
-
-> ## Git Restore
->
-> Newer versions of `git` have added `git restore` that work the same way as `git checkout` for recovering files.
-> We teach `git checkout`, as some systems (for example, high-performance computing clusters) will only have older versions of Git.
-{: .callout}
-
-
-If we want to go back even further,
-we could use a revision identifier instead:
-
-
+We can use `git checkout`, e.g.:
 ~~~
-$ git checkout <last but one rev> climate_analysis.py
+$ git checkout <HEAD or commit ID> climate_analysis.py
 ~~~
 {: .language-bash}
+
+On some older HPC systems, the version of `git` installed doesn't have `git restore` yet so you'll have to use `git checkout HEAD` instead.
+
+![Restoring Files]({{ site.url }}{{ site.baseurl }}/fig/04-history/restore.svg){:width="60%"}
 
 The fact that files can be reverted one by one
 tends to change the way people organize their work.
